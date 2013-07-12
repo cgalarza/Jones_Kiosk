@@ -62,6 +62,7 @@ public class SearchMoviesPanel extends JPanel{
 			System.out.println("");
 			
 			String url = HOMEPAGE_URL.concat(link.select("a[href]").attr("href").toString());
+			//added some comments
 			
 			searchResults.add(new CatalogItem(url));
 			System.out.println(url);
