@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+@SuppressWarnings("serial")
 public class MovieKiosk extends JFrame implements ActionListener {
 
 	private final String NEW_MOVIES = "New Movies";

@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class NewMoviesPanel extends JPanel {
 
 	public NewMoviesPanel() {
@@ -17,7 +18,7 @@ public class NewMoviesPanel extends JPanel {
 			movie2 = ImageIO.read(new File("Harry_Potter_7_Part2.jpg"));
 			movie3 = ImageIO.read(new File("21.jpg"));
 			movie4 = ImageIO.read(new File("Midnights_Children.jpg"));
-			//movie5 = ImageIO.read(new File("The_Waiting_Room.jpg"));
+			movie5 = ImageIO.read(new File("The_Waiting_Room.jpg"));
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
