@@ -30,7 +30,6 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 	public MovieKiosk() {
 		fullScreenSetUp();
-		System.out.println("starting...");
 
 		// Buttons at the top of main kiosk page
 		JButton jinniButton = new JButton();
@@ -55,19 +54,20 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		topButtons.add(catologButton);
 		topButtons.add(rottenTomatoes);
 
-		// Search JPanel contains text input field and search button
+		// JPanel which contains text input field and a search button
 		JPanel search = new JPanel();
-
 		searchBar = new JTextField("Enter Search Term");
 		searchBar.setPreferredSize(new Dimension(600, 50));
 		searchBar.setFont(new Font("Helvetica", Font.PLAIN, 25));
 		searchBar.addActionListener(this);
-		search.add(searchBar);
 
 		searchButton = new JButton("Search");
 		searchButton.addActionListener(this);
+		
+		search.add(searchBar);
 		search.add(searchButton);
 
+		// JPanel which contains both buttons at the beginning and search bar panel
 		JPanel top = new JPanel();
 		top.setLayout(new BoxLayout(top, BoxLayout.Y_AXIS));
 		top.add(topButtons);
@@ -94,12 +94,12 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		GraphicsEnvironment env = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
 		GraphicsDevice[] devices = env.getScreenDevices();
-		boolean isFullScreen = devices[0].isFullScreenSupported();
+		boolean isFullScreen = devices[1].isFullScreenSupported();
 		setUndecorated(isFullScreen);
 		setResizable(!isFullScreen);
 		if (isFullScreen) {
 			// Full-screen mode
-			devices[0].setFullScreenWindow(this);
+			devices[1].setFullScreenWindow(this);
 			validate();
 		} else {
 			// Windowed mode
@@ -116,6 +116,8 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == searchButton || e.getSource() == searchBar) {
+			// Lets the user know that their request has been received
+			searchMovies = new SearchMoviesPanel();
 			searchMovies = new SearchMoviesPanel(searchBar.getText());
 			bottom.add(searchMovies, SEARCH_MOVIES);
 			CardLayout cards = (CardLayout) (bottom.getLayout());

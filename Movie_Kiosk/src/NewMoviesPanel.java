@@ -1,6 +1,10 @@
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -11,31 +15,44 @@ import javax.swing.JPanel;
 public class NewMoviesPanel extends JPanel {
 
 	public NewMoviesPanel() {
-		BufferedImage movie1 = null, movie2 = null, movie3 = null, movie4 = null, movie5 = null;
-
+		
+		File f = new File("/Users/carlagalarza/Desktop/New_Movies_Panel/display_movies");
+		ArrayList<BufferedImage> movie_imgs = new ArrayList<BufferedImage>();
+		
+		
+		BufferedReader br = null;
 		try {
-			movie1 = ImageIO.read(new File("After_Stonewall.jpg"));
-			movie2 = ImageIO.read(new File("Harry_Potter_7_Part2.jpg"));
-			movie3 = ImageIO.read(new File("21.jpg"));
-			movie4 = ImageIO.read(new File("Midnights_Children.jpg"));
-			movie5 = ImageIO.read(new File("The_Waiting_Room.jpg"));
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			br = new BufferedReader(new FileReader(f));
+			String currentLine;
+			String title = br.readLine();
+			br.readLine(); // Empty line after the title
+			System.out.println(title);
+			while ((currentLine = br.readLine()) != null){
+				System.out.println(currentLine);
+				String[] tokens = currentLine.split(", ");
+				System.out.println(tokens[0]);
+				System.out.println(tokens[1]);
+				System.out.println(tokens[2]);
+				File movieFile = new File("/Users/carlagalarza/Desktop/New_Movies_Panel_Images/" + tokens[2] + ".jpg");
+				movie_imgs.add(ImageIO.read(movieFile));
+			}
+			br.close();
 		}
+		catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 
-		JLabel label1 = new JLabel(new ImageIcon(movie1));
-		JLabel label2 = new JLabel(new ImageIcon(movie2));
-		JLabel label3 = new JLabel(new ImageIcon(movie3));
-		JLabel label4 = new JLabel(new ImageIcon(movie4));
-		JLabel label5 = new JLabel(new ImageIcon(movie5));
+		JLabel label1 = new JLabel(new ImageIcon(movie_imgs.get(0)));
+		JLabel label2 = new JLabel(new ImageIcon(movie_imgs.get(1)));
+		JLabel label3 = new JLabel(new ImageIcon(movie_imgs.get(2)));
+		JLabel label4 = new JLabel(new ImageIcon(movie_imgs.get(3)));
 
 		this.add(label1);
 		this.add(label2);
 		this.add(label3);
 		this.add(label4);
-		this.add(label5);
 
 	}
 

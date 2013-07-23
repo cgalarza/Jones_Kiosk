@@ -18,13 +18,11 @@ public class SearchMoviesPanel extends JPanel {
 
 	// Default constructor
 	public SearchMoviesPanel() {
-		this.add(new JLabel("Search results loading..."));
+		this.add(new JLabel("Search results for are loading..."));
 	}
 
 	public SearchMoviesPanel(String searchTerm) {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(new JLabel("Search results for " + searchTerm
-				+ " are loading..."));
 		this.searchResults = new ArrayList<CatalogItem>();
 		performSearch(searchTerm);
 		displayResults();
