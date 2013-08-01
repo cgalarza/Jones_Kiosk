@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,11 +26,24 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	private final String NEW_MOVIES = "New Movies";
 	private final String SEARCH_MOVIES = "Search Movies";
 	private JPanel bottom, searchMovies;
-	private JButton searchButton;
+	private JButton searchButton, logo;
 	private JTextField searchBar;
 
 	public MovieKiosk() {
 		fullScreenSetUp();
+
+		// Jones Media Center Logo
+		BufferedImage buffImg = null;
+		try {
+			buffImg = ImageIO.read(new File("Jones_Logo.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		logo = new JButton(new ImageIcon(buffImg));
+		logo.setBorder(BorderFactory.createEmptyBorder());
+		logo.setContentAreaFilled(false);
+		logo.addActionListener(this);
 
 		// Buttons at the top of main kiosk page
 		JButton jinniButton = new JButton();
@@ -49,6 +63,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		rottenTomatoes.setPreferredSize(new Dimension(300, 150));
 
 		JPanel topButtons = new JPanel();
+		topButtons.add(logo);
 		topButtons.add(jinniButton);
 		topButtons.add(imdbButton);
 		topButtons.add(catologButton);
@@ -61,13 +76,24 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		searchBar.setFont(new Font("Helvetica", Font.PLAIN, 25));
 		searchBar.addActionListener(this);
 
-		searchButton = new JButton("Search");
+		// Search button with image
+		BufferedImage magnifyingGlassImg = null;
+		try {
+			buffImg = ImageIO.read(new File("Magnifying_Glass.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		searchButton = new JButton(new ImageIcon(buffImg));
+		searchButton.setBorder(BorderFactory.createEmptyBorder());
+		searchButton.setContentAreaFilled(false);
 		searchButton.addActionListener(this);
-		
+
 		search.add(searchBar);
 		search.add(searchButton);
 
-		// JPanel which contains both buttons at the beginning and search bar panel
+		// JPanel which contains both buttons at the beginning and search bar
+		// panel
 		JPanel top = new JPanel();
 		top.setLayout(new BoxLayout(top, BoxLayout.Y_AXIS));
 		top.add(topButtons);
@@ -75,9 +101,9 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 		// Getting New Movies to Display
 		JPanel newMovies = new NewMoviesPanel();
-		
+
 		searchMovies = new SearchMoviesPanel();
-		
+
 		bottom = new JPanel();
 		bottom.setLayout(new CardLayout());
 		bottom.add(newMovies, NEW_MOVIES);
@@ -122,7 +148,9 @@ public class MovieKiosk extends JFrame implements ActionListener {
 			bottom.add(searchMovies, SEARCH_MOVIES);
 			CardLayout cards = (CardLayout) (bottom.getLayout());
 			cards.show(bottom, SEARCH_MOVIES);
-			
+		} else if (e.getSource() == logo) {
+			CardLayout cards = (CardLayout) (bottom.getLayout());
+			cards.show(bottom, NEW_MOVIES);
 		}
 	}
 

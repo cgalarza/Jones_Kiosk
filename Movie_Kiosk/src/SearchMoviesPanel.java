@@ -1,7 +1,11 @@
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -15,6 +19,8 @@ public class SearchMoviesPanel extends JPanel {
 
 	private ArrayList<CatalogItem> searchResults;
 	private final String HOMEPAGE_URL = "http://libcat.dartmouth.edu";
+	JPanel movies;
+	JPanel navigationBar;
 
 	// Default constructor
 	public SearchMoviesPanel() {
@@ -22,11 +28,39 @@ public class SearchMoviesPanel extends JPanel {
 	}
 
 	public SearchMoviesPanel(String searchTerm) {
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setLayout(new BorderLayout());
+		movies = new JPanel();
+		movies.setLayout(new GridLayout(2,2));
 		this.searchResults = new ArrayList<CatalogItem>();
 		performSearch(searchTerm);
 		displayResults();
+		createNavigationBar();
+	
+		
+		// Adding movies found as search results and navigation bar at the bottom
+		this.add(movies, BorderLayout.CENTER);
+		this.add(navigationBar, BorderLayout.SOUTH);
+		
 
+	}
+	
+	public void createNavigationBar(){
+		// Creating navigation bar at the bottom of the screen
+		navigationBar = new JPanel();
+		navigationBar.setLayout(new BoxLayout(navigationBar, BoxLayout.X_AXIS));
+		JButton previousResults = new JButton("Previous Results");
+		
+		JLabel numberOfPages = new JLabel("Page 1 of 3");
+		
+		JButton moreResults = new JButton("More Results");
+		
+		navigationBar.add(previousResults);
+		navigationBar.add(Box.createHorizontalGlue());
+		navigationBar.add(numberOfPages);
+		navigationBar.add(Box.createHorizontalGlue());
+		navigationBar.add(moreResults);
+
+		
 	}
 
 	public void performSearch(String searchTerm) {
@@ -53,9 +87,12 @@ public class SearchMoviesPanel extends JPanel {
 
 		Elements links = doc.select("span.briefcitTitle");
 
-		for (Element link : links) {
+		// only gets the first four results
+		for (int i = 0; i < 4; i++) {
 			System.out.println("");
-
+			
+			Element link = links.get(i);
+			
 			String url = HOMEPAGE_URL.concat(link.select("a[href]")
 					.attr("href").toString());
 			// added some comments
@@ -70,7 +107,7 @@ public class SearchMoviesPanel extends JPanel {
 	private void displayResults() {
 		// for each search result
 		for (CatalogItem a : searchResults) {
-			this.add(new CatalogItemPanel(a));
+			movies.add(new CatalogItemPanel(a));
 
 		}
 	}
