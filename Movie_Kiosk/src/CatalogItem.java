@@ -92,19 +92,19 @@ public class CatalogItem {
 
 		// Getting image location (can be a url or a file location)
 		if (typeOfMedia.equals("Jones Media DVD")) {
-			File f = new File("Users/carlagalarza/Pictures/BoxCovers/DVD/"
+			File f = new File("/Users/carlagalarza/Pictures/BoxCovers/DVD/"
 					+ Integer.toString(jonesAccesionNum) + ".jpeg");
 			if (f.exists()) {
-				this.imgLocation = "Users/carlagalarza/Pictures/BoxCovers/DVD/"
+				this.imgLocation = "/Users/carlagalarza/Pictures/BoxCovers/DVD/"
 						+ Integer.toString(jonesAccesionNum) + ".jpeg";
 			}
 			else 
 				this.imgLocation = "";
 		} else if (typeOfMedia.equals("Jones Media Video tape")) {
-			File f = new File("Users/carlagalarza/Pictures/BoxCovers/VHS/"
+			File f = new File("/Users/carlagalarza/Pictures/BoxCovers/VHS/"
 					+ Integer.toString(jonesAccesionNum) + ".jpeg");
 			if (f.exists()) {
-				this.imgLocation = "Users/carlagalarza/Pictures/BoxCovers/VHS"
+				this.imgLocation = "/Users/carlagalarza/Pictures/BoxCovers/VHS/"
 						+ Integer.toString(jonesAccesionNum) + ".jpeg";
 			}
 			else

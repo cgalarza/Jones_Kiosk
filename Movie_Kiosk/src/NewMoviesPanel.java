@@ -19,20 +19,14 @@ public class NewMoviesPanel extends JPanel {
 		File f = new File("/Users/carlagalarza/Desktop/New_Movies_Panel/display_movies");
 		ArrayList<BufferedImage> movie_imgs = new ArrayList<BufferedImage>();
 		
-		
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(f));
 			String currentLine;
 			String title = br.readLine();
 			br.readLine(); // Empty line after the title
-			System.out.println(title);
 			while ((currentLine = br.readLine()) != null){
-				System.out.println(currentLine);
 				String[] tokens = currentLine.split(", ");
-				System.out.println(tokens[0]);
-				System.out.println(tokens[1]);
-				System.out.println(tokens[2]);
 				File movieFile = new File("/Users/carlagalarza/Desktop/New_Movies_Panel_Images/" + tokens[2] + ".jpg");
 				movie_imgs.add(ImageIO.read(movieFile));
 			}
@@ -43,7 +37,6 @@ public class NewMoviesPanel extends JPanel {
 			e1.printStackTrace();
 		}
 		
-
 		JLabel label1 = new JLabel(new ImageIcon(movie_imgs.get(0)));
 		JLabel label2 = new JLabel(new ImageIcon(movie_imgs.get(1)));
 		JLabel label3 = new JLabel(new ImageIcon(movie_imgs.get(2)));
