@@ -1,7 +1,6 @@
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,6 +13,9 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class NewMoviesPanel extends JPanel {
 
+	/*
+	 * Constructor
+	 */
 	public NewMoviesPanel() {
 		
 		File f = new File("/Users/carlagalarza/Desktop/display_movies");

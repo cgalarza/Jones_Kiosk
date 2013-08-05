@@ -17,7 +17,6 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -30,10 +29,18 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	private JButton searchButton, logo;
 	private JTextField searchBar;
 
+	/*
+	 * Constructor of MovieKiosk which creates all the buttons at the top 
+	 * of the screen, the search bar and a NewMoviesPanel over a SearchMoviesPanel
+	 * in a CardLayout. 
+	 */
 	public MovieKiosk() {
 		fullScreenSetUp();
 
-		// Jones Media Center Logo
+		// Jones Media Center Logo and button in the upper left
+		// hand corner of the screen. When the logo is clicked the
+		// user is directed back to the homepage with the display of
+		// movies.
 		BufferedImage buffImg = null;
 		try {
 			buffImg = ImageIO.read(new File("Jones_Logo.png"));
@@ -46,10 +53,11 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		logo.setContentAreaFilled(false);
 		logo.addActionListener(this);
 
-		// Buttons at the top of main kiosk page
-		JButton jinniButton = new JButton();
-		jinniButton.setText("Jinni");
-		jinniButton.setPreferredSize(new Dimension(300, 150));
+		// Panel which contains the Google, IMDB, Rotten Tomatoes and
+		// Catalog buttons at the top of the main kiosk page.
+		JButton googleButton = new JButton();
+		googleButton.setText("Jinni");
+		googleButton.setPreferredSize(new Dimension(300, 150));
 
 		JButton imdbButton = new JButton();
 		imdbButton.setText("IMDB");
@@ -65,20 +73,19 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 		JPanel topButtons = new JPanel();
 		topButtons.add(logo);
-		topButtons.add(jinniButton);
+		topButtons.add(googleButton);
 		topButtons.add(imdbButton);
 		topButtons.add(catologButton);
 		topButtons.add(rottenTomatoes);
 
-		// JPanel which contains text input field and a search button
+		// JPanel which contains text input field and a search button.
 		JPanel search = new JPanel();
 		searchBar = new JTextField("Enter Search Term");
 		searchBar.setPreferredSize(new Dimension(600, 50));
 		searchBar.setFont(new Font("Helvetica", Font.PLAIN, 25));
 		searchBar.addActionListener(this);
 
-		// Search button with image
-		BufferedImage magnifyingGlassImg = null;
+		// Creating search button with image.
 		try {
 			buffImg = ImageIO.read(new File("Magnifying_Glass.png"));
 		} catch (IOException e) {
@@ -93,14 +100,15 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		search.add(searchBar);
 		search.add(searchButton);
 
-		// JPanel which contains both buttons at the beginning and search bar
-		// panel
+		// JPanel which contains both buttons to webpages at the top
+		// and the search bar panel.
 		JPanel top = new JPanel();
 		top.setLayout(new BoxLayout(top, BoxLayout.Y_AXIS));
 		top.add(topButtons);
 		top.add(search);
 
-		// Getting New Movies to Display
+		// Creating a NewMoviesPanel which will display the new
+		// aquisitions on the main kiosk page.
 		JPanel newMovies = new NewMoviesPanel();
 
 		searchMovies = new SearchMoviesPanel();
@@ -117,7 +125,12 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 	}
 
-	// Used example code from java fullscreen support page/api
+	/**
+	 * Sets up the application so that it will be in full screen mode at all
+	 * times.
+	 * 
+	 * Heavily used the example code from the Java fullscreen tutorial and API.
+	 */
 	private void fullScreenSetUp() {
 		GraphicsEnvironment env = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
@@ -134,13 +147,16 @@ public class MovieKiosk extends JFrame implements ActionListener {
 			pack();
 			setVisible(true);
 		}
-
 	}
 
-	public static void main(String[] args) {
-		MovieKiosk m = new MovieKiosk();
-	}
-
+	/*
+	 * Method that waits for the sesarch button or the logo to be pressed. When
+	 * one of these buttons are pressed the corresponding card in the CardLayout
+	 * is shown.
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == searchButton || e.getSource() == searchBar) {
@@ -154,6 +170,13 @@ public class MovieKiosk extends JFrame implements ActionListener {
 			CardLayout cards = (CardLayout) (bottom.getLayout());
 			cards.show(bottom, NEW_MOVIES);
 		}
+	}
+
+	/*
+	 * Main method that creates the kiosk object.
+	 */
+	public static void main(String[] args) {
+		new MovieKiosk();
 	}
 
 }
