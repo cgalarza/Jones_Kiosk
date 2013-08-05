@@ -72,10 +72,9 @@ public class CatalogItem {
 					.replace(String.valueOf((char) 160), " ").trim();
 		}
 
-		// Check to see if the item is part of the jones media center
+		// Check to see if the item is part of the Jones Media Center
 		// collection. If it is get the accesion number
-		if (typeOfMedia.equals("Jones Media DVD")
-				|| typeOfMedia.equals("Jones Media Video tape")) {
+		if (typeOfMedia.equals("Jones Media DVD") || typeOfMedia.equals("Jones Media Video tape")) {
 			String[] splitCallNumString = callNumberString.split(" ");
 			this.jonesAccesionNum = Integer.parseInt(splitCallNumString[0]);
 		} else
@@ -87,30 +86,32 @@ public class CatalogItem {
 	}
 
 	// This method attempts to find an image for the item if it is a part of the
-	// Jones collection
+	// Jones collection. If it is not part of the Jones collection the image will
+	// reflect that. 
 	public void findImageLocation() {
 
+		this.imgLocation = "";
+		
 		// Getting image location (can be a url or a file location)
 		if (typeOfMedia.equals("Jones Media DVD")) {
-			File f = new File("/Users/carlagalarza/Pictures/BoxCovers/DVD/"
-					+ Integer.toString(jonesAccesionNum) + ".jpeg");
+			File f = new File(Globals.BEG_DVD_PATH + Integer.toString(jonesAccesionNum) + ".jpeg");
 			if (f.exists()) {
-				this.imgLocation = "/Users/carlagalarza/Pictures/BoxCovers/DVD/"
-						+ Integer.toString(jonesAccesionNum) + ".jpeg";
-			}
-			else 
-				this.imgLocation = "";
-		} else if (typeOfMedia.equals("Jones Media Video tape")) {
-			File f = new File("/Users/carlagalarza/Pictures/BoxCovers/VHS/"
-					+ Integer.toString(jonesAccesionNum) + ".jpeg");
-			if (f.exists()) {
-				this.imgLocation = "/Users/carlagalarza/Pictures/BoxCovers/VHS/"
-						+ Integer.toString(jonesAccesionNum) + ".jpeg";
+				this.imgLocation = Globals.BEG_DVD_PATH + Integer.toString(jonesAccesionNum) + ".jpeg";
 			}
 			else
-				this.imgLocation = "";
-		} else
-			this.imgLocation = "";
+				this.imgLocation = Globals.DEFAULT_IMG_PATH;
+
+		} else if (typeOfMedia.equals("Jones Media Video tape")) {
+			File f = new File(Globals.BEG_VHS_PATH + Integer.toString(jonesAccesionNum) + ".jpeg");
+			if (f.exists()) {
+				this.imgLocation = Globals.BEG_VHS_PATH + Integer.toString(jonesAccesionNum) + ".jpeg";
+			}
+			else
+				this.imgLocation = Globals.DEFAULT_IMG_PATH;
+
+		}
+		else 
+			this.imgLocation = Globals.NOT_AVAILABLE_AT_JONES;
 
 	}
 

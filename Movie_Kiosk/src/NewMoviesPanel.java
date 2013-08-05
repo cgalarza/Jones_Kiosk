@@ -16,7 +16,7 @@ public class NewMoviesPanel extends JPanel {
 
 	public NewMoviesPanel() {
 		
-		File f = new File("/Users/carlagalarza/Desktop/New_Movies_Panel/display_movies");
+		File f = new File("/Users/carlagalarza/Desktop/display_movies");
 		ArrayList<BufferedImage> movie_imgs = new ArrayList<BufferedImage>();
 		
 		BufferedReader br = null;
@@ -27,7 +27,7 @@ public class NewMoviesPanel extends JPanel {
 			br.readLine(); // Empty line after the title
 			while ((currentLine = br.readLine()) != null){
 				String[] tokens = currentLine.split(", ");
-				File movieFile = new File("/Users/carlagalarza/Desktop/New_Movies_Panel_Images/" + tokens[2] + ".jpg");
+				File movieFile = new File("/Users/carlagalarza/Pictures/Display_Movies/" + tokens[2] + ".jpg");
 				movie_imgs.add(ImageIO.read(movieFile));
 			}
 			br.close();

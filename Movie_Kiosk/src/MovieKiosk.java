@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GraphicsDevice;
@@ -111,6 +112,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 		this.getContentPane().add(top, BorderLayout.NORTH);
 		this.getContentPane().add(bottom, BorderLayout.CENTER);
+		this.setBackground(Color.WHITE);
 		this.setVisible(true);
 
 	}

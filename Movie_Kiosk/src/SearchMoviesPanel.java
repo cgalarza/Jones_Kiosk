@@ -64,8 +64,7 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 		String formatedSearchTerm = "";
 
 		for (String s : words) {
-			formatedSearchTerm = formatedSearchTerm.concat(s);
-			formatedSearchTerm = formatedSearchTerm.concat("+");
+			formatedSearchTerm = formatedSearchTerm.concat(s + "+");
 		}
 
 		String completeURL = firstUrlPart + formatedSearchTerm + secondUrlPart;
