@@ -132,6 +132,7 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		previousResults = new JButton(new ImageIcon(previousImg));
 		previousResults.setBorder(BorderFactory.createEmptyBorder());
 		previousResults.setContentAreaFilled(false);
@@ -166,7 +167,7 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 		if ((e.getSource() == moreResults) && (currentPage >= 1) && (currentPage < totalPages)) {
 			currentPage++;
 			retrieveSearchResults(currentPage);
-			displayResults();			
+			displayResults();
 			numberOfPages.setText("Page " + currentPage + " of " + totalPages);
 
 			

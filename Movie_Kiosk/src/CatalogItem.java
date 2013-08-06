@@ -115,19 +115,19 @@ public class CatalogItem {
 		// Getting image location (can be a url or a file location)
 		if (typeOfMedia.equals("Jones Media DVD")) {
 			File f = new File(Globals.BEG_DVD_PATH
-					+ Integer.toString(jonesAccesionNum) + ".jpeg");
+					+ Integer.toString(jonesAccesionNum) + ".jpg");
 			if (f.exists()) {
 				this.imgLocation = Globals.BEG_DVD_PATH
-						+ Integer.toString(jonesAccesionNum) + ".jpeg";
+						+ Integer.toString(jonesAccesionNum) + ".jpg";
 			} else
 				this.imgLocation = Globals.DEFAULT_IMG_PATH;
 
 		} else if (typeOfMedia.equals("Jones Media Video tape")) {
 			File f = new File(Globals.BEG_VHS_PATH
-					+ Integer.toString(jonesAccesionNum) + ".jpeg");
+					+ Integer.toString(jonesAccesionNum) + ".jpg");
 			if (f.exists()) {
 				this.imgLocation = Globals.BEG_VHS_PATH
-						+ Integer.toString(jonesAccesionNum) + ".jpeg";
+						+ Integer.toString(jonesAccesionNum) + ".jpg";
 			} else
 				this.imgLocation = Globals.DEFAULT_IMG_PATH;
 

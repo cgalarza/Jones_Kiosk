@@ -56,7 +56,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		// Panel which contains the Google, IMDB, Rotten Tomatoes and
 		// Catalog buttons at the top of the main kiosk page.
 		JButton googleButton = new JButton();
-		googleButton.setText("Jinni");
+		googleButton.setText("Google");
 		googleButton.setPreferredSize(new Dimension(300, 150));
 
 		JButton imdbButton = new JButton();
@@ -80,7 +80,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 		// JPanel which contains text input field and a search button.
 		JPanel search = new JPanel();
-		searchBar = new JTextField("Enter Search Term");
+		searchBar = new JTextField("Search the Jones Media Collection");
 		searchBar.setPreferredSize(new Dimension(600, 50));
 		searchBar.setFont(new Font("Helvetica", Font.PLAIN, 25));
 		searchBar.addActionListener(this);
@@ -150,7 +150,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	}
 
 	/*
-	 * Method that waits for the sesarch button or the logo to be pressed. When
+	 * Method that waits for the search button or the logo to be pressed. When
 	 * one of these buttons are pressed the corresponding card in the CardLayout
 	 * is shown.
 	 * 
@@ -169,6 +169,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		} else if (e.getSource() == logo) {
 			CardLayout cards = (CardLayout) (bottom.getLayout());
 			cards.show(bottom, NEW_MOVIES);
+			searchBar.setText("Search the Jones Media Collection");
 		}
 	}
 
