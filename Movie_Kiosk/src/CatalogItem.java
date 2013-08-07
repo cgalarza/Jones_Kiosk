@@ -131,7 +131,12 @@ public class CatalogItem {
 			} else
 				this.imgLocation = Globals.DEFAULT_IMG_PATH;
 
-		} else
+		} else if (typeOfMedia.equals("On Reserve at Jones Media")){
+			this.imgLocation = Globals.ON_RESERVE_AT_JONES;
+			
+		}
+		
+		else
 			this.imgLocation = Globals.NOT_AVAILABLE_AT_JONES;
 
 	}
