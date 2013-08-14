@@ -158,15 +158,7 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 				.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		// Creating the next button with image.
-		BufferedImage previousImg = null;
-		try {
-			previousImg = ImageIO.read(new File("Previous.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		previousResults = new JButton(new ImageIcon(previousImg));
+		previousResults = new JButton(new ImageIcon(getClass().getResource("Previous.png")));
 		previousResults.setBorder(BorderFactory.createEmptyBorder());
 		previousResults.setContentAreaFilled(false);
 		previousResults.addActionListener(this);
@@ -174,15 +166,8 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 		// Label which displays the number of pages.
 		numberOfPages = new JLabel("Page 1 of " + totalPages);
 
-		// Creating the previous button with image.
-		BufferedImage moreImg = null;
-		try {
-			moreImg = ImageIO.read(new File("More.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		moreResults = new JButton(new ImageIcon(moreImg));
+		// Creating the previous button with image.	
+		moreResults = new JButton(new ImageIcon(getClass().getResource("More.png")));
 		moreResults.setBorder(BorderFactory.createEmptyBorder());
 		moreResults.setContentAreaFilled(false);
 		moreResults.addActionListener(this);

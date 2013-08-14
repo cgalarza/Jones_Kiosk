@@ -45,14 +45,8 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		// hand corner of the screen. When the logo is clicked the
 		// user is directed back to the homepage with the display of
 		// movies.
-		BufferedImage buffImg = null;
-		try {
-			buffImg = ImageIO.read(new File("Jones_Logo.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		logo = new JButton(new ImageIcon(buffImg));
+
+		logo = new JButton(new ImageIcon(getClass().getResource("Jones_Logo.png")));
 		logo.setBorder(BorderFactory.createEmptyBorder());
 		logo.setContentAreaFilled(false);
 		logo.addActionListener(this);
@@ -93,14 +87,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		searchBar.setFont(new Font("Helvetica", Font.PLAIN, 25));
 		searchBar.addActionListener(this);
 
-		// Creating search button with image.
-		try {
-			buffImg = ImageIO.read(new File("Magnifying_Glass.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		searchButton = new JButton(new ImageIcon(buffImg));
+		searchButton = new JButton(new ImageIcon(getClass().getResource("Magnifying_Glass.png")));
 		searchButton.setBorder(BorderFactory.createEmptyBorder());
 		searchButton.setContentAreaFilled(false);
 		searchButton.addActionListener(this);
