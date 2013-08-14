@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GraphicsDevice;
@@ -10,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -27,12 +30,13 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	private final String SEARCH_MOVIES = "Search Movies";
 	private JPanel bottom, searchMovies;
 	private JButton searchButton, logo;
+	private JButton googleButton, imdbButton, catalogButton, rottenTomatoes;
 	private JTextField searchBar;
 
 	/*
-	 * Constructor of MovieKiosk which creates all the buttons at the top 
-	 * of the screen, the search bar and a NewMoviesPanel over a SearchMoviesPanel
-	 * in a CardLayout. 
+	 * Constructor of MovieKiosk which creates all the buttons at the top of the
+	 * screen, the search bar and a NewMoviesPanel over a SearchMoviesPanel in a
+	 * CardLayout.
 	 */
 	public MovieKiosk() {
 		fullScreenSetUp();
@@ -55,27 +59,31 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 		// Panel which contains the Google, IMDB, Rotten Tomatoes and
 		// Catalog buttons at the top of the main kiosk page.
-		JButton googleButton = new JButton();
+		googleButton = new JButton();
 		googleButton.setText("Google");
 		googleButton.setPreferredSize(new Dimension(300, 150));
+		googleButton.addActionListener(this);
 
-		JButton imdbButton = new JButton();
+		imdbButton = new JButton();
 		imdbButton.setText("IMDB");
 		imdbButton.setPreferredSize(new Dimension(300, 150));
+		imdbButton.addActionListener(this);
 
-		JButton catologButton = new JButton();
-		catologButton.setText("Catolog Button");
-		catologButton.setPreferredSize(new Dimension(300, 150));
-
-		JButton rottenTomatoes = new JButton();
+		catalogButton = new JButton();
+		catalogButton.setText("Catolog Button");
+		catalogButton.setPreferredSize(new Dimension(300, 150));
+		catalogButton.addActionListener(this);
+		
+		rottenTomatoes = new JButton();
 		rottenTomatoes.setText("Rotten Tomatoes");
 		rottenTomatoes.setPreferredSize(new Dimension(300, 150));
-
+		rottenTomatoes.addActionListener(this);
+		
 		JPanel topButtons = new JPanel();
 		topButtons.add(logo);
 		topButtons.add(googleButton);
 		topButtons.add(imdbButton);
-		topButtons.add(catologButton);
+		topButtons.add(catalogButton);
 		topButtons.add(rottenTomatoes);
 
 		// JPanel which contains text input field and a search button.
@@ -132,12 +140,21 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	 * Heavily used the example code from the Java fullscreen tutorial and API.
 	 */
 	private void fullScreenSetUp() {
+
+		// This will be the final setup
+		// have to hide both dock and menu bar
+		// this.setUndecorated(true);
+		// this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		// this.setVisible(true);
+
 		GraphicsEnvironment env = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
 		GraphicsDevice[] devices = env.getScreenDevices();
 		boolean isFullScreen = devices[1].isFullScreenSupported();
 		setUndecorated(isFullScreen);
 		setResizable(!isFullScreen);
+
 		if (isFullScreen) {
 			// Full-screen mode
 			devices[1].setFullScreenWindow(this);
@@ -170,6 +187,42 @@ public class MovieKiosk extends JFrame implements ActionListener {
 			CardLayout cards = (CardLayout) (bottom.getLayout());
 			cards.show(bottom, NEW_MOVIES);
 			searchBar.setText("Search the Jones Media Collection");
+		} else if (e.getSource() == googleButton) {
+			try {
+				openWebpage(new URL("http://www.google.com"));
+			} catch (MalformedURLException e1) {
+				e1.printStackTrace();
+			}
+		} else if (e.getSource() == imdbButton){
+			try {
+				openWebpage(new URL("http://www.imdb.com"));
+			} catch (MalformedURLException e1) {
+				e1.printStackTrace();
+			}
+		} else if (e.getSource() == catalogButton){
+			try {
+				openWebpage(new URL("http://libcat.dartmouth.edu/search/"));
+			} catch (MalformedURLException e1) {
+				e1.printStackTrace();
+			}
+		} else if (e.getSource() == rottenTomatoes){
+			try {
+				openWebpage(new URL("http://www.rottentomatoes.com"));
+			} catch (MalformedURLException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	public void openWebpage(URL url) {
+		Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop()
+				: null;
+		if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+			try {
+				desktop.browse(url.toURI());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
