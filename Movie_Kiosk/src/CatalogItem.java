@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,7 +18,7 @@ public class CatalogItem {
 	private String typeOfMedia;
 	private String summary;
 	private String url;
-	private String imgLocation;
+	private ImageIcon smallImg;
 
 	/*
 	 * Using the catalog link information is retrieved and stored in this
@@ -29,7 +31,7 @@ public class CatalogItem {
 		// If there isn't a problem loading the information
 		// then get the image that corresponds with the item.
 		if (loadInformation())
-			findImageLocation();
+			createImageIcon();
 	}
 
 	/*
@@ -108,46 +110,42 @@ public class CatalogItem {
 	 * default image is put in its place. If it isn't a part of the collection 
 	 * an image that displays that it isn't part of the collection is used.
 	 */
-	private void findImageLocation() {
-
-		this.imgLocation = "";
+	private void createImageIcon() {
 
 		// Getting image location (can be a url or a file location)
 		if (typeOfMedia.equals("Jones Media DVD")) {
 			File f = new File(Globals.BEG_DVD_PATH
 					+ Integer.toString(jonesAccesionNum) + ".jpg");
 			if (f.exists()) {
-				this.imgLocation = Globals.BEG_DVD_PATH
-						+ Integer.toString(jonesAccesionNum) + ".jpg";
+				this.smallImg = new ImageIcon(Globals.BEG_DVD_PATH
+						+ Integer.toString(jonesAccesionNum) + ".jpg");
 			} else
-				this.imgLocation = Globals.DEFAULT_IMG_PATH;
+				smallImg = new ImageIcon(getClass().getResource(Globals.DEFAULT_IMG_PATH)); 
 
 		} else if (typeOfMedia.equals("Jones Media Video tape")) {
 			File f = new File(Globals.BEG_VHS_PATH
 					+ Integer.toString(jonesAccesionNum) + ".jpg");
 			if (f.exists()) {
-				this.imgLocation = Globals.BEG_VHS_PATH
-						+ Integer.toString(jonesAccesionNum) + ".jpg";
-			} else
-				this.imgLocation = Globals.DEFAULT_IMG_PATH;
+				smallImg = new ImageIcon(Globals.BEG_VHS_PATH + Integer.toString(jonesAccesionNum) + ".jpg");
 
+			} else
+				smallImg = new ImageIcon(getClass().getResource(Globals.DEFAULT_IMG_PATH)); 
 		} else if (typeOfMedia.equals("On Reserve at Jones Media")){
-			this.imgLocation = Globals.ON_RESERVE_AT_JONES;
+			smallImg = new ImageIcon(getClass().getResource(Globals.ON_RESERVE_AT_JONES)); 
 			
-		}
-		
-		else
-			this.imgLocation = Globals.NOT_AVAILABLE_AT_JONES;
+		} else
+			smallImg =  new ImageIcon(getClass().getResource(Globals.NOT_AVAILABLE_AT_JONES));
+			
 
 	}
 
 	/*
-	 * Returns image location.
+	 * Returns imageIcon.
 	 * 
-	 * @return String URI of image location.
+	 * @return ImageIcon of the movie
 	 */
-	public String getImgLocation() {
-		return this.imgLocation;
+	public ImageIcon getImgIcon() {
+		return this.smallImg;
 	}
 
 	/*

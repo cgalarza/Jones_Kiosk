@@ -3,12 +3,9 @@ import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -35,7 +31,6 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 	private Elements links; // all the links retrieved
 	private JButton previousResults, moreResults;
 	private JLabel numberOfPages;
-	private Boolean noResults;
 
 	// Default constructor
 	public SearchMoviesPanel() {
@@ -48,15 +43,18 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 		movies.setLayout(new CardLayout());
 
 		this.searchResults = new ArrayList<CatalogItem>();
-		noResults = performSearch(searchTerm);
-		retrieveSearchResults(currentPage);
-		displayResults();
-		createNavigationBar();
 
-		// Adding JPanel which contains movies found as search results
-		// and a navigation bar at the bottom.
-		this.add(movies, BorderLayout.CENTER);
-		this.add(navigationBar, BorderLayout.SOUTH);
+		if (performSearch(searchTerm)) {
+			retrieveSearchResults(currentPage);
+			displayResults();
+			createNavigationBar();
+			// Adding JPanel which contains movies found as search results
+			// and a navigation bar at the bottom.
+			this.add(movies, BorderLayout.CENTER);
+			this.add(navigationBar, BorderLayout.SOUTH);
+		} else {
+			this.add(new JLabel("No results were found."), BorderLayout.NORTH);
+		}
 
 	}
 
@@ -82,8 +80,8 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 		}
 
 		// Check to see if there is an error message
-		if (doc.select(".errormessage").size() > 0) 
-			return true; //if there is return true
+		if (doc.select(".errormessage").size() > 0)
+			return false; // if there is return false
 		else {
 
 			System.out.println(doc.select("i").text());
@@ -96,41 +94,40 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 				attr.put("href", completeURL);
 				links.add(new Element(Tag.valueOf("a"), HOMEPAGE_URL, attr));
 				System.out.println(links.toString());
-				
-				
+
 			} else {
 
 				links = doc.select("span.briefcitTitle");
 				System.out.println(links.toString());
-				
+
 				totalPages = (int) Math.ceil(links.size() / 4.0);
 			}
-			return false;
+			return true;
 		}
 	}
 
 	public void retrieveSearchResults(int page) {
 		searchResults = new ArrayList<CatalogItem>();
 
-		int start = (page * 4) - 4;
-		int end = (page * 4 > links.size()) ? links.size() - 1 : page * 4 - 1;
-
-		// only gets the urls of the elements specified
-		for (int i = start; i <= end; i++) {
-
-			// if there is only one link, its formatted differently
-			if (links.size() == 1){
-				String url = links.get(0).select("a[href]").attr("href").toString();
-				searchResults.add(new CatalogItem(url));
-			}
-			else {
-			Element link = links.get(i);
-
-			// Retrieves url of page
-			String url = HOMEPAGE_URL.concat(link.select("a[href]")
-					.attr("href").toString());
-
+		// If there is only one link, the link is formatted differently 
+		// and once the link is displayed the method can return.
+		if (links.size() == 1) {
+			String url = links.get(0).select("a[href]").attr("href").toString();
 			searchResults.add(new CatalogItem(url));
+		} else {
+			int start = (page * 4) - 4;
+			int end = (page * 4 > links.size()) ? links.size() - 1 : page * 4 - 1;
+
+			// only gets the urls of the elements specified
+			for (int i = start; i <= end; i++) {
+
+				Element link = links.get(i);
+
+				// Retrieves url of page
+				String url = HOMEPAGE_URL.concat(link.select("a[href]")
+						.attr("href").toString());
+
+				searchResults.add(new CatalogItem(url));
 			}
 		}
 	}
@@ -143,6 +140,17 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 		for (CatalogItem a : searchResults) {
 			card.add(new CatalogItemPanel(a));
 		}
+		
+		// If there are less than four items displayed
+		// add some glue to space out the elements correctly
+		if (searchResults.size() < 4){
+			System.out.println("Search results are less than 4");
+			for (int i = 4-searchResults.size(); i > 0; i--){
+				card.add(Box.createHorizontalGlue());
+				System.out.println(i);
+			}
+		}
+		
 
 		movies.add(card, "CARD_" + currentPage);
 
@@ -158,7 +166,8 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 				.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		// Creating the next button with image.
-		previousResults = new JButton(new ImageIcon(getClass().getResource("Previous.png")));
+		previousResults = new JButton(new ImageIcon(getClass().getResource(
+				"Previous.png")));
 		previousResults.setBorder(BorderFactory.createEmptyBorder());
 		previousResults.setContentAreaFilled(false);
 		previousResults.addActionListener(this);
@@ -166,8 +175,9 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 		// Label which displays the number of pages.
 		numberOfPages = new JLabel("Page 1 of " + totalPages);
 
-		// Creating the previous button with image.	
-		moreResults = new JButton(new ImageIcon(getClass().getResource("More.png")));
+		// Creating the previous button with image.
+		moreResults = new JButton(new ImageIcon(getClass().getResource(
+				"More.png")));
 		moreResults.setBorder(BorderFactory.createEmptyBorder());
 		moreResults.setContentAreaFilled(false);
 		moreResults.addActionListener(this);

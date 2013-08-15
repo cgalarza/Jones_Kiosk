@@ -1,10 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -58,17 +54,8 @@ public class CatalogItemPanel extends JPanel {
 		summary.setOpaque(false);
 		summary.setWrapStyleWord(true);
 		summary.setAlignmentX(LEFT_ALIGNMENT);
-
 		
 		infoPanel.add(summary);
-
-		// Retrieving image for catalog item
-		BufferedImage img = null;
-		try {
-			img = ImageIO.read(new File(i.getImgLocation()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 		// JPanel which displays image associated with this item
 		JPanel imagePanel = new JPanel();
@@ -76,7 +63,7 @@ public class CatalogItemPanel extends JPanel {
 		// Resize image and place in an image icon
 //		ImageIcon icon = new ImageIcon(img.getScaledInstance(
 //		img.getWidth() / 4, img.getHeight() / 4, Image.SCALE_SMOOTH));
-		ImageIcon icon = new ImageIcon(img);
+		ImageIcon icon = i.getImgIcon();
 		imagePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		imagePanel.add(new JLabel(icon));
 		

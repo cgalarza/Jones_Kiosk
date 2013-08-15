@@ -8,13 +8,9 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -85,6 +81,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		searchBar = new JTextField("Search the Jones Media Collection");
 		searchBar.setPreferredSize(new Dimension(600, 50));
 		searchBar.setFont(new Font("Helvetica", Font.PLAIN, 25));
+		//searchBar.setEnabled(true);
 		searchBar.addActionListener(this);
 
 		searchButton = new JButton(new ImageIcon(getClass().getResource("Magnifying_Glass.png")));
@@ -165,7 +162,6 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == searchButton || e.getSource() == searchBar) {
 			// Lets the user know that their request has been received
-			searchMovies = new SearchMoviesPanel();
 			searchMovies = new SearchMoviesPanel(searchBar.getText());
 			bottom.add(searchMovies, SEARCH_MOVIES);
 			CardLayout cards = (CardLayout) (bottom.getLayout());
