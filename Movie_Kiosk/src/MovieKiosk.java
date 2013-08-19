@@ -81,7 +81,6 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		searchBar = new JTextField("Search the Jones Media Collection");
 		searchBar.setPreferredSize(new Dimension(600, 50));
 		searchBar.setFont(new Font("Helvetica", Font.PLAIN, 25));
-		//searchBar.setEnabled(true);
 		searchBar.addActionListener(this);
 
 		searchButton = new JButton(new ImageIcon(getClass().getResource("Magnifying_Glass.png")));
@@ -101,7 +100,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 		// Creating a NewMoviesPanel which will display the new
 		// aquisitions on the main kiosk page.
-		JPanel newMovies = new NewMoviesPanel();
+		JPanel newMovies = new PromotionMoviesPanel();
 
 		searchMovies = new SearchMoviesPanel();
 

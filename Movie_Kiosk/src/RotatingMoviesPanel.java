@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 public class RotatingMoviesPanel extends JPanel {
 
 	private int totalPages;
+	private int currentPage;
 
 	public RotatingMoviesPanel(ArrayList<String> names,
 			ArrayList<String> callNumbers, ArrayList<BufferedImage> images) {
@@ -20,6 +21,7 @@ public class RotatingMoviesPanel extends JPanel {
 		this.setLayout(new CardLayout());
 
 		totalPages = (int) Math.ceil(names.size() / 4.0);
+		System.out.println(totalPages);
 
 		for (int a = 1; a <= totalPages; a++) {
 			JPanel fourMovies = new JPanel();
@@ -49,7 +51,34 @@ public class RotatingMoviesPanel extends JPanel {
 			this.add(fourMovies, "CARD_" + a);
 
 		}
+	
+		currentPage = 1;
 
+	}
+	
+	public int getCurrentPage(){
+		return this.currentPage;
+		
+	}
+	public int getTotalPages(){
+		return this.totalPages;
+	}
+	
+	public void switchToNextPage(){
+		if ((currentPage >= 1) && (currentPage < totalPages)) {
+			currentPage++;
+			CardLayout cl = (CardLayout) (this.getLayout());
+			cl.show(this, "CARD_" + currentPage);
+		}
+		
+	}
+	public void switchToPreviousPage(){
+		if(currentPage > 1){
+			currentPage--;
+			CardLayout cl = (CardLayout) (this.getLayout());
+			cl.show(this, "CARD_" + currentPage);
+
+		}
 	}
 
 }
