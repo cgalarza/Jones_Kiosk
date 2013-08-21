@@ -11,12 +11,11 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 @SuppressWarnings("serial")
 public class PromotionMoviesPanel extends JPanel implements ActionListener {
@@ -24,10 +23,11 @@ public class PromotionMoviesPanel extends JPanel implements ActionListener {
 	private final String FILE_EXTENTION = ".jpg";
 	private final String PATH_DISPLAY_MOVIES = "/Users/carlagalarza/Pictures/Display_Movies/";
 	private final String DISPLAY_MOVIES_FILE = "/Users/carlagalarza/Desktop/display_movies";
-	private JPanel navigationBar;
+	private final int SPEED = 6000;
 	private RotatingMoviesPanel rotatingMoviesPanel;
-	private JButton previousResults;
-	private JButton moreResults;
+	private JButton next;
+	private JButton previous;
+	private Timer timer;
 	
 	private ArrayList<String> movieNames;
 	private ArrayList<String> movieAccessionNum;
@@ -55,11 +55,11 @@ public class PromotionMoviesPanel extends JPanel implements ActionListener {
 			br.readLine(); // Empty line after the title
 			while ((currentLine = br.readLine()) != null) {
 				String[] tokens = currentLine.split(", ");
-				File movieFile = new File(PATH_DISPLAY_MOVIES + tokens[2]
+				File movieFile = new File(PATH_DISPLAY_MOVIES + tokens[1]
 						+ FILE_EXTENTION);
 				movieImages.add(ImageIO.read(movieFile));
 				movieNames.add(tokens[0]);
-				movieAccessionNum.add(tokens[2]);
+				movieAccessionNum.add(tokens[1]);
 			}
 			br.close();
 		} catch (IOException e1) {
@@ -74,61 +74,43 @@ public class PromotionMoviesPanel extends JPanel implements ActionListener {
 		rotatingMoviesPanel = new RotatingMoviesPanel(movieNames,
 				movieAccessionNum, movieImages);
 
-		createNavigationBar();
-		this.add(navigationBar, BorderLayout.SOUTH);
+		next = new JButton(new ImageIcon(getClass().getResource("Right_Arrow.png")));
+		next.setBorder(BorderFactory.createEmptyBorder());
+		next.setContentAreaFilled(false);
+		next.addActionListener(this);
+		
+		previous = new JButton(new ImageIcon(getClass().getResource("Left_Arrow.png")));
+		previous.setBorder(BorderFactory.createEmptyBorder());
+		previous.setContentAreaFilled(false);
+		previous.addActionListener(this);
+		
+		this.add(previous, BorderLayout.WEST);
+		this.add(next, BorderLayout.EAST);
 		this.add(displayTitle, BorderLayout.NORTH);
 		this.add(rotatingMoviesPanel, BorderLayout.CENTER);
 		
+		
 		CardLayout cl = (CardLayout)(rotatingMoviesPanel.getLayout());
 		cl.show(rotatingMoviesPanel, "CARD_1");
+		
+		// Set up timer for automatic card flipping
+		timer = new Timer(SPEED, this);
+		timer.start();
 	}
 
-	public void createNavigationBar() {
-		// Creating navigation bar at the bottom of the screen
-		navigationBar = new JPanel();
-		navigationBar.setLayout(new BoxLayout(navigationBar, BoxLayout.X_AXIS));
-		navigationBar
-				.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-
-		// Creating the next button with image.
-		previousResults = new JButton(new ImageIcon(getClass().getResource(
-				"Previous.png")));
-		previousResults.setBorder(BorderFactory.createEmptyBorder());
-		previousResults.setContentAreaFilled(false);
-		previousResults.addActionListener(this);
-
-		// Label which displays the number of pages.
-		// numberOfPages = new JLabel("Page 1 of " + totalPages);
-
-		// Creating the previous button with image.
-		moreResults = new JButton(new ImageIcon(getClass().getResource(
-				"More.png")));
-		moreResults.setBorder(BorderFactory.createEmptyBorder());
-		moreResults.setContentAreaFilled(false);
-		moreResults.addActionListener(this);
-
-		navigationBar.add(previousResults);
-		navigationBar.add(Box.createHorizontalGlue());
-		// navigationBar.add(numberOfPages);
-		navigationBar.add(Box.createHorizontalGlue());
-		navigationBar.add(moreResults);
-
-	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == moreResults){
+		if (e.getSource() == next || e.getSource() == timer){
 			rotatingMoviesPanel.switchToNextPage();
-			
+			timer.restart();
 			//numberOfPages.setText("Page " + currentPage + " of " + totalPages);
-
 		}
 
-		else if (e.getSource() == previousResults) {
+		else if (e.getSource() == previous) {
 			rotatingMoviesPanel.switchToPreviousPage();
-			
+			timer.restart();
 			//numberOfPages.setText("Page " + currentPage + " of " + totalPages);
-
 		}
 
 	}

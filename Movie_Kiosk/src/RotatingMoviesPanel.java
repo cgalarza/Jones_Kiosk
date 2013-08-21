@@ -19,6 +19,7 @@ public class RotatingMoviesPanel extends JPanel {
 			ArrayList<String> callNumbers, ArrayList<BufferedImage> images) {
 
 		this.setLayout(new CardLayout());
+		this.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
 
 		totalPages = (int) Math.ceil(names.size() / 4.0);
 		System.out.println(totalPages);
@@ -31,20 +32,25 @@ public class RotatingMoviesPanel extends JPanel {
 			
 			for (int i = start; i <= end; i++) {
 				JPanel movie = new JPanel();
-				movie.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+				movie.setBorder(BorderFactory.createEmptyBorder());
 				movie.setLayout(new BoxLayout(movie, BoxLayout.Y_AXIS));
-				movie.setAlignmentX(Component.LEFT_ALIGNMENT);
-				movie.add(new JLabel(new ImageIcon(images.get(i))));
+				
+				JLabel cover = new JLabel(new ImageIcon(images.get(i)));
+				cover.setAlignmentX(Component.CENTER_ALIGNMENT);
 				
 				JLabel name = new JLabel(names.get(i));
 				name.setFont(Globals.SMALL_TEXT);
-				movie.add(name);
+				name.setAlignmentX(Component.CENTER_ALIGNMENT);
 			
 				JLabel accessionNum = new JLabel(callNumbers.get(i));
 				accessionNum.setFont(Globals.SMALL_TEXT);
+				accessionNum.setAlignmentX(Component.CENTER_ALIGNMENT);
+				
+				movie.add(cover);
+				movie.add(name);
 				movie.add(accessionNum);
 
-				
+
 				fourMovies.add(movie);
 			}
 
@@ -67,18 +73,27 @@ public class RotatingMoviesPanel extends JPanel {
 	public void switchToNextPage(){
 		if ((currentPage >= 1) && (currentPage < totalPages)) {
 			currentPage++;
-			CardLayout cl = (CardLayout) (this.getLayout());
-			cl.show(this, "CARD_" + currentPage);
+			switchToPage(currentPage);
 		}
-		
+		else if (currentPage == totalPages){
+			currentPage = 1;
+			switchToPage(currentPage);
+		}
 	}
+	
 	public void switchToPreviousPage(){
 		if(currentPage > 1){
 			currentPage--;
-			CardLayout cl = (CardLayout) (this.getLayout());
-			cl.show(this, "CARD_" + currentPage);
-
+			switchToPage(currentPage);
+		}
+		else if (currentPage == 1){
+			currentPage = totalPages;
+			switchToPage(currentPage);
 		}
 	}
 
+	private void switchToPage(int page){
+		CardLayout cl = (CardLayout) (this.getLayout());
+		cl.show(this, "CARD_" + page);
+	}
 }

@@ -8,7 +8,6 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.BorderFactory;
@@ -26,7 +25,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	private final String SEARCH_MOVIES = "Search Movies";
 	private JPanel bottom, searchMovies;
 	private JButton searchButton, logo;
-	private JButton googleButton, imdbButton, catalogButton, rottenTomatoes;
+	private JButton genreButton;
 	private JTextField searchBar;
 
 	/*
@@ -49,32 +48,15 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 		// Panel which contains the Google, IMDB, Rotten Tomatoes and
 		// Catalog buttons at the top of the main kiosk page.
-		googleButton = new JButton();
-		googleButton.setText("Google");
-		googleButton.setPreferredSize(new Dimension(300, 150));
-		googleButton.addActionListener(this);
+		genreButton = new JButton(new ImageIcon(getClass().getResource("Browse_by_Genre.png")));
+		genreButton.addActionListener(this);
+		genreButton.setBorder(BorderFactory.createEmptyBorder());
+		genreButton.setContentAreaFilled(false);
 
-		imdbButton = new JButton();
-		imdbButton.setText("IMDB");
-		imdbButton.setPreferredSize(new Dimension(300, 150));
-		imdbButton.addActionListener(this);
-
-		catalogButton = new JButton();
-		catalogButton.setText("Catolog Button");
-		catalogButton.setPreferredSize(new Dimension(300, 150));
-		catalogButton.addActionListener(this);
-		
-		rottenTomatoes = new JButton();
-		rottenTomatoes.setText("Rotten Tomatoes");
-		rottenTomatoes.setPreferredSize(new Dimension(300, 150));
-		rottenTomatoes.addActionListener(this);
-		
 		JPanel topButtons = new JPanel();
 		topButtons.add(logo);
-		topButtons.add(googleButton);
-		topButtons.add(imdbButton);
-		topButtons.add(catalogButton);
-		topButtons.add(rottenTomatoes);
+		topButtons.add(genreButton);
+
 
 		// JPanel which contains text input field and a search button.
 		JPanel search = new JPanel();
@@ -169,30 +151,6 @@ public class MovieKiosk extends JFrame implements ActionListener {
 			CardLayout cards = (CardLayout) (bottom.getLayout());
 			cards.show(bottom, NEW_MOVIES);
 			searchBar.setText("Search the Jones Media Collection");
-		} else if (e.getSource() == googleButton) {
-			try {
-				openWebpage(new URL("http://www.google.com"));
-			} catch (MalformedURLException e1) {
-				e1.printStackTrace();
-			}
-		} else if (e.getSource() == imdbButton){
-			try {
-				openWebpage(new URL("http://www.imdb.com"));
-			} catch (MalformedURLException e1) {
-				e1.printStackTrace();
-			}
-		} else if (e.getSource() == catalogButton){
-			try {
-				openWebpage(new URL("http://libcat.dartmouth.edu/search/"));
-			} catch (MalformedURLException e1) {
-				e1.printStackTrace();
-			}
-		} else if (e.getSource() == rottenTomatoes){
-			try {
-				openWebpage(new URL("http://www.rottentomatoes.com"));
-			} catch (MalformedURLException e1) {
-				e1.printStackTrace();
-			}
 		}
 	}
 
