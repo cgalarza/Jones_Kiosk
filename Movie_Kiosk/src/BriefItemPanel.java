@@ -14,9 +14,9 @@ import javax.swing.JTextArea;
  */
 
 @SuppressWarnings("serial")
-public class CatalogItemPanel extends JPanel {
+public class BriefItemPanel extends JPanel {
 	
-	public CatalogItemPanel(CatalogItem i) {
+	public BriefItemPanel(Item i) {
 		this.setLayout(new BorderLayout());
 
 		// JPanel that contains all of the textual information associated with 

@@ -82,9 +82,9 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 		// Creating a NewMoviesPanel which will display the new
 		// aquisitions on the main kiosk page.
-		JPanel newMovies = new PromotionMoviesPanel();
+		JPanel newMovies = new PromotionPanel();
 
-		searchMovies = new SearchMoviesPanel();
+		searchMovies = new SearchPanel();
 
 		bottom = new JPanel();
 		bottom.setLayout(new CardLayout());
@@ -143,7 +143,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == searchButton || e.getSource() == searchBar) {
 			// Lets the user know that their request has been received
-			searchMovies = new SearchMoviesPanel(searchBar.getText());
+			searchMovies = new SearchPanel(searchBar.getText());
 			bottom.add(searchMovies, SEARCH_MOVIES);
 			CardLayout cards = (CardLayout) (bottom.getLayout());
 			cards.show(bottom, SEARCH_MOVIES);

@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 @SuppressWarnings("serial")
-public class PromotionMoviesPanel extends JPanel implements ActionListener {
+public class PromotionPanel extends JPanel implements ActionListener {
 
 	private final String FILE_EXTENTION = ".jpg";
 	private final String PATH_DISPLAY_MOVIES = "/Users/carlagalarza/Pictures/Display_Movies/";
@@ -36,7 +36,7 @@ public class PromotionMoviesPanel extends JPanel implements ActionListener {
 	/*
 	 * Constructor
 	 */
-	public PromotionMoviesPanel() {
+	public PromotionPanel() {
 
 		this.setLayout(new BorderLayout());
 

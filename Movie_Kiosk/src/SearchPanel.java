@@ -22,9 +22,9 @@ import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 
 @SuppressWarnings("serial")
-public class SearchMoviesPanel extends JPanel implements ActionListener {
+public class SearchPanel extends JPanel implements ActionListener {
 
-	private ArrayList<CatalogItem> searchResults;
+	private ArrayList<Item> searchResults;
 	private final String HOMEPAGE_URL = "http://libcat.dartmouth.edu";
 	private JPanel movies, navigationBar;
 	private int totalPages = 1, currentPage = 1;
@@ -33,16 +33,16 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 	private JLabel numberOfPages;
 
 	// Default constructor
-	public SearchMoviesPanel() {
+	public SearchPanel() {
 		this.add(new JLabel("Search results for are loading..."));
 	}
 
-	public SearchMoviesPanel(String searchTerm) {
+	public SearchPanel(String searchTerm) {
 		this.setLayout(new BorderLayout());
 		movies = new JPanel();
 		movies.setLayout(new CardLayout());
 
-		this.searchResults = new ArrayList<CatalogItem>();
+		this.searchResults = new ArrayList<Item>();
 
 		if (performSearch(searchTerm)) {
 			retrieveSearchResults(currentPage);
@@ -107,13 +107,13 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 	}
 
 	public void retrieveSearchResults(int page) {
-		searchResults = new ArrayList<CatalogItem>();
+		searchResults = new ArrayList<Item>();
 
 		// If there is only one link, the link is formatted differently 
 		// and once the link is displayed the method can return.
 		if (links.size() == 1) {
 			String url = links.get(0).select("a[href]").attr("href").toString();
-			searchResults.add(new CatalogItem(url));
+			searchResults.add(new Item(url));
 		} else {
 			int start = (page * 4) - 4;
 			int end = (page * 4 > links.size()) ? links.size() - 1 : page * 4 - 1;
@@ -127,7 +127,7 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 				String url = HOMEPAGE_URL.concat(link.select("a[href]")
 						.attr("href").toString());
 
-				searchResults.add(new CatalogItem(url));
+				searchResults.add(new Item(url));
 			}
 		}
 	}
@@ -137,8 +137,8 @@ public class SearchMoviesPanel extends JPanel implements ActionListener {
 		card.setLayout(new GridLayout(2, 2));
 
 		// for each search result create a panel
-		for (CatalogItem a : searchResults) {
-			card.add(new CatalogItemPanel(a));
+		for (Item a : searchResults) {
+			card.add(new BriefItemPanel(a));
 		}
 		
 		// If there are less than four items displayed

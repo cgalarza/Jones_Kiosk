@@ -8,7 +8,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class CatalogItem {
+public class Item {
 
 	private String title;
 	private String callNumberString;
@@ -26,7 +26,7 @@ public class CatalogItem {
 	 * 
 	 * @param link Catalog link
 	 */
-	public CatalogItem(String link) {
+	public Item(String link) {
 		this.url = link;
 		// If there isn't a problem loading the information
 		// then get the image that corresponds with the item.
