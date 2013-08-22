@@ -1,3 +1,4 @@
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
@@ -18,7 +19,9 @@ public class Item {
 	private String typeOfMedia;
 	private String summary;
 	private String url;
-	private ImageIcon smallImg;
+	private ImageIcon smallImg; // Height of 265
+	private ImageIcon medImg; // Height of 480
+	private ImageIcon largeImg; // Entire Image
 
 	/*
 	 * Using the catalog link information is retrieved and stored in this
@@ -31,7 +34,27 @@ public class Item {
 		// If there isn't a problem loading the information
 		// then get the image that corresponds with the item.
 		if (loadInformation())
-			createImageIcon();
+			smallImg = createImageIcon(265);
+	}
+
+	/*
+	 * Constructor specifically for items that are part of the Jones collection.
+	 * 
+	 * @param title Title of movie
+	 * 
+	 * @param jonesCallNumber Jones accession number
+	 * 
+	 * @param link url link to the correct catalog record
+	 */
+
+	public Item(String title, String jonesCallNumber, String link) {
+		this.title = title;
+		this.callNumberString = jonesCallNumber;
+		this.url = link;
+		this.jonesAccesionNum = Integer.parseInt(jonesCallNumber);
+		this.typeOfMedia = "Jones Media DVD";
+		System.out.println(jonesAccesionNum);
+		medImg = createImageIcon(475);
 	}
 
 	/*
@@ -104,39 +127,60 @@ public class Item {
 
 	/*
 	 * This method attempts to find a movie cover for the item if it a part of
-	 * the Jones collection. 
+	 * the Jones collection.
 	 * 
-	 * If there isn't an image available and it's a part of the collection a 
-	 * default image is put in its place. If it isn't a part of the collection 
+	 * If there isn't an image available and it's a part of the collection a
+	 * default image is put in its place. If it isn't a part of the collection
 	 * an image that displays that it isn't part of the collection is used.
 	 */
-	private void createImageIcon() {
+	private ImageIcon createImageIcon() {
+
+		ImageIcon img;
 
 		// Getting image location (can be a url or a file location)
 		if (typeOfMedia.equals("Jones Media DVD")) {
 			File f = new File(Globals.BEG_DVD_PATH
 					+ Integer.toString(jonesAccesionNum) + ".jpg");
 			if (f.exists()) {
-				this.smallImg = new ImageIcon(Globals.BEG_DVD_PATH
+				img = new ImageIcon(Globals.BEG_DVD_PATH
 						+ Integer.toString(jonesAccesionNum) + ".jpg");
 			} else
-				smallImg = new ImageIcon(getClass().getResource(Globals.DEFAULT_IMG_PATH)); 
+				img = new ImageIcon(getClass().getResource(
+						Globals.DEFAULT_IMG_PATH));
 
 		} else if (typeOfMedia.equals("Jones Media Video tape")) {
 			File f = new File(Globals.BEG_VHS_PATH
 					+ Integer.toString(jonesAccesionNum) + ".jpg");
 			if (f.exists()) {
-				smallImg = new ImageIcon(Globals.BEG_VHS_PATH + Integer.toString(jonesAccesionNum) + ".jpg");
+				img = new ImageIcon(Globals.BEG_VHS_PATH
+						+ Integer.toString(jonesAccesionNum) + ".jpg");
 
 			} else
-				smallImg = new ImageIcon(getClass().getResource(Globals.DEFAULT_IMG_PATH)); 
-		} else if (typeOfMedia.equals("On Reserve at Jones Media")){
-			smallImg = new ImageIcon(getClass().getResource(Globals.ON_RESERVE_AT_JONES)); 
-			
-		} else
-			smallImg =  new ImageIcon(getClass().getResource(Globals.NOT_AVAILABLE_AT_JONES));
-			
+				img = new ImageIcon(getClass().getResource(
+						Globals.DEFAULT_IMG_PATH));
+		} else if (typeOfMedia.equals("On Reserve at Jones Media")) {
+			img = new ImageIcon(getClass().getResource(
+					Globals.ON_RESERVE_AT_JONES));
 
+		} else
+			img = new ImageIcon(getClass().getResource(
+					Globals.NOT_AVAILABLE_AT_JONES));
+
+		return img;
+	}
+
+	// This method scales the image to the given height.
+	private ImageIcon createImageIcon(int height) {
+		ImageIcon img = createImageIcon();
+
+		Double newWidth = ((double) height / img.getIconHeight()) * img.getIconWidth();
+		ImageIcon resizedImg = 
+				new ImageIcon(img.getImage().getScaledInstance(newWidth.intValue(), height, Image.SCALE_SMOOTH));
+		
+		return resizedImg;
+	}
+	public ImageIcon getMedImgIcon() {
+		return this.medImg;
 	}
 
 	/*
@@ -158,7 +202,8 @@ public class Item {
 	}
 
 	/*
-	 * Returns type of media (Jones Media DVD, Jones Media Video tape, Paddock DVD, etc).
+	 * Returns type of media (Jones Media DVD, Jones Media Video tape, Paddock
+	 * DVD, etc).
 	 * 
 	 * @return String type of library item
 	 */
