@@ -55,11 +55,9 @@ public class RotatingMoviesPanel extends JPanel {
 			}
 
 			this.add(fourMovies, "CARD_" + a);
-
 		}
 	
 		currentPage = 1;
-
 	}
 	
 	public int getCurrentPage(){

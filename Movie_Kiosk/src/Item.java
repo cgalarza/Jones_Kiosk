@@ -20,7 +20,7 @@ public class Item {
 	private String summary;
 	private String url;
 	private ImageIcon smallImg; // Height of 265
-	private ImageIcon medImg; // Height of 480
+	private ImageIcon medImg;   // Height of 480
 	private ImageIcon largeImg; // Entire Image
 
 	/*
@@ -38,7 +38,10 @@ public class Item {
 	}
 
 	/*
-	 * Constructor specifically for items that are part of the Jones collection.
+	 * Constructor specifically for items that are going to be displayed 
+	 * on the promotional screen. The information for each is pulled from
+	 * a text document and then that information is sent to this constructor
+	 * in order to create a Item object.
 	 * 
 	 * @param title Title of movie
 	 * 
@@ -53,7 +56,6 @@ public class Item {
 		this.url = link;
 		this.jonesAccesionNum = Integer.parseInt(jonesCallNumber);
 		this.typeOfMedia = "Jones Media DVD";
-		System.out.println(jonesAccesionNum);
 		medImg = createImageIcon(475);
 	}
 
@@ -92,26 +94,42 @@ public class Item {
 		// Retrieves the table on the webpage that displays the type of media,
 		// accession number and availability.
 		Elements table = doc.select("tr.bibItemsEntry");
-
-		// Retrieves each row of table and saves the information.
-		for (int i = 0; i < table.size(); i++) {
-			// Retrieves the html for the row specified
-			Element row = table.get(i);
-
-			// Retrieving Type (Jones Media DVD/ Jones Media VHS/ other type of
-			// media).
-			this.typeOfMedia = row.child(0).text()
-					.replace(String.valueOf((char) 160), " ").trim();
-
-			// Retrieving Accession Number.
-			this.callNumberString = row.child(1).ownText()
-					.replace(String.valueOf((char) 160), " ").trim();
-
-			// Retrieving Status.
-			this.status = row.child(2).text()
-					.replace(String.valueOf((char) 160), " ").trim();
+				
+		// If a table is not empty then retrieve the information
+		if (!table.isEmpty()){
+			// Retrieves each row of table and saves the information.
+			for (int i = 0; i < table.size(); i++) {
+				// Retrieves the html for the row specified
+				Element row = table.get(i);
+	
+				// Retrieving Type (Jones Media DVD/ Jones Media VHS/ other type of
+				// media).
+				this.typeOfMedia = row.child(0).text()
+						.replace(String.valueOf((char) 160), " ").trim();
+				// Retrieving Accession Number.
+				this.callNumberString = row.child(1).ownText()
+						.replace(String.valueOf((char) 160), " ").trim();
+	
+				// Retrieving Status.
+				this.status = row.child(2).text()
+						.replace(String.valueOf((char) 160), " ").trim();
+			}
 		}
-
+		//if it is empty check to see if it is a streamed item
+		else {
+			Elements streamingTable = doc.select("table.bibLinks th");
+			System.out.println(streamingTable.text());
+			
+			if (streamingTable.text().equals("Available online:")){
+				this.typeOfMedia = "Streaming Video";
+				this.callNumberString = "";
+				this.status ="Available Online";
+			}
+			else
+				this.typeOfMedia = "";
+			
+		}
+		
 		// If item is part of the Jones Media Collection, then its accession
 		// number is retrieved. If it is not part of the collection the
 		// accession number is set to -1.

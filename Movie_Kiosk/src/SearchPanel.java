@@ -84,8 +84,6 @@ public class SearchPanel extends JPanel implements ActionListener {
 			return false; // if there is return false
 		else {
 
-			System.out.println(doc.select("i").text());
-
 			String[] entriesFoundTokens = doc.select("i").text().split(" ");
 
 			if (Integer.parseInt(entriesFoundTokens[0]) == 1) {
@@ -93,12 +91,9 @@ public class SearchPanel extends JPanel implements ActionListener {
 				Attributes attr = new Attributes();
 				attr.put("href", completeURL);
 				links.add(new Element(Tag.valueOf("a"), HOMEPAGE_URL, attr));
-				System.out.println(links.toString());
-
 			} else {
 
 				links = doc.select("span.briefcitTitle");
-				System.out.println(links.toString());
 
 				totalPages = (int) Math.ceil(links.size() / 4.0);
 			}
@@ -144,10 +139,8 @@ public class SearchPanel extends JPanel implements ActionListener {
 		// If there are less than four items displayed
 		// add some glue to space out the elements correctly
 		if (searchResults.size() < 4){
-			System.out.println("Search results are less than 4");
 			for (int i = 4-searchResults.size(); i > 0; i--){
 				card.add(Box.createHorizontalGlue());
-				System.out.println(i);
 			}
 		}
 		

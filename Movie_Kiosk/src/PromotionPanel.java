@@ -107,10 +107,8 @@ public class PromotionPanel extends JPanel implements ActionListener {
 				counter = 0;
 			
 			panel.add(new DisplayItemPanel(promotionalMovies.get(counter)));
-			System.out.println(counter);
 		}
 		
-		System.out.println();
 		return panel;
 	}
 
