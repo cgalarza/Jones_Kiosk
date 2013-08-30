@@ -1,6 +1,7 @@
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
@@ -118,7 +119,6 @@ public class Item {
 		//if it is empty check to see if it is a streamed item
 		else {
 			Elements streamingTable = doc.select("table.bibLinks th");
-			System.out.println(streamingTable.text());
 			
 			if (streamingTable.text().equals("Available online:")){
 				this.typeOfMedia = "Streaming Video";
@@ -186,7 +186,7 @@ public class Item {
 
 		return img;
 	}
-
+	
 	// This method scales the image to the given height.
 	private ImageIcon createImageIcon(int height) {
 		ImageIcon img = createImageIcon();
@@ -197,6 +197,43 @@ public class Item {
 		
 		return resizedImg;
 	}
+	
+	// Method that retrieves all the information on the webpage
+	// multi-dimentional array 
+	public ArrayList<ArrayList<String>> getAllWebpageInformation(){
+		
+		ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+		
+		Document doc = null;
+		try {
+			doc = Jsoup.connect(url).get();
+		} catch (IOException e) {
+			e.printStackTrace();
+			// return empty array?
+		}
+		
+		System.out.println(doc.select("table.bibDetail table tbody tr"));
+		
+		Elements labelInfoPairs = doc.select("table.bibDetail table tbody tr");
+		
+		for (Element tr : labelInfoPairs){
+			Elements td = tr.select("td");
+		
+			ArrayList<String> pair = new ArrayList<String>();
+			
+			pair.add(td.get(0).text());
+			pair.add(td.get(1).text());
+			
+			data.add(pair);
+			
+		}
+		
+		System.out.println(data.toString());
+		
+		return data;
+	}
+	
+	
 	public ImageIcon getMedImgIcon() {
 		return this.medImg;
 	}

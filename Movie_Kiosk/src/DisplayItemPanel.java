@@ -9,9 +9,13 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class DisplayItemPanel extends JPanel{
 	
+	private Item i;
+	
 	public DisplayItemPanel(Item i){
 		this.setBorder(BorderFactory.createEmptyBorder());
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.i = i;
+		
 		
 		JLabel cover = new JLabel(i.getMedImgIcon());
 		cover.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -29,6 +33,10 @@ public class DisplayItemPanel extends JPanel{
 		this.add(accessionNum);
 
 		
+	}
+	
+	public Item getItem(){	
+		return this.i;
 	}
 
 }

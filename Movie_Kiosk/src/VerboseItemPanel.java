@@ -18,9 +18,13 @@ public class VerboseItemPanel extends JPanel{
 		JLabel accessionNum = new JLabel(i.getCallNumberString());
 		accessionNum.setFont(Globals.SMALL_TEXT);
 		accessionNum.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+				
 		this.add(cover);
 		this.add(name);
 		this.add(accessionNum);
+		
+		i.getAllWebpageInformation();
+
+		
 	}
 }

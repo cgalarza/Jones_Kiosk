@@ -3,6 +3,8 @@ import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,29 +21,24 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 @SuppressWarnings("serial")
-public class PromotionPanel extends JPanel implements ActionListener {
+public class PromotionPanel extends JPanel implements ActionListener, MouseListener{
 
 	private final String FILE_EXTENTION = ".jpg";
-	private final String PATH_DISPLAY_MOVIES = "/Users/carlagalarza/Pictures/Display_Movies/";
 	private final String DISPLAY_MOVIES_FILE = "/Users/carlagalarza/Desktop/display_movies";
 	private final int SPEED = 3000;
-	private JButton next;
-	private JButton previous;
+	private JButton next, previous, back;
 	private Timer timer;
-	private JPanel rotatingPanel;
+	private JPanel rotatingPanel, centerPanel;
 
 	private ArrayList<Item> promotionalMovies;
 
-	private int current; // Counter that represents the first movie to be
-							// displayed
+	private int current; // Counter that represents the first movie to be displayed
 	private int total;
 
 	/*
 	 * Constructor
 	 */
 	public PromotionPanel() {
-
-		this.setLayout(new BorderLayout());
 
 		File f = new File(DISPLAY_MOVIES_FILE);
 		promotionalMovies = new ArrayList<Item>();
@@ -87,11 +84,22 @@ public class PromotionPanel extends JPanel implements ActionListener {
 		previous.setContentAreaFilled(false);
 		previous.addActionListener(this);
 
-		this.add(previous, BorderLayout.WEST);
-		this.add(next, BorderLayout.EAST);
-		this.add(displayTitle, BorderLayout.NORTH);
-		this.add(rotatingPanel, BorderLayout.CENTER);
+		
+		centerPanel = new JPanel();
+		centerPanel.setLayout(new BorderLayout());
+		centerPanel.add(previous, BorderLayout.WEST);
+		centerPanel.add(next, BorderLayout.EAST);
+		centerPanel.add(displayTitle, BorderLayout.NORTH);
+		centerPanel.add(rotatingPanel, BorderLayout.CENTER);
+		centerPanel.addMouseListener(this);
+		
+		this.setLayout(new CardLayout());
+		
+		this.add(centerPanel, "Promo_Movies");
 
+		CardLayout cl = (CardLayout) (this.getLayout());
+		cl.show(this, "Promo_Movies");
+		
 		// Set up timer for automatic card flipping
 		timer = new Timer(SPEED, this);
 		timer.start();
@@ -105,8 +113,9 @@ public class PromotionPanel extends JPanel implements ActionListener {
 
 			if (counter == total) 
 				counter = 0;
-			
-			panel.add(new DisplayItemPanel(promotionalMovies.get(counter)));
+			JPanel displayItem = new DisplayItemPanel(promotionalMovies.get(counter));
+			displayItem.addMouseListener(this);
+			panel.add(displayItem);
 		}
 		
 		return panel;
@@ -119,12 +128,12 @@ public class PromotionPanel extends JPanel implements ActionListener {
 				current++;
 			else
 				current = 0;
-			BorderLayout layout = (BorderLayout) this.getLayout();
-			this.remove(layout.getLayoutComponent(BorderLayout.CENTER));
+			BorderLayout layout = (BorderLayout) centerPanel.getLayout();
+			centerPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
 			
 			rotatingPanel = createRotatingMoviesPanel();
-			this.add(rotatingPanel, BorderLayout.CENTER);
-			this.validate();
+			centerPanel.add(rotatingPanel, BorderLayout.CENTER);
+			centerPanel.validate();
 
 			timer.restart();
 		}
@@ -135,13 +144,51 @@ public class PromotionPanel extends JPanel implements ActionListener {
 			else
 				current--;
 			
-			BorderLayout layout = (BorderLayout) this.getLayout();
-			this.remove(layout.getLayoutComponent(BorderLayout.CENTER));
+			BorderLayout layout = (BorderLayout) centerPanel.getLayout();
+			centerPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
 			
 			rotatingPanel = createRotatingMoviesPanel();
-			this.add(rotatingPanel, BorderLayout.CENTER);
-			this.validate();
+			centerPanel.add(rotatingPanel, BorderLayout.CENTER);
+			centerPanel.validate();
 			timer.restart();
 		}
+		else if (e.getSource() == back){
+			CardLayout cl = (CardLayout) (this.getLayout());
+			cl.show(this, "Promo_Movies");
+		}
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (e.getSource().getClass() == DisplayItemPanel.class){
+			DisplayItemPanel panelClicked = (DisplayItemPanel) e.getSource();
+			System.out.println(panelClicked.getItem().getTitle());
+			
+			JPanel verboseMovieDisplay = new VerboseItemPanel(panelClicked.getItem());
+			back = new JButton("Back");
+			back.addActionListener(this);
+			
+			JPanel verbosePanel = new JPanel();
+			verbosePanel.add(back);
+
+			verbosePanel.add(verboseMovieDisplay);
+			
+			this.add(verbosePanel, "Verbose_Description");
+			
+			CardLayout cl = (CardLayout) (this.getLayout());
+			cl.show(this, "Verbose_Description");
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {}
 }

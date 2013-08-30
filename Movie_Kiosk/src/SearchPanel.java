@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -43,8 +44,21 @@ public class SearchPanel extends JPanel implements ActionListener {
 		movies.setLayout(new CardLayout());
 
 		this.searchResults = new ArrayList<Item>();
+		
+		String firstUrlPart = "http://libcat.dartmouth.edu/search/X?SEARCH=";
+		String secondUrlPart = "&searchscope=4&SORT=D&Da=&Db=&p=";
 
-		if (performSearch(searchTerm)) {
+		String[] words = searchTerm.split(" ");
+		String formatedSearchTerm = "";
+
+		for (String s : words) {
+			formatedSearchTerm = formatedSearchTerm.concat(s + "+");
+		}
+
+		String completeURL = firstUrlPart + formatedSearchTerm + secondUrlPart;
+		
+		
+		if (performSearch(completeURL)) {
 			retrieveSearchResults(currentPage);
 			displayResults();
 			createNavigationBar();
@@ -57,23 +71,32 @@ public class SearchPanel extends JPanel implements ActionListener {
 		}
 
 	}
+	
+	public SearchPanel(URL url){
+		this.setLayout(new BorderLayout());
+		movies = new JPanel();
+		movies.setLayout(new CardLayout());
 
-	public boolean performSearch(String searchTerm) {
-		String firstUrlPart = "http://libcat.dartmouth.edu/search/X?SEARCH=";
-		String secondUrlPart = "&searchscope=4&SORT=D&Da=&Db=&p=";
+		this.searchResults = new ArrayList<Item>();
 
-		String[] words = searchTerm.split(" ");
-		String formatedSearchTerm = "";
-
-		for (String s : words) {
-			formatedSearchTerm = formatedSearchTerm.concat(s + "+");
+		if (performSearch(url.toString())) {
+			retrieveSearchResults(currentPage);
+			displayResults();
+			createNavigationBar();
+			// Adding JPanel which contains movies found as search results
+			// and a navigation bar at the bottom.
+			this.add(movies, BorderLayout.CENTER);
+			this.add(navigationBar, BorderLayout.SOUTH);
+		} else {
+			this.add(new JLabel("No results were found."), BorderLayout.NORTH);
 		}
+	}
 
-		String completeURL = firstUrlPart + formatedSearchTerm + secondUrlPart;
-
+	public boolean performSearch(String url) {
+		
 		Document doc = null;
 		try {
-			doc = Jsoup.connect(completeURL).get();
+			doc = Jsoup.connect(url).get();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -89,7 +112,7 @@ public class SearchPanel extends JPanel implements ActionListener {
 			if (Integer.parseInt(entriesFoundTokens[0]) == 1) {
 				links = new Elements();
 				Attributes attr = new Attributes();
-				attr.put("href", completeURL);
+				attr.put("href", url);
 				links.add(new Element(Tag.valueOf("a"), HOMEPAGE_URL, attr));
 			} else {
 
