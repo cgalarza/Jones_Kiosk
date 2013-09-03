@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
@@ -26,6 +24,22 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 	private final String NEW_MOVIES = "New Movies";
 	private final String SEARCH_MOVIES = "Search Movies";
+	private final String ANIMATION_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Animated%20films%20and%20branch:branchbajmz";
+	private final String HORROR_SEARCH = "http://libcat.dartmouth.edu/search/X?s:horror%20films%20and%20branch:branchbajmz";
+	private final String WESTERN_SEARCH = "http://libcat.dartmouth.edu/search/X?s:western*%20and%20branch:branchbajmz";
+	private final String MUSICAL_SEARCH = "http://libcat.dartmouth.edu/search/X?s:musical%20films%20and%20branch:branchbajmz";
+	private final String MYSTERY_SEARCH = "http://libcat.dartmouth.edu/search/X?s:mystery%20films%20and%20branch:branchbajmz";
+	private final String SHORT_FILMS_SEARCH = "http://libcat.dartmouth.edu/search/X?s:short%20films%20and%20branch:branchbajmz";
+	private final String SCIENCE_FICTION_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Science%20Fiction%20and%20branch:branchbajmz";
+	private final String ADVENTURE_SEARCH = "http://libcat.dartmouth.edu/search/X?s:adventure%20films%20and%20branch:branchbajmz";
+	private final String DRAMA_SEARCH = "http://libcat.dartmouth.edu/search/X?s:drama%20films%20and%20branch:branchbajmz";
+	private final String CHILDREN_SEARCH = "http://libcat.dartmouth.edu/search~S1?/Xs:children%27s%20films%20and%20branch:branchbajmz";
+	private final String TELEVISION_PROGRAM_SEARCH = "http://libcat.dartmouth.edu/search~S4?/dTelevision+programs./dtelevision+programs/-3%2C-1%2C0%2CB/exact&FF=dtelevision+programs&1%2C165%2C";
+	private final String DOCUMENTARY_SEARCH = "http://libcat.dartmouth.edu/search/X?s:documentary%20films%20and%20branch:branchbajmz";
+	private final String COMEDY_SEARCH = "http://libcat.dartmouth.edu/search/X?s:comedy%20films%20and%20branch:branchbajmz";
+	private final String WAR_SEARCH = "http://libcat.dartmouth.edu/search/X?s:war%20films%20and%20branch:branchbajmz";
+	private final String CRIME_SEARCH = "http://libcat.dartmouth.edu/search/X?s:crime%20films%20and%20branch:branchbajmz";
+	
 	private JPanel bottom, searchMovies;
 	private JButton searchButton, logo;
 	private JPanel genreButtons;
@@ -249,38 +263,70 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	
 
 	/*
-	 * Method that waits for the search button or the logo to be pressed. When
-	 * one of these buttons are pressed the corresponding card in the CardLayout
-	 * is shown.
+	 * Method that waits for the search button, the logo or the genre buttons to 
+	 * be clicked. When one of these buttons are pressed the corresponding card 
+	 * in the CardLayout is shown.
 	 * 
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == searchButton || e.getSource() == searchBar) {
+		CardLayout cards = (CardLayout) (bottom.getLayout()); // gets cardLayout needed to switch cards
+
+		if (e.getSource() == logo) {
+			cards.show(bottom, NEW_MOVIES);
+			searchBar.setText("Search the Jones Media Collection");
+		} else if (e.getSource() == searchButton || e.getSource() == searchBar) {
 			// Lets the user know that their request has been received
 			searchMovies = new SearchPanel(searchBar.getText());
 			bottom.add(searchMovies, SEARCH_MOVIES);
-			CardLayout cards = (CardLayout) (bottom.getLayout());
 			cards.show(bottom, SEARCH_MOVIES);
-		} else if (e.getSource() == logo) {
-			CardLayout cards = (CardLayout) (bottom.getLayout());
-			cards.show(bottom, NEW_MOVIES);
-			searchBar.setText("Search the Jones Media Collection");
-		} else if (e.getSource() == animation){
-			// webpage: http://libcat.dartmouth.edu/search/X?s:Animated%20films%20and%20branch:branchbaj**
+		} else { //assume its a genre button and based on which button was clicked create the correct searchPanel
 			
 			try {
-				searchMovies = new SearchPanel(new URL("http://libcat.dartmouth.edu/search/X?s:Animated%20films%20and%20branch:branchbaj**"));
+				
+				if (e.getSource() == animation)
+					searchMovies = new SearchPanel(new URL(ANIMATION_SEARCH));
+				else if (e.getSource() == horror)
+					searchMovies = new SearchPanel(new URL(HORROR_SEARCH));
+				else if (e.getSource() == western)
+					searchMovies = new SearchPanel(new URL(WESTERN_SEARCH));
+				else if (e.getSource() == musical)
+					searchMovies = new SearchPanel(new URL(MUSICAL_SEARCH));
+				else if (e.getSource() == mystery)
+					searchMovies = new SearchPanel(new URL(MYSTERY_SEARCH));
+				else if (e.getSource() == shortFilms)
+					searchMovies = new SearchPanel(new URL(SHORT_FILMS_SEARCH));
+				else if (e.getSource() == scienceFiction)
+					searchMovies = new SearchPanel(new URL(SCIENCE_FICTION_SEARCH));
+				else if (e.getSource() == adventure)
+					searchMovies = new SearchPanel(new URL(ADVENTURE_SEARCH));
+				else if (e.getSource() == drama)
+					searchMovies = new SearchPanel(new URL(DRAMA_SEARCH));
+				else if (e.getSource() == children)
+					searchMovies = new SearchPanel(new URL(CHILDREN_SEARCH));
+				else if (e.getSource() == televisionPrograms)
+					searchMovies = new SearchPanel(new URL(TELEVISION_PROGRAM_SEARCH));
+				else if (e.getSource() == documentary)
+					searchMovies = new SearchPanel(new URL(DOCUMENTARY_SEARCH));
+				else if (e.getSource() == comedy)
+					searchMovies = new SearchPanel(new URL(COMEDY_SEARCH));
+				else if (e.getSource() == war)
+					searchMovies = new SearchPanel(new URL(WAR_SEARCH));
+				else if (e.getSource() == crime)
+					searchMovies = new SearchPanel(new URL(CRIME_SEARCH));
+				
+				// Once searchPanel object has been created add to SEARCH_MOVIES card
+				bottom.add(searchMovies, SEARCH_MOVIES);
+				cards.show(bottom, SEARCH_MOVIES);
 				
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			}
-			bottom.add(searchMovies, SEARCH_MOVIES);
-			CardLayout cards = (CardLayout) (bottom.getLayout());
-			cards.show(bottom, SEARCH_MOVIES);
-		}
+
+		} 
+		
 	}
 
 	public void openWebpage(URL url) {

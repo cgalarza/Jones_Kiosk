@@ -78,6 +78,7 @@ public class SearchPanel extends JPanel implements ActionListener {
 		movies.setLayout(new CardLayout());
 
 		this.searchResults = new ArrayList<Item>();
+		System.out.println(url.toString());
 
 		if (performSearch(url.toString())) {
 			retrieveSearchResults(currentPage);
@@ -107,9 +108,9 @@ public class SearchPanel extends JPanel implements ActionListener {
 			return false; // if there is return false
 		else {
 
-			String[] entriesFoundTokens = doc.select("i").text().split(" ");
-
-			if (Integer.parseInt(entriesFoundTokens[0]) == 1) {
+			String[] entriesFoundTokens = doc.select("i").text().split(" ");			
+						
+			if (!entriesFoundTokens[0].equals("") && Integer.parseInt(entriesFoundTokens[0]) == 1) {
 				links = new Elements();
 				Attributes attr = new Attributes();
 				attr.put("href", url);
