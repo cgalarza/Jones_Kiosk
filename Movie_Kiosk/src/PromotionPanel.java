@@ -24,7 +24,7 @@ import javax.swing.Timer;
 public class PromotionPanel extends JPanel implements ActionListener, MouseListener{
 
 	private final String FILE_EXTENTION = ".jpg";
-	private final String DISPLAY_MOVIES_FILE = "/Users/carlagalarza/Desktop/display_movies";
+	private final String DISPLAY_MOVIES_FILE = System.getProperty("user.home") + "/Desktop/display_movies.rtf";
 	private final int SPEED = 3000;
 	private JButton next, previous, back;
 	private Timer timer;
@@ -60,6 +60,7 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 			}
 			br.close();
 		} catch (IOException e1) {
+			
 			e1.printStackTrace();
 		}
 
