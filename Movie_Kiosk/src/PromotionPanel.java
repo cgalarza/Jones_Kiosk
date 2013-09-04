@@ -69,7 +69,7 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 		rotatingPanel = createRotatingMoviesPanel();
 
 		JLabel displayTitle = new JLabel(title);
-		displayTitle.setFont(Globals.LARGE_TEXT_BOLD);
+		displayTitle.setFont(MyFont.LARGE_TEXT_BOLD);
 		displayTitle.setAlignmentX(CENTER_ALIGNMENT);
 		displayTitle.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
 

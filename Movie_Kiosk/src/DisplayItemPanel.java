@@ -20,11 +20,11 @@ public class DisplayItemPanel extends JPanel{
 		cover.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		JLabel name = new JLabel(i.getTitle());
-		name.setFont(Globals.SMALL_TEXT);
+		name.setFont(MyFont.SMALL_TEXT);
 		name.setAlignmentX(Component.CENTER_ALIGNMENT);
 	
 		JLabel accessionNum = new JLabel(Integer.toString(i.getJonesAccesionNum()));
-		accessionNum.setFont(Globals.SMALL_TEXT);
+		accessionNum.setFont(MyFont.SMALL_TEXT);
 		accessionNum.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		this.add(cover);

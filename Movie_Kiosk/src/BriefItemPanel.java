@@ -29,7 +29,7 @@ public class BriefItemPanel extends JPanel {
 		
 		JLabel title = new JLabel(i.getTitle());
 		title.setAlignmentX(LEFT_ALIGNMENT);
-		title.setFont(Globals.MEDIUM_TEXT_BOLD);
+		title.setFont(MyFont.MEDIUM_TEXT_BOLD);
 		infoPanel.add(title);
 
 		
@@ -42,13 +42,13 @@ public class BriefItemPanel extends JPanel {
 		
 			JLabel itemInfo = new JLabel(types[a] + " " + callNum[a] + ", " + status[a]);
 			itemInfo.setAlignmentX(LEFT_ALIGNMENT);
-			itemInfo.setFont(Globals.SMALL_TEXT);
+			itemInfo.setFont(MyFont.SMALL_TEXT);
 		
 			infoPanel.add(itemInfo);
 		}
 		
 		JTextArea summary = new JTextArea(i.getSummary(), 5, 20);
-		summary.setFont(Globals.SMALL_TEXT);
+		summary.setFont(MyFont.SMALL_TEXT);
 		summary.setLineWrap(true);
 		summary.setEditable(false);
 		summary.setOpaque(false);

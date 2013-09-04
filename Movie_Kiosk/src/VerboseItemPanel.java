@@ -36,13 +36,13 @@ public class VerboseItemPanel extends JPanel{
 			else
 				label = new JLabel(row.get(0));
 			label.setAlignmentX(Component.RIGHT_ALIGNMENT);
-			label.setFont(Globals.SMALL_TEXT);
+			label.setFont(MyFont.SMALL_TEXT);
 			labelPanel.add(label);
 			
 			
 			JLabel info = new JLabel(row.get(1));
 			info.setAlignmentX(Component.LEFT_ALIGNMENT);
-			info.setFont(Globals.SMALL_TEXT);
+			info.setFont(MyFont.SMALL_TEXT);
 			informationPanel.add(info);
 			
 //			JTextArea info = new JTextArea(row.get(1), 20, 20);

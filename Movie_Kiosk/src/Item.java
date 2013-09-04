@@ -12,6 +12,13 @@ import org.jsoup.select.Elements;
 
 public class Item {
 
+	// Paths to Images
+	public static final String DEFAULT_IMG_PATH = "Image_Not_Available.png";
+	public static final String NOT_AVAILABLE_AT_JONES = "Not_Available_at_Jones.png";
+	public static final String ON_RESERVE_AT_JONES = "On_Reserve_at_Jones.png";
+	public static final String BEG_DVD_PATH = System.getProperty("user.home") + "/Pictures/DVD_Large_Images/";
+	public static final String BEG_VHS_PATH = System.getProperty("user.home") + "/Pictures/VHS/";
+	
 	private String title;
 	private String[] callNumberString;
 	private String[] status;
@@ -174,32 +181,32 @@ public class Item {
 
 		// Getting image location (can be a url or a file location)
 		if (typeOfMedia[0].equals("Jones Media DVD")) {
-			File f = new File(Globals.BEG_DVD_PATH
+			File f = new File(BEG_DVD_PATH
 					+ Integer.toString(jonesAccesionNum) + ".jpg");
 			if (f.exists()) {
-				img = new ImageIcon(Globals.BEG_DVD_PATH
+				img = new ImageIcon(BEG_DVD_PATH
 						+ Integer.toString(jonesAccesionNum) + ".jpg");
 			} else
 				img = new ImageIcon(getClass().getResource(
-						Globals.DEFAULT_IMG_PATH));
+						DEFAULT_IMG_PATH));
 
 		} else if (typeOfMedia[0].equals("Jones Media Video tape")) {
-			File f = new File(Globals.BEG_VHS_PATH
+			File f = new File(BEG_VHS_PATH
 					+ Integer.toString(jonesAccesionNum) + ".jpg");
 			if (f.exists()) {
-				img = new ImageIcon(Globals.BEG_VHS_PATH
+				img = new ImageIcon(BEG_VHS_PATH
 						+ Integer.toString(jonesAccesionNum) + ".jpg");
 
 			} else
 				img = new ImageIcon(getClass().getResource(
-						Globals.DEFAULT_IMG_PATH));
+						DEFAULT_IMG_PATH));
 		} else if (typeOfMedia[0].equals("On Reserve at Jones Media")) {
 			img = new ImageIcon(getClass().getResource(
-					Globals.ON_RESERVE_AT_JONES));
+					ON_RESERVE_AT_JONES));
 
 		} else
 			img = new ImageIcon(getClass().getResource(
-					Globals.NOT_AVAILABLE_AT_JONES));
+					NOT_AVAILABLE_AT_JONES));
 
 		return img;
 	}

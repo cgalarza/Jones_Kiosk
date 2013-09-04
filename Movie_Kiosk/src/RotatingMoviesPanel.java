@@ -39,11 +39,11 @@ public class RotatingMoviesPanel extends JPanel {
 				cover.setAlignmentX(Component.CENTER_ALIGNMENT);
 				
 				JLabel name = new JLabel(names.get(i));
-				name.setFont(Globals.SMALL_TEXT);
+				name.setFont(MyFont.SMALL_TEXT);
 				name.setAlignmentX(Component.CENTER_ALIGNMENT);
 			
 				JLabel accessionNum = new JLabel(callNumbers.get(i));
-				accessionNum.setFont(Globals.SMALL_TEXT);
+				accessionNum.setFont(MyFont.SMALL_TEXT);
 				accessionNum.setAlignmentX(Component.CENTER_ALIGNMENT);
 				
 				movie.add(cover);
