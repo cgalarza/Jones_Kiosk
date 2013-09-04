@@ -27,6 +27,7 @@ public class SearchPanel extends JPanel implements ActionListener {
 
 	private ArrayList<Item> searchResults;
 	private final String HOMEPAGE_URL = "http://libcat.dartmouth.edu";
+	private final String LIMIT_SEARCH_TO_JONES = "and+branch%3Abranchbaj**+or+branch:branchrsjmc";
 	private JPanel movies, navigationBar;
 	private int totalPages = 1, currentPage = 1;
 	private Elements links; // all the links retrieved
@@ -55,7 +56,7 @@ public class SearchPanel extends JPanel implements ActionListener {
 			formatedSearchTerm = formatedSearchTerm.concat(s + "+");
 		}
 
-		String completeURL = firstUrlPart + formatedSearchTerm + secondUrlPart;
+		String completeURL = firstUrlPart + formatedSearchTerm + LIMIT_SEARCH_TO_JONES + secondUrlPart;
 		
 		
 		if (performSearch(completeURL)) {

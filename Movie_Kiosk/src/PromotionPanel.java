@@ -163,8 +163,12 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 			System.out.println(panelClicked.getItem().getTitle());
 			
 			JPanel verboseMovieDisplay = new VerboseItemPanel(panelClicked.getItem());
-			back = new JButton("Back");
+			back = new JButton(new ImageIcon(getClass().getResource("Back_Arrow.png")));
+			//back = new JButton("back");
+			back.setBorder(BorderFactory.createEmptyBorder());
+			back.setContentAreaFilled(false);
 			back.addActionListener(this);
+
 			
 			JPanel verbosePanel = new JPanel();
 			verbosePanel.add(back);
