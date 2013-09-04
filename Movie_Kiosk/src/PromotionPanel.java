@@ -171,7 +171,6 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 			
 			JPanel verbosePanel = new JPanel();
 			verbosePanel.add(back);
-
 			verbosePanel.add(verboseMovieDisplay);
 			
 			this.add(verbosePanel, "Verbose_Description");
