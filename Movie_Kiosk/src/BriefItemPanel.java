@@ -26,26 +26,26 @@ public class BriefItemPanel extends JPanel {
 		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 		infoPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
+		
 		JLabel title = new JLabel(i.getTitle());
 		title.setAlignmentX(LEFT_ALIGNMENT);
 		title.setFont(Globals.MEDIUM_TEXT_BOLD);
-		
-		JLabel type = new JLabel(i.getType());
-		type.setAlignmentX(LEFT_ALIGNMENT);
-		type.setFont(Globals.SMALL_TEXT);
-		
-		JLabel callNumber = new JLabel(i.getCallNumberString());
-		callNumber.setAlignmentX(LEFT_ALIGNMENT);
-		callNumber.setFont(Globals.SMALL_TEXT);
-		
-		JLabel status = new JLabel(i.getStatus());
-		status.setAlignmentX(LEFT_ALIGNMENT);
-		status.setFont(Globals.SMALL_TEXT);
-		
 		infoPanel.add(title);
-		infoPanel.add(type);
-		infoPanel.add(callNumber);
-		infoPanel.add(status);
+
+		
+		String[] types = i.getType();
+		String[] callNum = i.getCallNumberString();
+		String[] status = i.getStatus();
+		
+		for (int a = 0; a < types.length; a++){
+
+		
+			JLabel itemInfo = new JLabel(types[a] + " " + callNum[a] + ", " + status[a]);
+			itemInfo.setAlignmentX(LEFT_ALIGNMENT);
+			itemInfo.setFont(Globals.SMALL_TEXT);
+		
+			infoPanel.add(itemInfo);
+		}
 		
 		JTextArea summary = new JTextArea(i.getSummary(), 5, 20);
 		summary.setFont(Globals.SMALL_TEXT);

@@ -16,7 +16,6 @@ public class DisplayItemPanel extends JPanel{
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.i = i;
 		
-		
 		JLabel cover = new JLabel(i.getMedImgIcon());
 		cover.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
@@ -24,7 +23,7 @@ public class DisplayItemPanel extends JPanel{
 		name.setFont(Globals.SMALL_TEXT);
 		name.setAlignmentX(Component.CENTER_ALIGNMENT);
 	
-		JLabel accessionNum = new JLabel(i.getCallNumberString());
+		JLabel accessionNum = new JLabel(Integer.toString(i.getJonesAccesionNum()));
 		accessionNum.setFont(Globals.SMALL_TEXT);
 		accessionNum.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
