@@ -21,7 +21,6 @@ import javax.swing.Timer;
 @SuppressWarnings("serial")
 public class PromotionPanel extends JPanel implements ActionListener, MouseListener{
 
-	private final String FILE_EXTENTION = ".jpg";
 	private final String DISPLAY_MOVIES_FILE = System.getProperty("user.home") + "/Desktop/display_movies.rtf";
 	private final int SPEED = 3000;
 	private JButton next, previous, back;

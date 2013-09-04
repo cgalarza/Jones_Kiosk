@@ -215,7 +215,6 @@ public class SearchPanel extends JPanel implements ActionListener {
 			retrieveSearchResults(currentPage);
 			displayResults();
 			numberOfPages.setText("Page " + currentPage + " of " + totalPages);
-
 		}
 
 		else if ((e.getSource() == previousResults) && (currentPage > 1)) {
@@ -224,9 +223,7 @@ public class SearchPanel extends JPanel implements ActionListener {
 			cl.show(movies, "CARD_" + currentPage);
 
 			numberOfPages.setText("Page " + currentPage + " of " + totalPages);
-
 		}
-
 	}
 
 }
