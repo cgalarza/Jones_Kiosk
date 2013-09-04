@@ -1,13 +1,12 @@
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 
 @SuppressWarnings("serial")
@@ -18,57 +17,37 @@ public class VerboseItemPanel extends JPanel{
 		this.setLayout(new BorderLayout());
 		
 		JLabel cover = new JLabel(i.getMedImgIcon());
-		//cover.setAlignmentX(Component.CENTER_ALIGNMENT);
+		cover.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		this.add(cover, BorderLayout.WEST);
 		
-		JPanel labelPanel = new JPanel();
-		labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
+		String info = "<html><body><font size=\"5\"><font face=\"Corbel\">";
 
-		JPanel informationPanel = new JPanel();
-		informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.Y_AXIS));
-		
 		ArrayList<ArrayList<String>> data = i.getAllWebpageInformation();
 		for (ArrayList<String> row : data){
 			
-			JLabel label;
 			if (row.get(0).equals(""))
-				label = new JLabel(" ");
+				info = info.concat("&nbsp;&nbsp;&nbsp;&nbsp;"); // if there is no label insert a tab
 			else
-				label = new JLabel(row.get(0));
-			label.setAlignmentX(Component.RIGHT_ALIGNMENT);
-			label.setFont(MyFont.SMALL_TEXT);
-			labelPanel.add(label);
+				info = info.concat("<b>" + row.get(0) + ": </b>");
 			
-			
-			JLabel info = new JLabel(row.get(1));
-			info.setAlignmentX(Component.LEFT_ALIGNMENT);
-			info.setFont(MyFont.SMALL_TEXT);
-			informationPanel.add(info);
-			
-//			JTextArea info = new JTextArea(row.get(1), 20, 20);
-//			info.setFont(Globals.SMALL_TEXT);
-//			info.setLineWrap(true);
-//			info.setEditable(false);
-//			info.setOpaque(false);
-//			info.setWrapStyleWord(true);
-//			info.setAlignmentX(LEFT_ALIGNMENT);
-//			informationPanel.add(info);
-
+			info = info.concat(row.get(1) +"<br /><br />");	
 		}
 		
-//		JLabel name = new JLabel(i.getTitle());
-//		name.setFont(Globals.SMALL_TEXT);
-//		name.setAlignmentX(Component.CENTER_ALIGNMENT);
-//	
-//		JLabel accessionNum = new JLabel(Integer.toString(i.getJonesAccesionNum()));
-//		accessionNum.setFont(Globals.SMALL_TEXT);
-//		accessionNum.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		JScrollPane scrollPane = new JScrollPane(informationPanel,  JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		//scrollPane.add(labelPanel);
-		//scrollPane.add(informationPanel);
+		info = info.concat("</font></font></body></html>");
+				
+		JTextPane text = new JTextPane();
+		text.setContentType("text/html");
+		text.setText(info);
+		text.setCaretPosition(0);
+		text.setEditable(false);
+		text.setOpaque(false);
+	
+		JScrollPane scrollPane = new JScrollPane(text);
+		scrollPane.setVerticalScrollBarPolicy(
+                javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setPreferredSize(new Dimension(800, 500));
+		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		this.add(scrollPane, BorderLayout.CENTER);
-		
 		
 	}
 }
