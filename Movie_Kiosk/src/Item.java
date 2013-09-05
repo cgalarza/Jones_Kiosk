@@ -29,7 +29,6 @@ public class Item {
 	private String url;
 	private ImageIcon smallImg; // Height of 265
 	private ImageIcon medImg;   // Height of 480
-	private ImageIcon largeImg; // Entire Image
 	public Elements labelInfoPairs;
 
 	/*
@@ -64,7 +63,6 @@ public class Item {
 		this.typeOfMedia = new String[1];
 		this.callNumberString = new String[1];
 		this.status = new String[1];
-		
 		this.title = title;
 		this.callNumberString[0] = jonesCallNumber;
 		this.url = link;
@@ -240,8 +238,6 @@ public class Item {
 		
 		labelInfoPairs = doc.select("table.bibDetail table tbody tr");
 		
-		
-		
 		for (Element tr : labelInfoPairs){
 			Elements td = tr.select("td");
 		
@@ -251,7 +247,6 @@ public class Item {
 			pair.add(td.get(1).text());
 			
 			data.add(pair);
-			
 		}
 		
 		System.out.println(data.toString());
@@ -261,6 +256,9 @@ public class Item {
 	
 	
 	public ImageIcon getMedImgIcon() {
+		if (medImg == null)
+			medImg = createImageIcon(475);
+			
 		return this.medImg;
 	}
 

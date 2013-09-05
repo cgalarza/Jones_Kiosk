@@ -68,11 +68,9 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		// Panel which contains buttons with different genres
 		genreButtons = createGenrePanel();
 
-
 		JPanel topButtons = new JPanel();
 		topButtons.add(logo);
 		topButtons.add(genreButtons);
-
 
 		// JPanel which contains text input field and a search button.
 		JPanel search = new JPanel();
@@ -100,7 +98,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		// aquisitions on the main kiosk page.
 		JPanel newMovies = new PromotionPanel();
 
-		searchMovies = new SearchPanel();
+		searchMovies = new SearchPanel("");
 
 		bottom = new JPanel();
 		bottom.setLayout(new CardLayout());
@@ -111,7 +109,6 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		this.getContentPane().add(bottom, BorderLayout.CENTER);
 		this.setBackground(Color.WHITE);
 		this.setVisible(true);
-
 	}
 
 	/**
@@ -121,13 +118,6 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	 * Heavily used the example code from the Java fullscreen tutorial and API.
 	 */
 	private void fullScreenSetUp() {
-
-		// This will be the final setup
-		// have to hide both dock and menu bar
-		// this.setUndecorated(true);
-		// this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		// this.setVisible(true);
 
 		GraphicsEnvironment env = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
@@ -324,9 +314,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			}
-
-		} 
-		
+		} 	
 	}
 
 	public void openWebpage(URL url) {

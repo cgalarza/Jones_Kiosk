@@ -1,8 +1,11 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,41 +26,38 @@ import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 
 @SuppressWarnings("serial")
-public class SearchPanel extends JPanel implements ActionListener {
+public class SearchPanel extends JPanel implements ActionListener, MouseListener {
 
-	private ArrayList<Item> searchResults;
 	private final String HOMEPAGE_URL = "http://libcat.dartmouth.edu";
-	private final String LIMIT_SEARCH_TO_JONES = "and+branch%3Abranchbaj**+or+branch:branchrsjmc";
-	private JPanel movies, navigationBar;
+	private final String LIMIT_SEARCH_TO_JONES = "and+branch%3Abranchbaj**+or+branch%3Abranchrsjmc";
+	private final String BEG_URL = "http://libcat.dartmouth.edu/search/X?SEARCH=";
+	private final String END_URL = "&searchscope=4&SORT=D&Da=&Db=&p=";
+	
+	private ArrayList<Item> searchResults;
+	private JPanel search, movies, navigationBar;
 	private int totalPages = 1, currentPage = 1;
 	private Elements links; // all the links retrieved
-	private JButton previousResults, moreResults;
+	private JButton previousResults, moreResults, back;
 	private JLabel numberOfPages;
-
-	// Default constructor
-	public SearchPanel() {
-		this.add(new JLabel("Search results for are loading..."));
-	}
-
+	
 	public SearchPanel(String searchTerm) {
-		this.setLayout(new BorderLayout());
+		this.setLayout(new CardLayout());
+		search = new JPanel();
+		search.setLayout(new BorderLayout());
 		movies = new JPanel();
 		movies.setLayout(new CardLayout());
 
 		this.searchResults = new ArrayList<Item>();
-		
-		String firstUrlPart = "http://libcat.dartmouth.edu/search/X?SEARCH=";
-		String secondUrlPart = "&searchscope=4&SORT=D&Da=&Db=&p=";
 
 		String[] words = searchTerm.split(" ");
 		String formatedSearchTerm = "";
 
-		for (String s : words) {
+		for (String s : words)
 			formatedSearchTerm = formatedSearchTerm.concat(s + "+");
-		}
-
-		String completeURL = firstUrlPart + formatedSearchTerm + LIMIT_SEARCH_TO_JONES + secondUrlPart;
 		
+		String completeURL = BEG_URL + formatedSearchTerm + LIMIT_SEARCH_TO_JONES + END_URL;
+		
+		System.out.println(completeURL);
 		
 		if (performSearch(completeURL)) {
 			retrieveSearchResults(currentPage);
@@ -65,21 +65,29 @@ public class SearchPanel extends JPanel implements ActionListener {
 			createNavigationBar();
 			// Adding JPanel which contains movies found as search results
 			// and a navigation bar at the bottom.
-			this.add(movies, BorderLayout.CENTER);
-			this.add(navigationBar, BorderLayout.SOUTH);
+			search.add(movies, BorderLayout.CENTER);
+			search.add(navigationBar, BorderLayout.SOUTH);
 		} else {
-			this.add(new JLabel("No results were found."), BorderLayout.NORTH);
+			JLabel noResults = new JLabel("No results were found.");
+			noResults.setFont(MyFont.LARGE_TEXT_BOLD);
+			noResults.setForeground(Color.RED);
+			noResults.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			
+			search.add(noResults, BorderLayout.NORTH);
 		}
+		
+		this.add(search, "Search");
+		CardLayout c1 = (CardLayout) (this.getLayout());
+		c1.show(this, "Search");
 
 	}
 	
 	public SearchPanel(URL url){
-		this.setLayout(new BorderLayout());
+		search.setLayout(new BorderLayout());
 		movies = new JPanel();
 		movies.setLayout(new CardLayout());
 
 		this.searchResults = new ArrayList<Item>();
-		System.out.println(url.toString());
 
 		if (performSearch(url.toString())) {
 			retrieveSearchResults(currentPage);
@@ -87,14 +95,25 @@ public class SearchPanel extends JPanel implements ActionListener {
 			createNavigationBar();
 			// Adding JPanel which contains movies found as search results
 			// and a navigation bar at the bottom.
-			this.add(movies, BorderLayout.CENTER);
-			this.add(navigationBar, BorderLayout.SOUTH);
+			search.add(movies, BorderLayout.CENTER);
+			search.add(navigationBar, BorderLayout.SOUTH);
 		} else {
-			this.add(new JLabel("No results were found."), BorderLayout.NORTH);
+			
+			JLabel noResults = new JLabel("No results were found.");
+			noResults.setFont(MyFont.LARGE_TEXT_BOLD);
+			noResults.setForeground(Color.RED);
+			noResults.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			
+			search.add(noResults, BorderLayout.NORTH);
 		}
 	}
 
 	public boolean performSearch(String url) {
+		
+		// Check if search term was empty return false
+		if (url.equals(BEG_URL + "+" + LIMIT_SEARCH_TO_JONES + END_URL) || 
+				url.equals(BEG_URL + LIMIT_SEARCH_TO_JONES + END_URL))
+			return false;
 		
 		Document doc = null;
 		try {
@@ -158,7 +177,10 @@ public class SearchPanel extends JPanel implements ActionListener {
 
 		// for each search result create a panel
 		for (Item a : searchResults) {
-			card.add(new BriefItemPanel(a));
+			
+			BriefItemPanel b = new BriefItemPanel(a);
+			b.addMouseListener(this);
+			card.add(b);
 		}
 		
 		// If there are less than four items displayed
@@ -169,7 +191,6 @@ public class SearchPanel extends JPanel implements ActionListener {
 			}
 		}
 		
-
 		movies.add(card, "CARD_" + currentPage);
 
 		CardLayout cl = (CardLayout) (movies.getLayout());
@@ -225,6 +246,48 @@ public class SearchPanel extends JPanel implements ActionListener {
 
 			numberOfPages.setText("Page " + currentPage + " of " + totalPages);
 		}
+		else if ((e.getSource() == back)){
+			CardLayout c1 = (CardLayout) (this.getLayout());
+			c1.show(this, "Search");
+		}
 	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (e.getSource().getClass() == BriefItemPanel.class){
+			System.out.println("Mouse clicked in a BriefItemPanel");
+			
+			BriefItemPanel panelClicked = (BriefItemPanel) e.getSource();
+			System.out.println(panelClicked.getItem().getTitle());
+			
+			JPanel verboseMovieDisplay = new VerboseItemPanel(panelClicked.getItem());
+			back = new JButton(new ImageIcon(getClass().getResource("Back_Arrow.png")));
+			//back = new JButton("back");
+			back.setBorder(BorderFactory.createEmptyBorder());
+			back.setContentAreaFilled(false);
+			back.addActionListener(this);
+
+			JPanel verbosePanel = new JPanel();
+			verbosePanel.add(back);
+			verbosePanel.add(verboseMovieDisplay);
+			
+			this.add(verbosePanel, "Verbose_Description");
+			
+			CardLayout cl = (CardLayout) (this.getLayout());
+			cl.show(this, "Verbose_Description");
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {}
 
 }

@@ -16,8 +16,11 @@ import javax.swing.JTextArea;
 @SuppressWarnings("serial")
 public class BriefItemPanel extends JPanel {
 	
+	private Item item;
+	
 	public BriefItemPanel(Item i) {
 		this.setLayout(new BorderLayout());
+		this.item = i;
 
 		// JPanel that contains all of the textual information associated with 
 		// the item.
@@ -26,12 +29,10 @@ public class BriefItemPanel extends JPanel {
 		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 		infoPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
-		
 		JLabel title = new JLabel(i.getTitle());
 		title.setAlignmentX(LEFT_ALIGNMENT);
 		title.setFont(MyFont.MEDIUM_TEXT_BOLD);
 		infoPanel.add(title);
-
 		
 		String[] types = i.getType();
 		String[] callNum = i.getCallNumberString();
@@ -39,7 +40,6 @@ public class BriefItemPanel extends JPanel {
 		
 		for (int a = 0; a < types.length; a++){
 
-		
 			JLabel itemInfo = new JLabel(types[a] + " " + callNum[a] + ", " + status[a]);
 			itemInfo.setAlignmentX(LEFT_ALIGNMENT);
 			itemInfo.setFont(MyFont.SMALL_TEXT);
@@ -70,5 +70,10 @@ public class BriefItemPanel extends JPanel {
 		this.add(imagePanel, BorderLayout.WEST);
 		this.add(infoPanel, BorderLayout.CENTER);
 
+	}
+	
+	
+	public Item getItem(){
+		return this.item;
 	}
 }
