@@ -42,7 +42,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	
 	private JPanel bottom, searchMovies;
 	private JButton searchButton, logo;
-	private JPanel genreButtons;
+	private JPanel genreButtons, newMovies;
 	private JTextField searchBar;
 	private JButton adventure, horror, western, animation, musical, mystery, shortFilms, scienceFiction;
 	private JButton drama, children, televisionPrograms, documentary, comedy, war, crime;
@@ -96,7 +96,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 		// Creating a NewMoviesPanel which will display the new
 		// aquisitions on the main kiosk page.
-		JPanel newMovies = new PromotionPanel();
+		newMovies = new PromotionPanel();
 
 		searchMovies = new SearchPanel("");
 
@@ -122,13 +122,13 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		GraphicsEnvironment env = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
 		GraphicsDevice[] devices = env.getScreenDevices();
-		boolean isFullScreen = devices[0].isFullScreenSupported();
+		boolean isFullScreen = devices[1].isFullScreenSupported();
 		setUndecorated(isFullScreen);
 		setResizable(!isFullScreen);
 
 		if (isFullScreen) {
 			// Full-screen mode
-			devices[0].setFullScreenWindow(this);
+			devices[1].setFullScreenWindow(this);
 			validate();
 		} else {
 			// Windowed mode
@@ -250,7 +250,6 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		return genreButtons;
 		
 	}
-	
 
 	/*
 	 * Method that waits for the search button, the logo or the genre buttons to 
@@ -266,6 +265,10 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 		if (e.getSource() == logo) {
 			cards.show(bottom, NEW_MOVIES);
+			// Make sure the promotional panel is flipped to the right card
+			CardLayout cl = (CardLayout) (newMovies.getLayout());
+			cl.show(newMovies, "Promo_Movies");
+			
 			searchBar.setText("Search the Jones Media Collection");
 		} else if (e.getSource() == searchButton || e.getSource() == searchBar) {
 			// Lets the user know that their request has been received
@@ -315,18 +318,6 @@ public class MovieKiosk extends JFrame implements ActionListener {
 				e1.printStackTrace();
 			}
 		} 	
-	}
-
-	public void openWebpage(URL url) {
-		Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop()
-				: null;
-		if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-			try {
-				desktop.browse(url.toURI());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	/*

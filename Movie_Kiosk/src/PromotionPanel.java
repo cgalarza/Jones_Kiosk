@@ -21,14 +21,13 @@ import javax.swing.Timer;
 @SuppressWarnings("serial")
 public class PromotionPanel extends JPanel implements ActionListener, MouseListener{
 
-	private final String DISPLAY_MOVIES_FILE = System.getProperty("user.home") + "/Desktop/display_movies.rtf";
+	private final String DISPLAY_MOVIES_FILE = System.getProperty("user.home") + "/Desktop/Promotional_Movies.txt";
 	private final int SPEED = 3000;
+	
 	private JButton next, previous, back;
 	private Timer timer;
 	private JPanel rotatingPanel, centerPanel;
-
 	private ArrayList<Item> promotionalMovies;
-
 	private int current; // Counter that represents the first movie to be displayed
 	private int total;
 
@@ -49,15 +48,15 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 			title = br.readLine();
 			br.readLine(); // Empty line after the title
 			while ((currentLine = br.readLine()) != null) {
-
 				String[] tokens = currentLine.split(", ");
-
-				Item i = new Item(tokens[0], tokens[1], tokens[2]);
+				
+				Item i = new Item(tokens[0], tokens[1]);
 				promotionalMovies.add(i);
 			}
 			br.close();
 		} catch (IOException e1) {
-			
+			e1.printStackTrace();
+		} catch (ArrayIndexOutOfBoundsException e1){
 			e1.printStackTrace();
 		}
 
@@ -68,23 +67,22 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 		JLabel displayTitle = new JLabel(title);
 		displayTitle.setFont(MyFont.LARGE_TEXT_BOLD);
 		displayTitle.setAlignmentX(CENTER_ALIGNMENT);
-		displayTitle.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+		displayTitle.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
 
 		next = new JButton(new ImageIcon(getClass().getResource(
 				"Right_Arrow.png")));
-		next.setBorder(BorderFactory.createEmptyBorder());
+		next.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
 		next.setContentAreaFilled(false);
 		next.addActionListener(this);
 
 		previous = new JButton(new ImageIcon(getClass().getResource(
 				"Left_Arrow.png")));
-		previous.setBorder(BorderFactory.createEmptyBorder());
+		previous.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 		previous.setContentAreaFilled(false);
 		previous.addActionListener(this);
 
-		
 		centerPanel = new JPanel();
-		centerPanel.setLayout(new BorderLayout());
+		centerPanel.setLayout(new BorderLayout(0,0));
 		centerPanel.add(previous, BorderLayout.WEST);
 		centerPanel.add(next, BorderLayout.EAST);
 		centerPanel.add(displayTitle, BorderLayout.NORTH);
@@ -106,12 +104,14 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 	private JPanel createRotatingMoviesPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
+		panel.setBorder(BorderFactory.createEmptyBorder());
 
 		for (int a = 0, counter = current; a < 4; a++, counter++) {
 
 			if (counter == total) 
 				counter = 0;
 			JPanel displayItem = new DisplayItemPanel(promotionalMovies.get(counter));
+			displayItem.setBorder(BorderFactory.createEmptyBorder());
 			displayItem.addMouseListener(this);
 			panel.add(displayItem);
 		}
@@ -169,7 +169,6 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 			back.setContentAreaFilled(false);
 			back.addActionListener(this);
 
-			
 			JPanel verbosePanel = new JPanel();
 			verbosePanel.add(back);
 			verbosePanel.add(verboseMovieDisplay);

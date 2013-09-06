@@ -3,11 +3,11 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-
 
 @SuppressWarnings("serial")
 public class VerboseItemPanel extends JPanel{
@@ -16,9 +16,28 @@ public class VerboseItemPanel extends JPanel{
 		this.setBorder(BorderFactory.createEmptyBorder());
 		this.setLayout(new BorderLayout());
 		
+		JPanel coverAndNumber = new JPanel();
+		coverAndNumber.setLayout(new BoxLayout(coverAndNumber, BoxLayout.Y_AXIS));
 		JLabel cover = new JLabel(i.getMedImgIcon());
-		cover.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		this.add(cover, BorderLayout.WEST);
+		cover.setAlignmentX(CENTER_ALIGNMENT);
+		cover.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+		coverAndNumber.add(cover);
+		
+		String[] types = i.getType();
+		String[] callNum = i.getCallNumberString();
+		String[] status = i.getStatus();
+		
+		for (int a = 0; a < types.length; a++){
+
+			JLabel itemInfo = new JLabel(types[a] + " " + callNum[a] + ", " + status[a]);
+			itemInfo.setAlignmentX(LEFT_ALIGNMENT);
+			itemInfo.setFont(MyFont.SMALL_TEXT);
+			itemInfo.setAlignmentX(CENTER_ALIGNMENT);
+		
+			coverAndNumber.add(itemInfo);
+		}
+		
+		this.add(coverAndNumber, BorderLayout.WEST);
 		
 		String info = "<html><body><font size=\"5\"><font face=\"Corbel\">";
 
@@ -35,6 +54,8 @@ public class VerboseItemPanel extends JPanel{
 		
 		info = info.concat("</font></font></body></html>");
 				
+		System.out.println(info);
+		
 		JTextPane text = new JTextPane();
 		text.setContentType("text/html");
 		text.setText(info);
@@ -45,7 +66,7 @@ public class VerboseItemPanel extends JPanel{
 		JScrollPane scrollPane = new JScrollPane(text);
 		scrollPane.setVerticalScrollBarPolicy(
                 javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setPreferredSize(new Dimension(800, 500));
+		scrollPane.setPreferredSize(new Dimension(900, 600));
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		this.add(scrollPane, BorderLayout.CENTER);
 		

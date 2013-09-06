@@ -23,7 +23,7 @@ public class DisplayItemPanel extends JPanel{
 		name.setFont(MyFont.SMALL_TEXT);
 		name.setAlignmentX(Component.CENTER_ALIGNMENT);
 	
-		JLabel accessionNum = new JLabel(Integer.toString(i.getJonesAccesionNum()));
+		JLabel accessionNum = new JLabel("#" + Integer.toString(i.getJonesAccesionNum()));
 		accessionNum.setFont(MyFont.SMALL_TEXT);
 		accessionNum.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
@@ -31,7 +31,15 @@ public class DisplayItemPanel extends JPanel{
 		this.add(name);
 		this.add(accessionNum);
 
-		
+		JLabel status = new JLabel();
+		if (i.getStatus().length == 1)
+			status.setText(i.getStatus()[0]);
+		else
+			status.setText(" ");
+		status.setFont(MyFont.SMALL_TEXT);
+		status.setAlignmentX(Component.CENTER_ALIGNMENT);
+		this.add(status);
+
 	}
 	
 	public Item getItem(){	

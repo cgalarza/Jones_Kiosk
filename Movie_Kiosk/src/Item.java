@@ -16,7 +16,7 @@ public class Item {
 	public static final String DEFAULT_IMG_PATH = "Image_Not_Available.png";
 	public static final String NOT_AVAILABLE_AT_JONES = "Not_Available_at_Jones.png";
 	public static final String ON_RESERVE_AT_JONES = "On_Reserve_at_Jones.png";
-	public static final String BEG_DVD_PATH = System.getProperty("user.home") + "/Pictures/DVD_Large_Images/";
+	public static final String BEG_DVD_PATH = System.getProperty("user.home") + "/Pictures/DVD/";
 	public static final String BEG_VHS_PATH = System.getProperty("user.home") + "/Pictures/VHS/";
 	
 	private String title;
@@ -28,7 +28,7 @@ public class Item {
 	private String summary;
 	private String url;
 	private ImageIcon smallImg; // Height of 265
-	private ImageIcon medImg;   // Height of 480
+	private ImageIcon medImg;   // Height of 475
 	public Elements labelInfoPairs;
 
 	/*
@@ -58,17 +58,12 @@ public class Item {
 	 * @param link url link to the correct catalog record
 	 */
 
-	public Item(String title, String jonesCallNumber, String link) {
+	public Item(String title, String link) {
 		
-		this.typeOfMedia = new String[1];
-		this.callNumberString = new String[1];
-		this.status = new String[1];
 		this.title = title;
-		this.callNumberString[0] = jonesCallNumber;
 		this.url = link;
-		this.jonesAccesionNum = Integer.parseInt(jonesCallNumber);
-		this.typeOfMedia[0] = "Jones Media DVD";
-		medImg = createImageIcon(475);
+		if (loadInformation())
+			medImg = createImageIcon(472);
 	}
 
 	/*
@@ -90,14 +85,16 @@ public class Item {
 		}
 
 		// Retrieving title of movie.
-		Elements title = doc
+		// if a title has not been set
+		if (title == null) {
+			Elements title = doc
 				.select("td.bibInfoLabel:matches(Title):not(:contains(Alternate)):not(:contains(Uniform)) + td.bibInfoData");
 
-		// Split the string in order to just get the name of the movie and not
-		// the rest of the information attached with the title.
-		String splitTitleString[] = title.text().split("\\[");
-		this.title = splitTitleString[0];
-
+			// Split the string in order to just get the name of the movie and not
+			// the rest of the information attached with the title.
+			String splitTitleString[] = title.text().split("\\[");
+			this.title = splitTitleString[0];
+		}
 		// Retrieving summary.
 		Elements summary = doc
 				.select("td.bibInfoLabel:matches(Summary) + td.bibInfoData");
@@ -173,8 +170,10 @@ public class Item {
 	 * default image is put in its place. If it isn't a part of the collection
 	 * an image that displays that it isn't part of the collection is used.
 	 */
-	private ImageIcon createImageIcon() {
 
+	
+	// This method scales the image to the given height.
+	private ImageIcon createImageIcon(int height) {
 		ImageIcon img;
 
 		// Getting image location (can be a url or a file location)
@@ -185,8 +184,7 @@ public class Item {
 				img = new ImageIcon(BEG_DVD_PATH
 						+ Integer.toString(jonesAccesionNum) + ".jpg");
 			} else
-				img = new ImageIcon(getClass().getResource(
-						DEFAULT_IMG_PATH));
+				img = new ImageIcon(getClass().getResource(DEFAULT_IMG_PATH));
 
 		} else if (typeOfMedia[0].equals("Jones Media Video tape")) {
 			File f = new File(BEG_VHS_PATH
@@ -206,18 +204,15 @@ public class Item {
 			img = new ImageIcon(getClass().getResource(
 					NOT_AVAILABLE_AT_JONES));
 
-		return img;
-	}
-	
-	// This method scales the image to the given height.
-	private ImageIcon createImageIcon(int height) {
-		ImageIcon img = createImageIcon();
+		if (height == img.getIconHeight())
+			return img;
+		else {
+			Double newWidth = ((double) height / img.getIconHeight()) * img.getIconWidth();
 
-		Double newWidth = ((double) height / img.getIconHeight()) * img.getIconWidth();
-		ImageIcon resizedImg = 
-				new ImageIcon(img.getImage().getScaledInstance(newWidth.intValue(), height, Image.SCALE_SMOOTH));
-		
-		return resizedImg;
+			ImageIcon resizedImg = 
+					new ImageIcon(img.getImage().getScaledInstance(newWidth.intValue(), height, Image.SCALE_SMOOTH));
+			return resizedImg;
+		}
 	}
 	
 	// Method that retrieves all the information on the webpage
@@ -233,9 +228,7 @@ public class Item {
 			e.printStackTrace();
 			// return empty array?
 		}
-		
-		System.out.println(doc.select("table.bibDetail table tbody tr"));
-		
+				
 		labelInfoPairs = doc.select("table.bibDetail table tbody tr");
 		
 		for (Element tr : labelInfoPairs){
@@ -248,9 +241,7 @@ public class Item {
 			
 			data.add(pair);
 		}
-		
-		System.out.println(data.toString());
-		
+				
 		return data;
 	}
 	

@@ -29,7 +29,7 @@ import org.jsoup.select.Elements;
 public class SearchPanel extends JPanel implements ActionListener, MouseListener {
 
 	private final String HOMEPAGE_URL = "http://libcat.dartmouth.edu";
-	private final String LIMIT_SEARCH_TO_JONES = "and+branch%3Abranchbaj**+or+branch%3Abranchrsjmc";
+	private final String LIMIT_SEARCH_TO_JONES = "and+(branch%3Abranchbaj**+or+branch%3Abranchrsjmc)";
 	private final String BEG_URL = "http://libcat.dartmouth.edu/search/X?SEARCH=";
 	private final String END_URL = "&searchscope=4&SORT=D&Da=&Db=&p=";
 	
@@ -83,10 +83,12 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 	}
 	
 	public SearchPanel(URL url){
+		this.setLayout(new CardLayout());
+		search = new JPanel();
 		search.setLayout(new BorderLayout());
 		movies = new JPanel();
 		movies.setLayout(new CardLayout());
-
+		
 		this.searchResults = new ArrayList<Item>();
 
 		if (performSearch(url.toString())) {
@@ -106,6 +108,10 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			
 			search.add(noResults, BorderLayout.NORTH);
 		}
+		
+		this.add(search, "Search");
+		CardLayout c1 = (CardLayout) (this.getLayout());
+		c1.show(this, "Search");
 	}
 
 	public boolean performSearch(String url) {
@@ -255,12 +261,10 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource().getClass() == BriefItemPanel.class){
-			System.out.println("Mouse clicked in a BriefItemPanel");
 			
 			BriefItemPanel panelClicked = (BriefItemPanel) e.getSource();
 			System.out.println(panelClicked.getItem().getTitle());
 			
-			JPanel verboseMovieDisplay = new VerboseItemPanel(panelClicked.getItem());
 			back = new JButton(new ImageIcon(getClass().getResource("Back_Arrow.png")));
 			//back = new JButton("back");
 			back.setBorder(BorderFactory.createEmptyBorder());
@@ -269,7 +273,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 
 			JPanel verbosePanel = new JPanel();
 			verbosePanel.add(back);
-			verbosePanel.add(verboseMovieDisplay);
+			verbosePanel.add(new VerboseItemPanel(panelClicked.getItem()));
 			
 			this.add(verbosePanel, "Verbose_Description");
 			
