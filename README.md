@@ -1,13 +1,12 @@
-Jones_Kiosk 
-Version 0.0.1
+Jones Kiosk, Version 0.0.1
 ===========
 
 Author
-------
+--------
 
-Created by Carla Galarza for the Jones Media Center (JMC), Dartmouth College.
-Carla.M.Galarza@dartmouth.edu
-September 9, 2013
+Created by Carla Galarza for the Jones Media Center (JMC), Dartmouth College. <br>
+Carla.M.Galarza@dartmouth.edu<br>
+September 9, 2013<br>
 
 
 Basic Overview and Features
@@ -17,21 +16,21 @@ This Kiosk was specifically created for the needs of the Jones Media Center. Onc
 
 Instalation Instruction
 -----------------------
-The Kiosk requires two external resources one of them is a folder containing DVD covers/images and the other is a text fils listing the promotional movies.
+The Kiosk requires two external resources one of them is a folder containing DVD covers/images and the other is a text file listing the promotional movies.
 
-~/Desktop/Promotional_Movies.txt
-  This text file should be in plain text and should list the title of the promotional movies and the promotional movies themselves. The format should be as follows. There is no limit to the number of movies that can be displayed.
+1. ~/Desktop/Promotional_Movies.txt
+
+  This text file should be in plain text and should list the title of the promotional movies and the promotional   movies themselves. There is no limit to the number of movies that can be displayed. The format should be as follows. 
   
-  ------------------------------------
+  ```
   title
   
   movie name, stable url catalog link
   movie name, stable url catalog link
   movie name, statble url catalog link
-  ------------------------------------
-  
-  Example file:
-  ------------------------------------
+  ```
+  Example:
+  ```
   Recent Acquisitions, August 2013
 
   Stoker, http://libcat.dartmouth.edu/record=b5409071~S1
@@ -46,9 +45,10 @@ The Kiosk requires two external resources one of them is a folder containing DVD
   Suits: Season 2, http://libcat.dartmouth.edu/record=b5408868~S1
   The Man with the Iron Fists, http://libcat.dartmouth.edu/record=b5409884~S1
   Elementary: Season 1, http://libcat.dartmouth.edu/record=b5420679~S4
-  -------------------------------------  
+  ```
 
-~/Pictures/DVD/
+2. ~/Pictures/DVD/
+
   This folder should contain DVD covers named corresponding to their Jones Accesion number. The extension of every file should be .jpg. The Kiosk resizes images therefore the exact size of the image doesn't matter. But it is important that the image is portrait and not landscape.
 
 Libraries Used
