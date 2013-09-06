@@ -66,8 +66,8 @@ public class VerboseItemPanel extends JPanel{
 		JScrollPane scrollPane = new JScrollPane(text);
 		scrollPane.setVerticalScrollBarPolicy(
                 javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setPreferredSize(new Dimension(900, 600));
-		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		scrollPane.setPreferredSize(new Dimension(800, 600));
+		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 5));
 		this.add(scrollPane, BorderLayout.CENTER);
 		
 	}

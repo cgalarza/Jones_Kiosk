@@ -22,8 +22,11 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class MovieKiosk extends JFrame implements ActionListener {
 
+	// Name of cards in cardLayouts.
 	private final String NEW_MOVIES = "New Movies";
 	private final String SEARCH_MOVIES = "Search Movies";
+	
+	// Canned searches for genre buttons.
 	private final String ANIMATION_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Animated%20films%20and%20branch:branchbajmz";
 	private final String HORROR_SEARCH = "http://libcat.dartmouth.edu/search/X?s:horror%20films%20and%20branch:branchbajmz";
 	private final String WESTERN_SEARCH = "http://libcat.dartmouth.edu/search/X?s:western*%20and%20branch:branchbajmz";
@@ -40,32 +43,28 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	private final String WAR_SEARCH = "http://libcat.dartmouth.edu/search/X?s:war%20films%20and%20branch:branchbajmz";
 	private final String CRIME_SEARCH = "http://libcat.dartmouth.edu/search/X?s:crime%20films%20and%20branch:branchbajmz";
 	
-	private JPanel bottom, searchMovies;
-	private JButton searchButton, logo;
-	private JPanel genreButtons, newMovies;
+	private JPanel bottom, searchMovies, genreButtons, promoPanel;
+	private JButton searchButton, logo, adventure, horror, western, animation, musical, mystery, 
+		shortFilms, scienceFiction, drama, children, televisionPrograms, documentary, comedy, war, crime;
 	private JTextField searchBar;
-	private JButton adventure, horror, western, animation, musical, mystery, shortFilms, scienceFiction;
-	private JButton drama, children, televisionPrograms, documentary, comedy, war, crime;
 
 	/*
 	 * Constructor of MovieKiosk which creates all the buttons at the top of the
-	 * screen, the search bar and a NewMoviesPanel over a SearchMoviesPanel in a
-	 * CardLayout.
+	 * screen, the search bar and a PromotionPanel over a SearchPanel 
+	 * (contained within a CardLayout).
 	 */
-	public MovieKiosk() {
+	private MovieKiosk() {
 		fullScreenSetUp();
 
-		// Jones Media Center Logo and button in the upper left
-		// hand corner of the screen. When the logo is clicked the
-		// user is directed back to the homepage with the display of
-		// movies.
-
+		// Jones Media Center logo in the upper left hand corner of the screen. 
+		// When the logo is clicked the user is directed back to the display of
+		// promotional movies.
 		logo = new JButton(new ImageIcon(getClass().getResource("Jones_Logo.png")));
 		logo.setBorder(BorderFactory.createEmptyBorder());
 		logo.setContentAreaFilled(false);
 		logo.addActionListener(this);
 
-		// Panel which contains buttons with different genres
+		// Panel which contains 15 different genre buttons.
 		genreButtons = createGenrePanel();
 
 		JPanel topButtons = new JPanel();
@@ -87,22 +86,23 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		search.add(searchBar);
 		search.add(searchButton);
 
-		// JPanel which contains both buttons to webpages at the top
-		// and the search bar panel.
+		// JPanel which contains JMC logo, genre buttons and the search 
+		// bar panel.
 		JPanel top = new JPanel();
 		top.setLayout(new BoxLayout(top, BoxLayout.Y_AXIS));
 		top.add(topButtons);
 		top.add(search);
 
-		// Creating a NewMoviesPanel which will display the new
-		// aquisitions on the main kiosk page.
-		newMovies = new PromotionPanel();
-
+		// Creating a PromotionalPanel that displays movies pre-selected and recorded
+		// in a text file.
+		promoPanel = new PromotionPanel();
+		
+		// Empty SearchPanel (hidden when the kiosk is first opened.)
 		searchMovies = new SearchPanel("");
 
 		bottom = new JPanel();
 		bottom.setLayout(new CardLayout());
-		bottom.add(newMovies, NEW_MOVIES);
+		bottom.add(promoPanel, NEW_MOVIES);
 		bottom.add(searchMovies, SEARCH_MOVIES);
 
 		this.getContentPane().add(top, BorderLayout.NORTH);
@@ -113,14 +113,13 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 	/**
 	 * Sets up the application so that it will be in full screen mode at all
-	 * times.
+	 * times. By default it selects the first screen found.
 	 * 
 	 * Heavily used the example code from the Java fullscreen tutorial and API.
 	 */
 	private void fullScreenSetUp() {
 
-		GraphicsEnvironment env = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice[] devices = env.getScreenDevices();
 		boolean isFullScreen = devices[1].isFullScreenSupported();
 		setUndecorated(isFullScreen);
@@ -137,7 +136,17 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		}
 	}
 	
+	/*
+	 * Creates the genre panel with 15 different buttons. Each buttons represents a different genre 
+	 * button and once clicked displays a canned search in a SearchPanel. 
+	 * 
+	 * Each buttons was placed by absolute positioning (no other layout allowed the flexibility needed).
+	 * 
+	 * @return JPanel panel with all genre buttons
+	 */
+	
 	private JPanel createGenrePanel(){
+		
 		JPanel genreButtons = new JPanel();
 		genreButtons.setLayout(null);
 		genreButtons.setPreferredSize(new Dimension(1223, 201));
@@ -248,7 +257,6 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		genreButtons.add(crime);
 		
 		return genreButtons;
-		
 	}
 
 	/*
@@ -264,19 +272,20 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		CardLayout cards = (CardLayout) (bottom.getLayout()); // gets cardLayout needed to switch cards
 
 		if (e.getSource() == logo) {
+			// JMC Logo is clicked.
 			cards.show(bottom, NEW_MOVIES);
 			// Make sure the promotional panel is flipped to the right card
-			CardLayout cl = (CardLayout) (newMovies.getLayout());
-			cl.show(newMovies, "Promo_Movies");
-			
+			CardLayout cl = (CardLayout) (promoPanel.getLayout());
+			cl.show(promoPanel, "Promo_Movies");
 			searchBar.setText("Search the Jones Media Collection");
 		} else if (e.getSource() == searchButton || e.getSource() == searchBar) {
-			// Lets the user know that their request has been received
+			// While typing enter was hit our the search buttons was clicked.
 			searchMovies = new SearchPanel(searchBar.getText());
 			bottom.add(searchMovies, SEARCH_MOVIES);
 			cards.show(bottom, SEARCH_MOVIES);
-		} else { //assume its a genre button and based on which button was clicked create the correct searchPanel
-			
+		} else { 
+			// Assume its a genre button and based on which button was clicked 
+			// create the correct searchPanel.
 			try {
 				
 				if (e.getSource() == animation)
@@ -321,7 +330,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	}
 
 	/*
-	 * Main method that creates the kiosk object.
+	 * Main method that creates the MovieKiosk object.
 	 */
 	public static void main(String[] args) {
 		new MovieKiosk();
