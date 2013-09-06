@@ -4,9 +4,9 @@ Jones Kiosk, Version 0.0.1
 Author
 --------
 
-Created by Carla Galarza for the Jones Media Center (JMC), Dartmouth College. <br>
+Created by Carla Galarza for the Jones Media Center (JMC), Dartmouth College.<br>
 Carla.M.Galarza@dartmouth.edu<br>
-September 9, 2013<br>
+September 9, 2013
 
 
 Basic Overview and Features
