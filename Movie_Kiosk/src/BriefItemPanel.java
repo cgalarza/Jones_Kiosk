@@ -3,27 +3,30 @@ import java.awt.Component;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
-/*
- * This class displays the information about the CatalogItem passed in the 
- * constructor.
- */
 
 @SuppressWarnings("serial")
 public class BriefItemPanel extends JPanel {
 	
 	private Item item;
 	
+	/*
+	 * Constructor of BriefItemPanel. Creates a panel that displays some of 
+	 * the information about this item.
+	 * 
+	 * Displays a small picture along with the title, type of media, call number, 
+	 * status and summary.
+	 * 
+	 * @param i item object that contains all the information about the catalog item.
+	 */
 	public BriefItemPanel(Item i) {
 		this.setLayout(new BorderLayout());
 		this.item = i;
 
-		// JPanel that contains all of the textual information associated with 
-		// the item.
+		// JPanel that contains all of the title, type of media, call number and 
+		// status associated with the item.
 		JPanel infoPanel = new JPanel();
 		infoPanel.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
@@ -38,6 +41,8 @@ public class BriefItemPanel extends JPanel {
 		String[] callNum = i.getCallNumberString();
 		String[] status = i.getStatus();
 		
+		// In case there are multiple entries for type, call number and status they 
+		// are all retrieved and added to the infoPanel.
 		for (int a = 0; a < types.length; a++){
 
 			JLabel itemInfo = new JLabel(types[a] + " " + callNum[a] + ", " + status[a]);
@@ -54,25 +59,23 @@ public class BriefItemPanel extends JPanel {
 		summary.setOpaque(false);
 		summary.setWrapStyleWord(true);
 		summary.setAlignmentX(LEFT_ALIGNMENT);
-		
 		infoPanel.add(summary);
 
 		// JPanel which displays image associated with this item
 		JPanel imagePanel = new JPanel();
-		
-		// Resize image and place in an image icon
-//		ImageIcon icon = new ImageIcon(img.getScaledInstance(
-//		img.getWidth() / 4, img.getHeight() / 4, Image.SCALE_SMOOTH));
-		ImageIcon icon = i.getImgIcon();
+		imagePanel.add(new JLabel(i.getImgIcon()));
 		imagePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		imagePanel.add(new JLabel(icon));
 		
 		this.add(imagePanel, BorderLayout.WEST);
 		this.add(infoPanel, BorderLayout.CENTER);
 
 	}
 	
-	
+	/*
+	 * Returns the item object associated with this object.
+	 * 
+	 * @returns Item item instance variable.
+	 */
 	public Item getItem(){
 		return this.item;
 	}

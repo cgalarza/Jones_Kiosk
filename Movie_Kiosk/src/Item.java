@@ -12,27 +12,26 @@ import org.jsoup.select.Elements;
 
 public class Item {
 
-	// Paths to Images
-	public static final String DEFAULT_IMG_PATH = "Image_Not_Available.png";
-	public static final String NOT_AVAILABLE_AT_JONES = "Not_Available_at_Jones.png";
-	public static final String ON_RESERVE_AT_JONES = "On_Reserve_at_Jones.png";
-	public static final String BEG_DVD_PATH = System.getProperty("user.home") + "/Pictures/DVD/";
-	public static final String BEG_VHS_PATH = System.getProperty("user.home") + "/Pictures/VHS/";
+	// Paths to Images.
+	private final String DEFAULT_IMG_PATH = "Image_Not_Available.png";
+	private final String NOT_AVAILABLE_AT_JONES = "Not_Available_at_Jones.png";
+	private final String ON_RESERVE_AT_JONES = "On_Reserve_at_Jones.png";
+	private final String BEG_DVD_PATH = System.getProperty("user.home") + "/Pictures/DVD/";
+	private final String BEG_VHS_PATH = System.getProperty("user.home") + "/Pictures/VHS/";
 	
-	private String title;
-	private String[] callNumberString;
-	private String[] status;
-	private int jonesAccesionNum; // -1 if item is not a part of the Jones
-									// VHS/DVD collection
-	private String[] typeOfMedia;
-	private String summary;
-	private String url;
+	// Heights for images.
+	private final int SMALL_HEIGHT = 265;
+	private final int MED_HEIGHT = 472;
+	
+	private String title, summary, url;
+	private String[] callNumberString, status, typeOfMedia;
+	private int jonesAccesionNum; // -1 if item is not a part of the Jones VHS/DVD collection
 	private ImageIcon smallImg; // Height of 265
 	private ImageIcon medImg;   // Height of 475
 	public Elements labelInfoPairs;
 
 	/*
-	 * Using the catalog link information is retrieved and stored in this
+	 * Using the catalog link the items information is retrieved and stored in this
 	 * object.
 	 * 
 	 * @param link Catalog link
@@ -42,28 +41,28 @@ public class Item {
 		// If there isn't a problem loading the information
 		// then get the image that corresponds with the item.
 		if (loadInformation())
-			smallImg = createImageIcon(265);
+			smallImg = createImageIcon(SMALL_HEIGHT);
 	}
 
 	/*
 	 * Constructor specifically for items that are going to be displayed 
-	 * on the promotional screen. The information for each is pulled from
-	 * a text document and then that information is sent to this constructor
-	 * in order to create a Item object.
+	 * on the promotional screen. 
+	 * 
+	 * The information for each is pulled from a text document and then that 
+	 * information is sent to this constructor in order to create an Item 
+	 * object. NOTE: The title is no retrieved from the catalog page, the 
+	 * title given in this constructor is the one used.
 	 * 
 	 * @param title Title of movie
 	 * 
-	 * @param jonesCallNumber Jones accession number
-	 * 
 	 * @param link url link to the correct catalog record
 	 */
-
 	public Item(String title, String link) {
 		
 		this.title = title;
 		this.url = link;
 		if (loadInformation())
-			medImg = createImageIcon(472);
+			medImg = createImageIcon(MED_HEIGHT);
 	}
 
 	/*
@@ -84,8 +83,7 @@ public class Item {
 			return false;
 		}
 
-		// Retrieving title of movie.
-		// if a title has not been set
+		// If a title has not been set, retrieving the title of the item.
 		if (title == null) {
 			Elements title = doc
 				.select("td.bibInfoLabel:matches(Title):not(:contains(Alternate)):not(:contains(Uniform)) + td.bibInfoData");
@@ -101,7 +99,7 @@ public class Item {
 		this.summary = summary.text();
 
 		// Retrieves the table on the webpage that displays the type of media,
-		// accession number and availability.
+		// call number and availability.
 		Elements table = doc.select("tr.bibItemsEntry");
 				
 		// If a table is not empty then retrieve the information
@@ -127,7 +125,10 @@ public class Item {
 						.replace(String.valueOf((char) 160), " ").trim();
 			}
 		}
-		//if it is empty check to see if it is a streamed item
+		
+		// If it is empty check to see if it is a streamed item.
+		// NOTE: This bit of code may no longer be necessary because the search is 
+		// limited to items at the Jones Media Center.
 		else {
 			Elements streamingTable = doc.select("table.bibLinks th");
 			
@@ -149,6 +150,7 @@ public class Item {
 		// If item is part of the Jones Media Collection, then its accession
 		// number is retrieved. If it is not part of the collection the
 		// accession number is set to -1.
+		// NOTE: May be no longer necessary
 		this.jonesAccesionNum = -1;
 		for (int i = 0; i < typeOfMedia.length; i++){	
 			if (typeOfMedia[i].equals("Jones Media DVD")
@@ -168,16 +170,20 @@ public class Item {
 	 * 
 	 * If there isn't an image available and it's a part of the collection a
 	 * default image is put in its place. If it isn't a part of the collection
-	 * an image that displays that it isn't part of the collection is used.
+	 * an image that displays that it isn't part of the collection is used. The 
+	 * image is also resized to the height given.
+	 * 
+	 * @param height height the ImageIcon should be when it is returned
+	 * 
+	 * @return ImageIcon image returned as an imageIcon
+	 * 
 	 */
-
-	
-	// This method scales the image to the given height.
 	private ImageIcon createImageIcon(int height) {
 		ImageIcon img;
 
-		// Getting image location (can be a url or a file location)
+		// Getting image location
 		if (typeOfMedia[0].equals("Jones Media DVD")) {
+			// If Jones DVD
 			File f = new File(BEG_DVD_PATH
 					+ Integer.toString(jonesAccesionNum) + ".jpg");
 			if (f.exists()) {
@@ -187,6 +193,7 @@ public class Item {
 				img = new ImageIcon(getClass().getResource(DEFAULT_IMG_PATH));
 
 		} else if (typeOfMedia[0].equals("Jones Media Video tape")) {
+			// If Jones VHS
 			File f = new File(BEG_VHS_PATH
 					+ Integer.toString(jonesAccesionNum) + ".jpg");
 			if (f.exists()) {
@@ -197,13 +204,17 @@ public class Item {
 				img = new ImageIcon(getClass().getResource(
 						DEFAULT_IMG_PATH));
 		} else if (typeOfMedia[0].equals("On Reserve at Jones Media")) {
+			// If on reserve at Jones
 			img = new ImageIcon(getClass().getResource(
 					ON_RESERVE_AT_JONES));
 
 		} else
+			// otherwise not available at Jones
 			img = new ImageIcon(getClass().getResource(
 					NOT_AVAILABLE_AT_JONES));
 
+		// Resize image according to the height given. If the height given
+		// is equal to the size of the image don't resize.
 		if (height == img.getIconHeight())
 			return img;
 		else {
@@ -214,9 +225,13 @@ public class Item {
 			return resizedImg;
 		}
 	}
-	
-	// Method that retrieves all the information on the webpage
-	// multi-dimentional array 
+
+	/*
+	 * Method that retrieves all the information on the catalog web page 
+	 * and saves it in a multidimensional ArrayList.
+	 * 
+	 * @return ArrayList<ArrayList<String>> contains all the information on the catalog web page as label, value pairs
+	 */
 	public ArrayList<ArrayList<String>> getAllWebpageInformation(){
 		
 		ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
@@ -245,18 +260,24 @@ public class Item {
 		return data;
 	}
 	
-	
+	/*
+	 * Method that returns a medium sized ImageIcon. If the icon has not 
+	 * been previously created, it creates it.
+	 * 
+	 * @returns ImageIcon corresponding medium sized image of item
+	 * 
+	 */
 	public ImageIcon getMedImgIcon() {
 		if (medImg == null)
-			medImg = createImageIcon(475);
+			medImg = createImageIcon(MED_HEIGHT);
 			
 		return this.medImg;
 	}
 
 	/*
-	 * Returns imageIcon.
+	 * Returns small ImageIcon.
 	 * 
-	 * @return ImageIcon of the movie
+	 * @return ImageIcon corresponding small sized image of item
 	 */
 	public ImageIcon getImgIcon() {
 		return this.smallImg;
@@ -272,36 +293,49 @@ public class Item {
 	}
 
 	/*
-	 * Returns type of media (Jones Media DVD, Jones Media Video tape, Paddock
+	 * Returns type of media(s) (Jones Media DVD, Jones Media Video tape, Paddock
 	 * DVD, etc).
 	 * 
-	 * @return String type of library item
+	 * @return String[] type of library item
 	 */
 	public String[] getType() {
 		return this.typeOfMedia;
 	}
 
 	/*
-	 * Returns the items call number.
+	 * Returns the item's call number or call numbers (if applicable).
 	 * 
-	 * @return string call number of item
+	 * @return String[] call number(s) of item
 	 */
 	public String[] getCallNumberString() {
 		return this.callNumberString;
 	}
 
 	/*
-	 * Returns the status of the item.
+	 * Returns the item's status or statuses (if applicable).
 	 * 
-	 * @return String status of item
+	 * @return String[] status of item
 	 */
 	public String[] getStatus() {
 		return this.status;
 	}
 
+	
+	/*
+	 * Returns item's summary.
+	 * 
+	 * @returns String summary of item.
+	 */
 	public String getSummary() {
 		return this.summary;
 	}
+	
+	/* 
+	 * Returns Jones accession number. If not an item at Jones, accesion number is set to -1.
+	 * 
+	 * @returns int Jones accesion number
+	 * 
+	 */
 	
 	public int getJonesAccesionNum(){
 		return this.jonesAccesionNum;

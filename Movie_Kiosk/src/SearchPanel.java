@@ -28,10 +28,15 @@ import org.jsoup.select.Elements;
 @SuppressWarnings("serial")
 public class SearchPanel extends JPanel implements ActionListener, MouseListener {
 
+	// Parts of search URL.
 	private final String HOMEPAGE_URL = "http://libcat.dartmouth.edu";
 	private final String LIMIT_SEARCH_TO_JONES = "and+(branch%3Abranchbaj**+or+branch%3Abranchrsjmc)";
 	private final String BEG_URL = "http://libcat.dartmouth.edu/search/X?SEARCH=";
 	private final String END_URL = "&searchscope=4&SORT=D&Da=&Db=&p=";
+	
+	// Name of cards in CardLayout.
+	private final String SEARCH_CARD = "Search";
+	private final String VERBOSE_CARD = "Verbose_Description";
 	
 	private ArrayList<Item> searchResults;
 	private JPanel search, movies, navigationBar;
@@ -40,10 +45,18 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 	private JButton previousResults, moreResults, back;
 	private JLabel numberOfPages;
 	
+	/*
+	 * Constructor of SearchPanel 
+	 * 
+	 * @param searchTerm search term entered in by the user
+	 */
+	
 	public SearchPanel(String searchTerm) {
 		this.setLayout(new CardLayout());
+		
 		search = new JPanel();
 		search.setLayout(new BorderLayout());
+		
 		movies = new JPanel();
 		movies.setLayout(new CardLayout());
 
@@ -56,9 +69,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			formatedSearchTerm = formatedSearchTerm.concat(s + "+");
 		
 		String completeURL = BEG_URL + formatedSearchTerm + LIMIT_SEARCH_TO_JONES + END_URL;
-		
-		System.out.println(completeURL);
-		
+				
 		if (performSearch(completeURL)) {
 			retrieveSearchResults(currentPage);
 			displayResults();
@@ -76,9 +87,9 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			search.add(noResults, BorderLayout.NORTH);
 		}
 		
-		this.add(search, "Search");
+		this.add(search, SEARCH_CARD);
 		CardLayout c1 = (CardLayout) (this.getLayout());
-		c1.show(this, "Search");
+		c1.show(this, SEARCH_CARD);
 
 	}
 	
@@ -109,9 +120,9 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			search.add(noResults, BorderLayout.NORTH);
 		}
 		
-		this.add(search, "Search");
+		this.add(search, SEARCH_CARD);
 		CardLayout c1 = (CardLayout) (this.getLayout());
-		c1.show(this, "Search");
+		c1.show(this, SEARCH_CARD);
 	}
 
 	public boolean performSearch(String url) {
@@ -254,7 +265,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		}
 		else if ((e.getSource() == back)){
 			CardLayout c1 = (CardLayout) (this.getLayout());
-			c1.show(this, "Search");
+			c1.show(this, SEARCH_CARD);
 		}
 	}
 	
@@ -263,7 +274,6 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		if (e.getSource().getClass() == BriefItemPanel.class){
 			
 			BriefItemPanel panelClicked = (BriefItemPanel) e.getSource();
-			System.out.println(panelClicked.getItem().getTitle());
 			
 			back = new JButton(new ImageIcon(getClass().getResource("Back_Arrow.png")));
 			//back = new JButton("back");
@@ -275,10 +285,10 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			verbosePanel.add(back);
 			verbosePanel.add(new VerboseItemPanel(panelClicked.getItem()));
 			
-			this.add(verbosePanel, "Verbose_Description");
+			this.add(verbosePanel, VERBOSE_CARD);
 			
 			CardLayout cl = (CardLayout) (this.getLayout());
-			cl.show(this, "Verbose_Description");
+			cl.show(this, VERBOSE_CARD);
 		}
 	}
 
