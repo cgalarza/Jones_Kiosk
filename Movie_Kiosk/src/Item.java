@@ -54,7 +54,6 @@ public class Item {
 	 * title given in this constructor is the one used.
 	 * 
 	 * @param title Title of movie
-	 * 
 	 * @param link url link to the correct catalog record
 	 */
 	public Item(String title, String link) {
@@ -174,8 +173,7 @@ public class Item {
 	 * image is also resized to the height given.
 	 * 
 	 * @param height height the ImageIcon should be when it is returned
-	 * 
-	 * @return ImageIcon image returned as an imageIcon
+	 * @return image returned as an ImageIcon
 	 * 
 	 */
 	private ImageIcon createImageIcon(int height) {
@@ -230,7 +228,7 @@ public class Item {
 	 * Method that retrieves all the information on the catalog web page 
 	 * and saves it in a multidimensional ArrayList.
 	 * 
-	 * @return ArrayList<ArrayList<String>> contains all the information on the catalog web page as label, value pairs
+	 * @return ArrayList<ArrayList<String>> which contains all the information on the catalog web page as label, value pairs
 	 */
 	public ArrayList<ArrayList<String>> getAllWebpageInformation(){
 		
@@ -264,8 +262,7 @@ public class Item {
 	 * Method that returns a medium sized ImageIcon. If the icon has not 
 	 * been previously created, it creates it.
 	 * 
-	 * @returns ImageIcon corresponding medium sized image of item
-	 * 
+	 * @returns a medium-sized ImageIcon
 	 */
 	public ImageIcon getMedImgIcon() {
 		if (medImg == null)
@@ -277,7 +274,7 @@ public class Item {
 	/**
 	 * Returns small ImageIcon.
 	 * 
-	 * @return ImageIcon corresponding small sized image of item
+	 * @return small ImageIcon
 	 */
 	public ImageIcon getImgIcon() {
 		return this.smallImg;
@@ -286,7 +283,7 @@ public class Item {
 	/**
 	 * Returns title of movie.
 	 * 
-	 * @return String title of movie
+	 * @return title of movie
 	 */
 	public String getTitle() {
 		return this.title;
@@ -296,7 +293,7 @@ public class Item {
 	 * Returns type of media(s) (Jones Media DVD, Jones Media Video tape, Paddock
 	 * DVD, etc).
 	 * 
-	 * @return String[] type of library item
+	 * @return type(s) of library item
 	 */
 	public String[] getType() {
 		return this.typeOfMedia;
@@ -305,7 +302,7 @@ public class Item {
 	/**
 	 * Returns the item's call number or call numbers (if applicable).
 	 * 
-	 * @return String[] call number(s) of item
+	 * @return call number(s) of item
 	 */
 	public String[] getCallNumberString() {
 		return this.callNumberString;
@@ -314,7 +311,7 @@ public class Item {
 	/**
 	 * Returns the item's status or statuses (if applicable).
 	 * 
-	 * @return String[] status of item
+	 * @return status(es) of item
 	 */
 	public String[] getStatus() {
 		return this.status;
@@ -324,7 +321,7 @@ public class Item {
 	/**
 	 * Returns item's summary.
 	 * 
-	 * @returns String summary of item.
+	 * @returns Summary of item.
 	 */
 	public String getSummary() {
 		return this.summary;
@@ -333,8 +330,7 @@ public class Item {
 	/**
 	 * Returns Jones accession number. If not an item at Jones, accesion number is set to -1.
 	 * 
-	 * @returns int Jones accesion number
-	 * 
+	 * @returns Jones accesion number
 	 */
 	public int getJonesAccesionNum(){
 		return this.jonesAccesionNum;

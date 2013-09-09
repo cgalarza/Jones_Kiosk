@@ -74,7 +74,7 @@ public class BriefItemPanel extends JPanel {
 	/**
 	 * Returns the item object associated with this object.
 	 * 
-	 * @returns Item item instance variable.
+	 * @returns Item instance variable.
 	 */
 	public Item getItem(){
 		return this.item;

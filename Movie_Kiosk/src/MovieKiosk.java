@@ -141,7 +141,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	 * 
 	 * Each buttons was placed by absolute positioning (no other layout allowed the flexibility needed).
 	 * 
-	 * @return JPanel panel with all genre buttons
+	 * @return JPanel with all genre buttons
 	 */
 	
 	private JPanel createGenrePanel(){

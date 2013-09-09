@@ -5,7 +5,7 @@ import java.awt.Font;
 public class MyFont {
 
 	/**
-	 * Font static variables created to keep consistency throughout the application.
+	 * Static Font variables created to keep consistency throughout the application.
 	 */
 	
 	public final static Font SMALL_TEXT= new Font("Corbel", Font.PLAIN, 17);

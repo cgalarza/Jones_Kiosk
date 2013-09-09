@@ -37,9 +37,8 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 	// Name of cards in CardLayout.
 	private final String SEARCH_CARD = "Search";
 	private final String VERBOSE_CARD = "Verbose_Description";
-	private final String CARD_PREFIX = "CARD_";
+	private final String CARD_PREFIX = "Card_";
 	
-	private ArrayList<Item> searchResults;
 	private JPanel search, movies, navigationBar;
 	private int totalPages = 1, currentPage = 1;
 	private Elements links; // all the links retrieved
@@ -47,72 +46,57 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 	private JLabel numberOfPages;
 	
 	/**
-	 * Constructor of SearchPanel 
+	 * Constructor of SearchPanel. Using the given search terms a link to the catalog search 
+	 * results is created. The url is then used to retrieve and display the first 50 search results.
 	 * 
 	 * @param searchTerm search term entered in by the user
 	 */
-	
 	public SearchPanel(String searchTerm) {
-		this.setLayout(new CardLayout());
-		
-		search = new JPanel();
-		search.setLayout(new BorderLayout());
-		
-		movies = new JPanel();
-		movies.setLayout(new CardLayout());
 
-		this.searchResults = new ArrayList<Item>();
-
+		// Based on search term create search url.
 		String[] words = searchTerm.split(" ");
 		String formatedSearchTerm = "";
-
 		for (String s : words)
 			formatedSearchTerm = formatedSearchTerm.concat(s + "+");
-		
 		String completeURL = BEG_URL + formatedSearchTerm + LIMIT_SEARCH_TO_JONES + END_URL;
-				
-		if (performSearch(completeURL)) {
-			retrieveSearchResults(currentPage);
-			displayResults();
-			createNavigationBar();
-			// Adding JPanel which contains movies found as search results
-			// and a navigation bar at the bottom.
-			search.add(movies, BorderLayout.CENTER);
-			search.add(navigationBar, BorderLayout.SOUTH);
-		} else {
-			JLabel noResults = new JLabel("No results were found.");
-			noResults.setFont(MyFont.LARGE_TEXT_BOLD);
-			noResults.setForeground(Color.RED);
-			noResults.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-			
-			search.add(noResults, BorderLayout.NORTH);
-		}
 		
-		this.add(search, SEARCH_CARD);
-		CardLayout c1 = (CardLayout) (this.getLayout());
-		c1.show(this, SEARCH_CARD);
-
+		setupPanelAndSearch(completeURL);
 	}
 	
+	/**
+	 * Constructor of SearchPanel. Given a catalog url the first 50 search results are 
+	 * retrieved and displayed.
+	 * 
+	 * @param url catalog url 
+	 */
 	public SearchPanel(URL url){
+		setupPanelAndSearch(url.toString());	
+	}
+
+	/**
+	 * Sets up JPanels that contain all the search information. Gets the search results if there
+	 * is any problem with retrieving the search results a message is displayed for the user. Also 
+	 * sets up the navigation buttons.
+	 * 
+	 * @param url
+	 */
+	private void setupPanelAndSearch (String url){
 		this.setLayout(new CardLayout());
 		search = new JPanel();
 		search.setLayout(new BorderLayout());
 		movies = new JPanel();
 		movies.setLayout(new CardLayout());
 		
-		this.searchResults = new ArrayList<Item>();
-
 		if (performSearch(url.toString())) {
-			retrieveSearchResults(currentPage);
-			displayResults();
+			// If results were found.
+			retrieveAndDisplaySearchResults(currentPage);
 			createNavigationBar();
 			// Adding JPanel which contains movies found as search results
 			// and a navigation bar at the bottom.
 			search.add(movies, BorderLayout.CENTER);
 			search.add(navigationBar, BorderLayout.SOUTH);
 		} else {
-			
+			// Display message if no results were found.
 			JLabel noResults = new JLabel("No results were found.");
 			noResults.setFont(MyFont.LARGE_TEXT_BOLD);
 			noResults.setForeground(Color.RED);
@@ -125,10 +109,17 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		CardLayout c1 = (CardLayout) (this.getLayout());
 		c1.show(this, SEARCH_CARD);
 	}
-
+	
+	/**
+	 * Given the catalog url to the search results retrieves the links to the 
+	 * results. The links are saved in an instance variable for the class to refer to.
+	 * 
+	 * @param url search url for the library catalog
+	 * @return returns false if there were any problems retrieving the search results
+	 */
 	private boolean performSearch(String url) {
 		
-		// Check if search term was empty return false
+		// If search term was empty return false.
 		if (url.equals(BEG_URL + "+" + LIMIT_SEARCH_TO_JONES + END_URL) || 
 				url.equals(BEG_URL + LIMIT_SEARCH_TO_JONES + END_URL))
 			return false;
@@ -137,8 +128,8 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		try {
 			doc = Jsoup.connect(url).get();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false; // return false if there was a problem connecting
 		}
 
 		// Check to see if there is an error message
@@ -165,8 +156,15 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		}
 	}
 
-	private void retrieveSearchResults(int page) {
-		searchResults = new ArrayList<Item>();
+	/**
+	 * Retrieves the four search results that are supposed to be displayed on the
+	 * corresponding page, converts the four links to Item objects, adds them to a
+	 * JPanel and adds the new JPanel as a card.
+	 * 
+	 * @param page page number
+	 */
+	private void retrieveAndDisplaySearchResults(int page) {
+		ArrayList<Item>searchResults = new ArrayList<Item>();
 
 		// If there is only one link, the link is formatted differently 
 		// and once the link is displayed the method can return.
@@ -190,10 +188,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 				searchResults.add(new Item(url));
 			}
 		}
-	}
-
-
-	private void displayResults() {
+		
 		JPanel card = new JPanel();
 		card.setLayout(new GridLayout(2, 2));
 
@@ -221,7 +216,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		cl.show(movies, CARD_PREFIX + currentPage);
 	}
 
-	/*
+	/**
 	 * Creates navigation bar at the bottom of the screen.
 	 */
 	private void createNavigationBar() {
@@ -255,12 +250,11 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		navigationBar.add(moreResults);
 	}
 
-	/*
+	/**
 	 * Listens for the more, previous or back button to be clicked. 
 	 * 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == moreResults) && (currentPage >= 1)
@@ -268,8 +262,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			// If the next arrow is clicked and its not the last page, load and display
 			// the next page.
 			currentPage++;
-			retrieveSearchResults(currentPage);
-			displayResults();
+			retrieveAndDisplaySearchResults(currentPage);
 			numberOfPages.setText("Page " + currentPage + " of " + totalPages);
 		}
 
@@ -289,7 +282,10 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			c1.show(this, SEARCH_CARD);
 		}
 	}
-	
+	/**
+	 * Listens for an object of DisplayItemPanel to be clicked. If an item is clicked
+	 * the VerboseItemPanel corresponding to that item is shown.
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource().getClass() == BriefItemPanel.class){
