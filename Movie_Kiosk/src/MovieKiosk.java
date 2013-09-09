@@ -47,7 +47,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		shortFilms, scienceFiction, drama, children, televisionPrograms, documentary, comedy, war, crime;
 	private JTextField searchBar;
 
-	/*
+	/**
 	 * Constructor of MovieKiosk which creates all the buttons at the top of the
 	 * screen, the search bar and a PromotionPanel over a SearchPanel 
 	 * (contained within a CardLayout).
@@ -135,7 +135,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		}
 	}
 	
-	/*
+	/**
 	 * Creates the genre panel with 15 different buttons. Each buttons represents a different genre 
 	 * button and once clicked displays a canned search in a SearchPanel. 
 	 * 
@@ -258,7 +258,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		return genreButtons;
 	}
 
-	/*
+	/**
 	 * Method that waits for the search button, the logo or the genre buttons to 
 	 * be clicked. When one of these buttons are pressed the corresponding card 
 	 * in the CardLayout is shown.
@@ -328,7 +328,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		} 	
 	}
 
-	/*
+	/**
 	 * Main method that creates the MovieKiosk object.
 	 */
 	public static void main(String[] args) {

@@ -30,11 +30,11 @@ public class Item {
 	private ImageIcon medImg;   // Height of 475
 	public Elements labelInfoPairs;
 
-	/*
-	 * Using the catalog link the items information is retrieved and stored in this
+	/**
+	 * Using the catalog url the item's information is retrieved and stored in this
 	 * object.
 	 * 
-	 * @param link Catalog link
+	 * @param link Catalog url
 	 */
 	public Item(String link) {
 		this.url = link;
@@ -44,7 +44,7 @@ public class Item {
 			smallImg = createImageIcon(SMALL_HEIGHT);
 	}
 
-	/*
+	/**
 	 * Constructor specifically for items that are going to be displayed 
 	 * on the promotional screen. 
 	 * 
@@ -65,7 +65,7 @@ public class Item {
 			medImg = createImageIcon(MED_HEIGHT);
 	}
 
-	/*
+	/**
 	 * Using the library catalog webpage associated with this item the following
 	 * information is saved in instance variables: movie title, summary of
 	 * movies, type of media, call number, Jones accession number (if
@@ -164,7 +164,7 @@ public class Item {
 		return true;
 	}
 
-	/*
+	/**
 	 * This method attempts to find a movie cover for the item if it a part of
 	 * the Jones collection.
 	 * 
@@ -226,7 +226,7 @@ public class Item {
 		}
 	}
 
-	/*
+	/**
 	 * Method that retrieves all the information on the catalog web page 
 	 * and saves it in a multidimensional ArrayList.
 	 * 
@@ -260,7 +260,7 @@ public class Item {
 		return data;
 	}
 	
-	/*
+	/**
 	 * Method that returns a medium sized ImageIcon. If the icon has not 
 	 * been previously created, it creates it.
 	 * 
@@ -274,7 +274,7 @@ public class Item {
 		return this.medImg;
 	}
 
-	/*
+	/**
 	 * Returns small ImageIcon.
 	 * 
 	 * @return ImageIcon corresponding small sized image of item
@@ -283,7 +283,7 @@ public class Item {
 		return this.smallImg;
 	}
 
-	/*
+	/**
 	 * Returns title of movie.
 	 * 
 	 * @return String title of movie
@@ -292,7 +292,7 @@ public class Item {
 		return this.title;
 	}
 
-	/*
+	/**
 	 * Returns type of media(s) (Jones Media DVD, Jones Media Video tape, Paddock
 	 * DVD, etc).
 	 * 
@@ -302,7 +302,7 @@ public class Item {
 		return this.typeOfMedia;
 	}
 
-	/*
+	/**
 	 * Returns the item's call number or call numbers (if applicable).
 	 * 
 	 * @return String[] call number(s) of item
@@ -311,7 +311,7 @@ public class Item {
 		return this.callNumberString;
 	}
 
-	/*
+	/**
 	 * Returns the item's status or statuses (if applicable).
 	 * 
 	 * @return String[] status of item
@@ -321,7 +321,7 @@ public class Item {
 	}
 
 	
-	/*
+	/**
 	 * Returns item's summary.
 	 * 
 	 * @returns String summary of item.
@@ -330,13 +330,12 @@ public class Item {
 		return this.summary;
 	}
 	
-	/* 
+	/**
 	 * Returns Jones accession number. If not an item at Jones, accesion number is set to -1.
 	 * 
 	 * @returns int Jones accesion number
 	 * 
 	 */
-	
 	public int getJonesAccesionNum(){
 		return this.jonesAccesionNum;
 	}

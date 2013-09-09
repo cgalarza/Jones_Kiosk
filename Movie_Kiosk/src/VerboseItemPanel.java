@@ -13,7 +13,7 @@ import javax.swing.ScrollPaneConstants;
 @SuppressWarnings("serial")
 public class VerboseItemPanel extends JPanel{
 
-	/* 
+	/**
 	 * Constructor of VerboseItemPanel. Create a panel that displays all 
 	 * the information the library catalog has about this item. 
 	 * 

@@ -11,7 +11,7 @@ public class DisplayItemPanel extends JPanel{
 	
 	private Item i;
 	
-	/*
+	/**
 	 * Constructor of DisplayItemPanel. Create a panel that displays some
 	 * information about this item.
 	 * 
@@ -52,7 +52,7 @@ public class DisplayItemPanel extends JPanel{
 
 	}
 	
-	/*
+	/**
 	 * Returns the item object associated with this object.
 	 * 
 	 * @returns Item item instance variable.

@@ -12,7 +12,7 @@ public class BriefItemPanel extends JPanel {
 	
 	private Item item;
 	
-	/*
+	/**
 	 * Constructor of BriefItemPanel. Creates a panel that displays some of 
 	 * the information about this item.
 	 * 
@@ -71,7 +71,7 @@ public class BriefItemPanel extends JPanel {
 
 	}
 	
-	/*
+	/**
 	 * Returns the item object associated with this object.
 	 * 
 	 * @returns Item item instance variable.

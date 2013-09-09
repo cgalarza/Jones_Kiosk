@@ -37,6 +37,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 	// Name of cards in CardLayout.
 	private final String SEARCH_CARD = "Search";
 	private final String VERBOSE_CARD = "Verbose_Description";
+	private final String CARD_PREFIX = "CARD_";
 	
 	private ArrayList<Item> searchResults;
 	private JPanel search, movies, navigationBar;
@@ -45,7 +46,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 	private JButton previousResults, moreResults, back;
 	private JLabel numberOfPages;
 	
-	/*
+	/**
 	 * Constructor of SearchPanel 
 	 * 
 	 * @param searchTerm search term entered in by the user
@@ -125,7 +126,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		c1.show(this, SEARCH_CARD);
 	}
 
-	public boolean performSearch(String url) {
+	private boolean performSearch(String url) {
 		
 		// Check if search term was empty return false
 		if (url.equals(BEG_URL + "+" + LIMIT_SEARCH_TO_JONES + END_URL) || 
@@ -144,16 +145,18 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		if (doc.select(".errormessage").size() > 0)
 			return false; // if there is return false
 		else {
-
+			// If there isn't an error message check if there is one results or many results.
 			String[] entriesFoundTokens = doc.select("i").text().split(" ");			
 						
 			if (!entriesFoundTokens[0].equals("") && Integer.parseInt(entriesFoundTokens[0]) == 1) {
+				// If only one result then the search url is the url of the only search results and 
+				// therefore we have to create an Elements object with the appropriate information.
 				links = new Elements();
 				Attributes attr = new Attributes();
 				attr.put("href", url);
 				links.add(new Element(Tag.valueOf("a"), HOMEPAGE_URL, attr));
 			} else {
-
+				// If there are many results then retrieve all the links of the items
 				links = doc.select("span.briefcitTitle");
 
 				totalPages = (int) Math.ceil(links.size() / 4.0);
@@ -162,7 +165,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		}
 	}
 
-	public void retrieveSearchResults(int page) {
+	private void retrieveSearchResults(int page) {
 		searchResults = new ArrayList<Item>();
 
 		// If there is only one link, the link is formatted differently 
@@ -171,6 +174,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			String url = links.get(0).select("a[href]").attr("href").toString();
 			searchResults.add(new Item(url));
 		} else {
+			// Else get the next four links.
 			int start = (page * 4) - 4;
 			int end = (page * 4 > links.size()) ? links.size() - 1 : page * 4 - 1;
 
@@ -188,11 +192,13 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		}
 	}
 
+
 	private void displayResults() {
 		JPanel card = new JPanel();
 		card.setLayout(new GridLayout(2, 2));
 
-		// for each search result create a panel
+		// For each search result create a BriefItemPanel and add it to 
+		// the JPanel.
 		for (Item a : searchResults) {
 			
 			BriefItemPanel b = new BriefItemPanel(a);
@@ -200,21 +206,25 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			card.add(b);
 		}
 		
-		// If there are less than four items displayed
-		// add some glue to space out the elements correctly
+		// If there are less than four items displayed add some glue 
+		// in order to space out the elements correctly.
 		if (searchResults.size() < 4){
-			for (int i = 4-searchResults.size(); i > 0; i--){
+			for (int i = 4-searchResults.size(); i > 0; i--)
 				card.add(Box.createHorizontalGlue());
-			}
 		}
 		
-		movies.add(card, "CARD_" + currentPage);
+		// Adds the Panel created as the next card
+		movies.add(card, CARD_PREFIX + currentPage);
 
+		// Flips to that card.
 		CardLayout cl = (CardLayout) (movies.getLayout());
-		cl.show(movies, "CARD_" + currentPage);
+		cl.show(movies, CARD_PREFIX + currentPage);
 	}
 
-	public void createNavigationBar() {
+	/*
+	 * Creates navigation bar at the bottom of the screen.
+	 */
+	private void createNavigationBar() {
 		// Creating navigation bar at the bottom of the screen
 		navigationBar = new JPanel();
 		navigationBar.setLayout(new BoxLayout(navigationBar, BoxLayout.X_AXIS));
@@ -243,13 +253,20 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		navigationBar.add(numberOfPages);
 		navigationBar.add(Box.createHorizontalGlue());
 		navigationBar.add(moreResults);
-
 	}
 
+	/*
+	 * Listens for the more, previous or back button to be clicked. 
+	 * 
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == moreResults) && (currentPage >= 1)
 				&& (currentPage < totalPages)) {
+			// If the next arrow is clicked and its not the last page, load and display
+			// the next page.
 			currentPage++;
 			retrieveSearchResults(currentPage);
 			displayResults();
@@ -257,13 +274,17 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		}
 
 		else if ((e.getSource() == previousResults) && (currentPage > 1)) {
+			// If the previous button is clicked and its  not the first page, display
+			// the previous page.
 			currentPage--;
 			CardLayout cl = (CardLayout) (movies.getLayout());
-			cl.show(movies, "CARD_" + currentPage);
+			cl.show(movies, CARD_PREFIX + currentPage);
 
 			numberOfPages.setText("Page " + currentPage + " of " + totalPages);
 		}
 		else if ((e.getSource() == back)){
+			// If the back button is hit (only applicable in the VERBOSE_CARD) 
+			// then flip to the search card.
 			CardLayout c1 = (CardLayout) (this.getLayout());
 			c1.show(this, SEARCH_CARD);
 		}
@@ -276,7 +297,6 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			BriefItemPanel panelClicked = (BriefItemPanel) e.getSource();
 			
 			back = new JButton(new ImageIcon(getClass().getResource("Back_Arrow.png")));
-			//back = new JButton("back");
 			back.setBorder(BorderFactory.createEmptyBorder());
 			back.setContentAreaFilled(false);
 			back.addActionListener(this);

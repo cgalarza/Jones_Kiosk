@@ -35,7 +35,7 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 	private int current; // Counter that represents the first movie to be displayed
 	private int total; // Total number of Promotional Movies displayed
 
-	/*
+	/**
 	 * Constructor for PromotionPanel. Reads input from file and displays movies
 	 * listed in file. This class is also responsible for the arrows that correspond
 	 * to the movement of the movie carrousel.
@@ -106,7 +106,7 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 		timer.start();
 	}
 
-	/*
+	/**
 	 * Creates panel of 4 movies based on what the current movie index is.
 	 * 
 	 * @return JPanel which contains 4 movies
@@ -130,10 +130,9 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 		return panel;
 	}
 
-	/*
+	/**
 	 * Creates a new RotatingMoviesPanel and replaces the previous one.
 	 */
-	
 	private void recreateRotatingMoviesPanel(){
 		BorderLayout layout = (BorderLayout) centerPanel.getLayout();
 		centerPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
@@ -145,7 +144,7 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 		timer.restart();
 	}
 	
-	/*
+	/**
 	 * Listens for the arrow buttons and back button to be clicked or for the timer to go off.
 	 * 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -181,7 +180,7 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 		}
 	}
 
-	/*
+	/**
 	 * Listens for an object of DisplayItemPanel to be clicked. If an item is clicked
 	 * the VerboseItemPanel corresponding to that item is shown.
 	 * 

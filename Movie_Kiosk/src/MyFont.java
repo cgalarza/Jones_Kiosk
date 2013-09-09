@@ -4,7 +4,7 @@ import java.awt.Font;
 
 public class MyFont {
 
-	/*
+	/**
 	 * Font static variables created to keep consistency throughout the application.
 	 */
 	
