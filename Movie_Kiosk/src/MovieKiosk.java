@@ -120,13 +120,13 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice[] devices = env.getScreenDevices();
-		boolean isFullScreen = devices[1].isFullScreenSupported();
+		boolean isFullScreen = devices[0].isFullScreenSupported();
 		setUndecorated(isFullScreen);
 		setResizable(!isFullScreen);
 
 		if (isFullScreen) {
 			// Full-screen mode
-			devices[1].setFullScreenWindow(this);
+			devices[0].setFullScreenWindow(this);
 			validate();
 		} else {
 			// Windowed mode
