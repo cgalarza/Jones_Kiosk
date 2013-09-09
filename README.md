@@ -11,15 +11,15 @@ Carla.M.Galarza@dartmouth.edu
 Basic Overview and Features
 ---------------------------
 
-This Kiosk was specifically created for the needs of the Jones Media Center. Once opening the Kiosk displays a set of promotional movies that are pre-selected by the manager (these will usually be new aquisitions, but can also change based on holidays and events). Once movies are selected they are written in a text file and the Kiosk reads the file (~/Desktop/Promotional_Movies.txt) and displays the movies. The Kiosk allows users to search the catalog specifically for items located at the Jones Media Center. Results are displayed with the item's basic information along with an image (if available). At the top of the Kiosk there are genre buttons which reveal canned search results for a variety of genres. At any time if the user wishes to see more information on the item simply clicking on the item's image will reveal the entire catalog entry. After looking through the catalog information the user can return to the previous panel by clicking the green arrow. The user can return to the "home screen" or promotional panel at any time by clicking on the JMC logo.
+This kiosk was specifically created for the needs of the Jones Media Center. Once opening the kiosk displays a set of promotional movies that are pre-selected by the manager (these will usually be new aquisitions, but can also change based on holidays and events). Once movies are selected they are written in a text file and the kiosk reads the file (~/Desktop/Promotional_Movies.txt) and displays the movies. The kiosk allows users to search the catalog specifically for items located at the Jones Media Center. Results are displayed with the item's basic information along with an image (if available). At the top of the kiosk there are genre buttons which reveal canned search results for a variety of genres. At any time if the user wishes to see more information on the item, simply clicking on the item's image will reveal the entire catalog entry. After looking through the catalog information the user can return to the previous panel by clicking the green arrow. The user can return to the "home screen" or promotional panel at any time by clicking on the JMC logo.
 
 
 Installation Instructions
 -------------------------
 
-This Kiosk was optimized for a 19-inch touchscreen (1440 x 900px). The application is entirely in Java fullscreen mode therefore once the application starts it takes over the entire screen. On macs users are able to quit out of the application by using command + q. The application might take a minute to load depending on the size of the promotional images.
+This kiosk was optimized for a 19-inch touchscreen (1440px x 900px). The application is entirely in Java fullscreen mode therefore once the application starts it takes over the entire screen. On macs users are able to quit out of the application by using command + q. The application might take a minute to load depending on the size of the promotional images.
 
-The application should be run from the terminal using the following command. (Currently, the jar does not run properly if it is double-clicked.
+The application should run from the terminal using the following command (Currently, the jar does not run properly if it is double-clicked).
 
 ```
 java -jar name.jar
@@ -36,7 +36,7 @@ The Kiosk requires two external resources one of them is a folder containing DVD
   (empty line)
   movie name, stable url catalog link
   movie name, stable url catalog link
-  movie name, statble url catalog link
+  movie name, stable url catalog link
   ```
   Example:
   ```
@@ -58,10 +58,10 @@ The Kiosk requires two external resources one of them is a folder containing DVD
 
 2. ~/Pictures/DVD/
 
-  This folder should contain DVD covers named corresponding to their Jones Accesion number. The extension of every file should be .jpg. The Kiosk resizes images therefore the exact size of the image doesn't matter. But it is important that the image is portrait and not landscape.
+  This folder should contain DVD covers named corresponding to their Jones accesion number. The extension of every file should be .jpg. The kiosk resizes images therefore the exact size of the image doesn't matter, but it is important that the images are portrait and not landscape mode.
 
 Future Features/Bug Fixes
----------------
+-------------------------
 
 1. Ensure that double-clicking the Jar starts the kiosk properly. 
 2. Default promotional movies, in case their isn't a list of movies on the Desktop.
@@ -71,5 +71,5 @@ Future Features/Bug Fixes
 Libraries Used
 --------------
 
-JSoup was heavily used to parse the library catalog.
+JSoup was used to parse the Dartmouth Library Catalog.
 
