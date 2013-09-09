@@ -22,7 +22,7 @@ This kiosk was optimized for a 19-inch touchscreen (1440px x 900px). The applica
 The application should run from the terminal using the following command (Currently, the jar does not run properly if it is double-clicked).
 
 ```
-java -jar name.jar
+java -jar JonesKiosk.jar
 ```
 
 The Kiosk requires two external resources one of them is a folder containing DVD covers/images and the other is a text file listing the promotional movies.
