@@ -1,4 +1,4 @@
-Jones Kiosk, Version 0.1.0, 9/9/13
+Jones Kiosk 0.9.0 (Beta), 9/9/13
 ===========
 
 Author
