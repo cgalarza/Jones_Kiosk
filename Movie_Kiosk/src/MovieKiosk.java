@@ -31,7 +31,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	private final String WESTERN_SEARCH = "http://libcat.dartmouth.edu/search/X?s:western*%20and%20branch:branchbajmz";
 	private final String MUSICAL_SEARCH = "http://libcat.dartmouth.edu/search/X?s:musical%20films%20and%20branch:branchbajmz";
 	private final String MYSTERY_SEARCH = "http://libcat.dartmouth.edu/search/X?s:mystery%20films%20and%20branch:branchbajmz";
-	private final String SHORT_FILMS_SEARCH = "http://libcat.dartmouth.edu/search/X?s:short%20films%20and%20branch:branchbajmz";
+	private final String SHORT_FILMS_SEARCH = "http://libcat.dartmouth.edu/search/X?s:short%20films%20and%20branch:branchbaj**";
 	private final String SCIENCE_FICTION_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Science%20Fiction%20and%20branch:branchbajmz";
 	private final String ADVENTURE_SEARCH = "http://libcat.dartmouth.edu/search/X?s:adventure%20films%20and%20branch:branchbajmz";
 	private final String DRAMA_SEARCH = "http://libcat.dartmouth.edu/search/X?s:drama%20films%20and%20branch:branchbajmz";
@@ -72,7 +72,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 		// JPanel which contains text input field and a search button.
 		JPanel search = new JPanel();
-		searchBar = new JTextField("Search the Jones Media Collection");
+		searchBar = new JTextField("Search the Jones Media VHS & DVD Collection");
 		searchBar.setPreferredSize(new Dimension(600, 50));
 		searchBar.setFont(new Font("Helvetica", Font.PLAIN, 25));
 		searchBar.addActionListener(this);
@@ -276,7 +276,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 			// Make sure the promotional panel is flipped to the right card
 			CardLayout cl = (CardLayout) (promoPanel.getLayout());
 			cl.show(promoPanel, "Promo_Movies");
-			searchBar.setText("Search the Jones Media Collection");
+			searchBar.setText("Search the Jones Media VHS & DVD Collection");
 		} else if (e.getSource() == searchButton || e.getSource() == searchBar) {
 			// While typing enter was hit our the search buttons was clicked.
 			searchMovies = new SearchPanel(searchBar.getText());
@@ -320,6 +320,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 				
 				// Once searchPanel object has been created add to SEARCH_MOVIES card
 				bottom.add(searchMovies, SEARCH_MOVIES);
+				searchBar.setText("Search the Jones Media VHS & DVD Collection");
 				cards.show(bottom, SEARCH_MOVIES);
 				
 			} catch (MalformedURLException e1) {

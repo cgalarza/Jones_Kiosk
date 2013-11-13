@@ -30,7 +30,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 
 	// Parts of search URL.
 	private final String HOMEPAGE_URL = "http://libcat.dartmouth.edu";
-	private final String LIMIT_SEARCH_TO_JONES = "and+(branch%3Abranchbaj**+or+branch%3Abranchrsjmc)";
+	private final String LIMIT_SEARCH_TO_JONES = "and(branch%3Abranchbajmz+or+branch%3Abranchbajmv+or+branch%3Abranchrsjmc)";
 	private final String BEG_URL = "http://libcat.dartmouth.edu/search/X?SEARCH=";
 	private final String END_URL = "&searchscope=4&SORT=D&Da=&Db=&p=";
 	
@@ -81,11 +81,14 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 	 * @param url
 	 */
 	private void setupPanelAndSearch (String url){
+		
 		this.setLayout(new CardLayout());
 		search = new JPanel();
 		search.setLayout(new BorderLayout());
 		movies = new JPanel();
 		movies.setLayout(new CardLayout());
+		
+		System.out.println(url.toString());
 		
 		if (performSearch(url.toString())) {
 			// If results were found.
