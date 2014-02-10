@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class DisplayItemPanel extends JPanel{
+public class DisplayMoviePanel extends JPanel{
 	
 	private Item i;
 	
@@ -20,7 +20,7 @@ public class DisplayItemPanel extends JPanel{
 	 * @param i item object that contain all the information about the catalog item
 	 * 
 	 */
-	public DisplayItemPanel(Item i){
+	public DisplayMoviePanel(Item i){
 		this.i = i;
 		
 		JLabel cover = new JLabel(i.getMedImgIcon());
@@ -42,8 +42,8 @@ public class DisplayItemPanel extends JPanel{
 		this.add(accessionNum);
 
 		JLabel status = new JLabel();
-		if (i.getStatus().length == 1)
-			status.setText(i.getStatus()[0]);
+		if (i.getStatus().size() == 1)
+			status.setText(i.getStatus().get(0));
 		else
 			status.setText(" ");
 		status.setFont(MyFont.SMALL_TEXT);

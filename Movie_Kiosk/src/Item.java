@@ -20,11 +20,11 @@ public class Item {
 	private final String BEG_VHS_PATH = System.getProperty("user.home") + "/Pictures/VHS/";
 	
 	// Heights for images.
-	private final int SMALL_HEIGHT = 265;
-	private final int MED_HEIGHT = 472;
+	private final int SMALL_HEIGHT = 295;
+	private final int MED_HEIGHT = 500;
 	
 	private String title, summary, url;
-	private String[] callNumberString, status, typeOfMedia;
+	private ArrayList<String> callNumberString, status, typeOfMedia;
 	private int jonesAccesionNum; // -1 if item is not a part of the Jones VHS/DVD collection
 	private ImageIcon smallImg; // Height of 265
 	private ImageIcon medImg;   // Height of 475
@@ -104,46 +104,33 @@ public class Item {
 		// If a table is not empty then retrieve the information
 		if (!table.isEmpty()){
 			// Retrieves each row of table and saves the information.
-			this.typeOfMedia = new String[table.size()];
-			this.callNumberString = new String[table.size()];
-			this.status = new String[table.size()];
+			this.typeOfMedia = new ArrayList<String>();
+			this.callNumberString = new ArrayList<String>();
+			this.status = new ArrayList<String>();
+			
 			for (int i = 0; i < table.size(); i++) {
 				// Retrieves the html for the row specified
 				Element row = table.get(i);
-	
+				
+				// Retrieving Status.
+				String stat = row.child(2).text()
+						.replace(String.valueOf((char) 160), " ").trim();
+				
+				if (stat.equals("LIBRARY HAS"))
+					continue;
+				
+				this.status.add(stat);
+				
 				// Retrieving Type (Jones Media DVD/ Jones Media VHS/ other type of
 				// media).
-				this.typeOfMedia[i] = row.child(0).text()
-						.replace(String.valueOf((char) 160), " ").trim();
+				this.typeOfMedia.add(row.child(0).text()
+						.replace(String.valueOf((char) 160), " ").trim());
 				// Retrieving Accession Number.
-				this.callNumberString[i] = row.child(1).ownText()
-						.replace(String.valueOf((char) 160), " ").trim();
+				this.callNumberString.add(row.child(1).ownText()
+						.replace(String.valueOf((char) 160), " ").trim());
 	
-				// Retrieving Status.
-				this.status[i] = row.child(2).text()
-						.replace(String.valueOf((char) 160), " ").trim();
+				
 			}
-		}
-		
-		// If it is empty check to see if it is a streamed item.
-		// NOTE: This bit of code may no longer be necessary because the search is 
-		// limited to items at the Jones Media Center.
-		else {
-			Elements streamingTable = doc.select("table.bibLinks th");
-			
-			this.typeOfMedia = new String[1];
-			this.callNumberString = new String[1];
-			this.status = new String[1];
-			
-			
-			if (streamingTable.text().equals("Available online:")){
-				this.typeOfMedia[0] = "Streaming Video";
-				this.callNumberString[0] = "";
-				this.status[0] ="Available Online";
-			}
-			else
-				this.typeOfMedia[0] = "";
-			
 		}
 		
 		// If item is part of the Jones Media Collection, then its accession
@@ -151,10 +138,10 @@ public class Item {
 		// accession number is set to -1.
 		// NOTE: May be no longer necessary
 		this.jonesAccesionNum = -1;
-		for (int i = 0; i < typeOfMedia.length; i++){	
-			if (typeOfMedia[i].equals("Jones Media DVD")
-				|| typeOfMedia[i].equals("Jones Media Video tape")) {
-			String[] splitCallNumString = callNumberString[i].split(" ");
+		for (int i = 0; i < typeOfMedia.size(); i++){	
+			if (typeOfMedia.get(i).equals("Jones Media DVD")
+				|| typeOfMedia.get(i).equals("Jones Media Video tape")) {
+			String[] splitCallNumString = callNumberString.get(i).split(" ");
 			this.jonesAccesionNum = Integer.parseInt(splitCallNumString[0]);
 			}
 		}
@@ -180,7 +167,7 @@ public class Item {
 		ImageIcon img;
 
 		// Getting image location
-		if (typeOfMedia[0].equals("Jones Media DVD")) {
+		if (typeOfMedia.contains("Jones Media DVD")) {
 			// If Jones DVD
 			File f = new File(BEG_DVD_PATH
 					+ Integer.toString(jonesAccesionNum) + ".jpg");
@@ -190,7 +177,7 @@ public class Item {
 			} else
 				img = new ImageIcon(getClass().getResource(DEFAULT_IMG_PATH));
 
-		} else if (typeOfMedia[0].equals("Jones Media Video tape")) {
+		} else if (typeOfMedia.get(0).equals("Jones Media Video tape")) {
 			// If Jones VHS
 			File f = new File(BEG_VHS_PATH
 					+ Integer.toString(jonesAccesionNum) + ".jpg");
@@ -201,7 +188,7 @@ public class Item {
 			} else
 				img = new ImageIcon(getClass().getResource(
 						DEFAULT_IMG_PATH));
-		} else if (typeOfMedia[0].equals("On Reserve at Jones Media")) {
+		} else if (typeOfMedia.get(0).equals("On Reserve at Jones Media")) {
 			// If on reserve at Jones
 			img = new ImageIcon(getClass().getResource(
 					ON_RESERVE_AT_JONES));
@@ -295,7 +282,7 @@ public class Item {
 	 * 
 	 * @return type(s) of library item
 	 */
-	public String[] getType() {
+	public ArrayList<String> getType() {
 		return this.typeOfMedia;
 	}
 
@@ -304,7 +291,7 @@ public class Item {
 	 * 
 	 * @return call number(s) of item
 	 */
-	public String[] getCallNumberString() {
+	public ArrayList<String> getCallNumberString() {
 		return this.callNumberString;
 	}
 
@@ -313,7 +300,7 @@ public class Item {
 	 * 
 	 * @return status(es) of item
 	 */
-	public String[] getStatus() {
+	public ArrayList<String> getStatus() {
 		return this.status;
 	}
 

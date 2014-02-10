@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+import javax.swing.event.MouseInputListener;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attributes;
@@ -199,8 +203,9 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		// the JPanel.
 		for (Item a : searchResults) {
 			
-			BriefItemPanel b = new BriefItemPanel(a);
+			ShortDescriptionPanel b = new ShortDescriptionPanel(a);
 			b.addMouseListener(this);
+			b.getSummaryTextArea().addMouseListener(this);
 			card.add(b);
 		}
 		
@@ -238,6 +243,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 
 		// Label which displays the number of pages.
 		numberOfPages = new JLabel("Page 1 of " + totalPages);
+		numberOfPages.setFont(MyFont.MEDIUM_TEXT_BOLD);
 
 		// Creating the previous button with image.
 		moreResults = new JButton(new ImageIcon(getClass().getResource(
@@ -284,17 +290,21 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			CardLayout c1 = (CardLayout) (this.getLayout());
 			c1.show(this, SEARCH_CARD);
 		}
+		
 	}
 	/**
 	 * Listens for an object of DisplayItemPanel to be clicked. If an item is clicked
 	 * the VerboseItemPanel corresponding to that item is shown.
 	 */
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (e.getSource().getClass() == BriefItemPanel.class){
-			
-			BriefItemPanel panelClicked = (BriefItemPanel) e.getSource();
-			
+	public void mousePressed(MouseEvent e) {
+		ShortDescriptionPanel panelClicked = null;
+		if (e.getSource().getClass() == ShortDescriptionPanel.class)
+			panelClicked = (ShortDescriptionPanel) e.getSource();
+		else if (SwingUtilities.getAncestorOfClass(ShortDescriptionPanel.class, (Component) e.getSource()) != null) 
+			panelClicked = (ShortDescriptionPanel) SwingUtilities.getAncestorOfClass(ShortDescriptionPanel.class, (Component) e.getSource());
+		
+		if (panelClicked != null){
 			back = new JButton(new ImageIcon(getClass().getResource("Back_Arrow.png")));
 			back.setBorder(BorderFactory.createEmptyBorder());
 			back.setContentAreaFilled(false);
@@ -302,7 +312,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 
 			JPanel verbosePanel = new JPanel();
 			verbosePanel.add(back);
-			verbosePanel.add(new VerboseItemPanel(panelClicked.getItem()));
+			verbosePanel.add(new LongDescriptionPanel(panelClicked.getItem()));
 			
 			this.add(verbosePanel, VERBOSE_CARD);
 			
@@ -318,7 +328,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 	public void mouseExited(MouseEvent arg0) {}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {}
+	public void mouseClicked(MouseEvent arg0) {}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {}

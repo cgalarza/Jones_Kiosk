@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
 public class MovieKiosk extends JFrame implements ActionListener {
@@ -24,6 +25,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	// Name of cards in cardLayouts.
 	private final String NEW_MOVIES = "New Movies";
 	private final String SEARCH_MOVIES = "Search Movies";
+	private final int MONITOR = 0;
 	
 	// Canned searches for genre buttons.
 	private final String ANIMATION_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Animated%20films%20and%20branch:branchbajmz";
@@ -41,10 +43,16 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	private final String COMEDY_SEARCH = "http://libcat.dartmouth.edu/search/X?s:comedy%20films%20and%20branch:branchbajmz";
 	private final String WAR_SEARCH = "http://libcat.dartmouth.edu/search/X?s:war%20films%20and%20branch:branchbajmz";
 	private final String CRIME_SEARCH = "http://libcat.dartmouth.edu/search/X?s:crime%20films%20and%20branch:branchbajmz";
+	private final String ROMANCE_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Romance%20films%20and%20branch:branchbaj**";
+	private final String HISTORICAL_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Historical%20films%20and%20branch:branchbaj**";
+	private final String FILM_NOIR_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Film%20noir%20films%20and%20branch:branchbaj**";
+	private final String THRILLER_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Thrillers%20%28Motion%20pictures%29%20films%20and%20branch:branchbaj**";
+	private final String FANTASY_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Fantasy%20films%20and%20branch:branchbaj**";
 	
 	private JPanel bottom, searchMovies, genreButtons, promoPanel;
 	private JButton searchButton, logo, adventure, horror, western, animation, musical, mystery, 
-		shortFilms, scienceFiction, drama, children, televisionPrograms, documentary, comedy, war, crime;
+		shortFilms, scienceFiction, drama, children, televisionPrograms, documentary, comedy, war, crime, 
+		filmNoir, thriller, historical, romance, fantasy;
 	private JTextField searchBar;
 
 	/**
@@ -76,6 +84,18 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		searchBar.setPreferredSize(new Dimension(600, 50));
 		searchBar.setFont(new Font("Helvetica", Font.PLAIN, 25));
 		searchBar.addActionListener(this);
+		searchBar.addFocusListener(new java.awt.event.FocusAdapter() {
+    	    public void focusGained(java.awt.event.FocusEvent evt) {
+    	    	SwingUtilities.invokeLater( new Runnable() {
+
+    				@Override
+    				public void run() {
+    					searchBar.selectAll();		
+    				}
+    			});
+    	    }
+    	});
+		
 
 		searchButton = new JButton(new ImageIcon(getClass().getResource("Magnifying_Glass.png")));
 		searchButton.setBorder(BorderFactory.createEmptyBorder());
@@ -120,13 +140,13 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice[] devices = env.getScreenDevices();
-		boolean isFullScreen = devices[0].isFullScreenSupported();
+		boolean isFullScreen = devices[MONITOR].isFullScreenSupported();
 		setUndecorated(isFullScreen);
 		setResizable(!isFullScreen);
 
 		if (isFullScreen) {
 			// Full-screen mode
-			devices[0].setFullScreenWindow(this);
+			devices[MONITOR].setFullScreenWindow(this);
 			validate();
 		} else {
 			// Windowed mode
@@ -148,7 +168,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		
 		JPanel genreButtons = new JPanel();
 		genreButtons.setLayout(null);
-		genreButtons.setPreferredSize(new Dimension(1223, 201));
+		genreButtons.setPreferredSize(new Dimension(1574, 201));
 		
 		animation = new JButton(new ImageIcon(getClass().getResource("Genre_Animation.png")));
 		animation.addActionListener(this);
@@ -185,11 +205,46 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		mystery.setBounds(877, 0, 201, 65);
 		genreButtons.add(mystery);
 		
+		filmNoir = new JButton(new ImageIcon(getClass().getResource("Genre_Film_Noir.png")));
+		filmNoir.addActionListener(this);
+		filmNoir.setBorder(BorderFactory.createEmptyBorder());
+		filmNoir.setContentAreaFilled(false);
+		filmNoir.setBounds(1083, 0, 124, 131);
+		genreButtons.add(filmNoir);
+		
+		thriller = new JButton(new ImageIcon(getClass().getResource("Genre_Thriller.png")));
+		thriller.addActionListener(this);
+		thriller.setBorder(BorderFactory.createEmptyBorder());
+		thriller.setContentAreaFilled(false);
+		thriller.setBounds(1083, 136, 170, 63);
+		genreButtons.add(thriller);
+		
+		historical = new JButton(new ImageIcon(getClass().getResource("Genre_Historical.png")));
+		historical.addActionListener(this);
+		historical.setBorder(BorderFactory.createEmptyBorder());
+		historical.setContentAreaFilled(false);
+		historical.setBounds(1214, 0, 219, 64);
+		genreButtons.add(historical);	
+		
+		romance = new JButton(new ImageIcon(getClass().getResource("Genre_Romance.png")));
+		romance.addActionListener(this);
+		romance.setBorder(BorderFactory.createEmptyBorder());
+		romance.setContentAreaFilled(false);
+		romance.setBounds(1214, 67, 219, 64);
+		genreButtons.add(romance);	
+		
+		fantasy = new JButton(new ImageIcon(getClass().getResource("Genre_Fantasy.png")));
+		fantasy.addActionListener(this);
+		fantasy.setBorder(BorderFactory.createEmptyBorder());
+		fantasy.setContentAreaFilled(false);
+		fantasy.setBounds(1258, 136, 175, 63);
+		genreButtons.add(fantasy);	
+		
 		shortFilms = new JButton(new ImageIcon(getClass().getResource("Genre_Short_Films.png")));
 		shortFilms.addActionListener(this);
 		shortFilms.setBorder(BorderFactory.createEmptyBorder());
 		shortFilms.setContentAreaFilled(false);
-		shortFilms.setBounds(1083, 0, 141, 122);
+		shortFilms.setBounds(1438, 0, 141, 122);
 		genreButtons.add(shortFilms);
 		
 		scienceFiction = new JButton(new ImageIcon(getClass().getResource("Genre_Science_Fiction.png")));
@@ -252,7 +307,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		crime.addActionListener(this);
 		crime.setBorder(BorderFactory.createEmptyBorder());
 		crime.setContentAreaFilled(false);
-		crime.setBounds(1083, 127, 141, 72 );
+		crime.setBounds(1438, 127, 141, 72 );
 		genreButtons.add(crime);
 		
 		return genreButtons;
@@ -317,6 +372,16 @@ public class MovieKiosk extends JFrame implements ActionListener {
 					searchMovies = new SearchPanel(new URL(WAR_SEARCH));
 				else if (e.getSource() == crime)
 					searchMovies = new SearchPanel(new URL(CRIME_SEARCH));
+				else if (e.getSource() == fantasy)
+					searchMovies = new SearchPanel(new URL(FANTASY_SEARCH));
+				else if (e.getSource() == romance)
+					searchMovies = new SearchPanel(new URL(ROMANCE_SEARCH));
+				else if (e.getSource() == thriller)
+					searchMovies = new SearchPanel(new URL(THRILLER_SEARCH));
+				else if (e.getSource() == filmNoir)
+					searchMovies = new SearchPanel(new URL(FILM_NOIR_SEARCH));
+				else if (e.getSource() == historical)
+					searchMovies = new SearchPanel(new URL(HISTORICAL_SEARCH));
 				
 				// Once searchPanel object has been created add to SEARCH_MOVIES card
 				bottom.add(searchMovies, SEARCH_MOVIES);

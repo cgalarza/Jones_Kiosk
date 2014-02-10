@@ -107,9 +107,9 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 	}
 
 	/**
-	 * Creates panel of 4 movies based on what the current movie index is.
+	 * Creates panel of 5 movies based on what the current movie index is.
 	 * 
-	 * @return JPanel which contains 4 movies
+	 * @return JPanel which contains 5 movies
 	 */
 	
 	private JPanel createRotatingMoviesPanel() {
@@ -117,11 +117,11 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 		panel.setLayout(new FlowLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder());
 
-		// Adds the four next movies to the panel.
-		for (int a = 0, counter = current; a < 4; a++, counter++) {
+		// Adds the five next movies to the panel.
+		for (int a = 0, counter = current; a < 5; a++, counter++) {
 			if (counter == total) 
 				counter = 0; // rotation restarted
-			JPanel displayItem = new DisplayItemPanel(promotionalMovies.get(counter));
+			JPanel displayItem = new DisplayMoviePanel(promotionalMovies.get(counter));
 			displayItem.setBorder(BorderFactory.createEmptyBorder());
 			displayItem.addMouseListener(this);
 			panel.add(displayItem);
@@ -188,13 +188,13 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 	 */
 	
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (e.getSource().getClass() == DisplayItemPanel.class){
+	public void mousePressed(MouseEvent e) {
+		if (e.getSource().getClass() == DisplayMoviePanel.class){
 			// If there is a mouse click and it was on a DisplayItemPanel
 			// the verbosePanel for that item is displayed.
-			DisplayItemPanel panelClicked = (DisplayItemPanel) e.getSource();
+			DisplayMoviePanel panelClicked = (DisplayMoviePanel) e.getSource();
 			
-			JPanel verboseMovieDisplay = new VerboseItemPanel(panelClicked.getItem());
+			JPanel verboseMovieDisplay = new LongDescriptionPanel(panelClicked.getItem());
 			back = new JButton(new ImageIcon(getClass().getResource("Back_Arrow.png")));
 			back.setBorder(BorderFactory.createEmptyBorder());
 			back.setContentAreaFilled(false);
@@ -218,7 +218,7 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 	public void mouseExited(MouseEvent arg0) {}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {}
+	public void mouseClicked(MouseEvent arg0) {}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {}

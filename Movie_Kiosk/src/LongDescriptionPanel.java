@@ -11,7 +11,7 @@ import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 
 @SuppressWarnings("serial")
-public class VerboseItemPanel extends JPanel{
+public class LongDescriptionPanel extends JPanel{
 
 	/**
 	 * Constructor of VerboseItemPanel. Create a panel that displays all 
@@ -23,7 +23,7 @@ public class VerboseItemPanel extends JPanel{
 	 * @param i item object that contains all the information about the catalog item
 	 * 
 	 */
-	public VerboseItemPanel(Item i){
+	public LongDescriptionPanel(Item i){
 		this.setBorder(BorderFactory.createEmptyBorder());
 		this.setLayout(new BorderLayout());
 		
@@ -36,14 +36,14 @@ public class VerboseItemPanel extends JPanel{
 		cover.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		coverAndNumber.add(cover);
 		
-		String[] types = i.getType();
-		String[] callNum = i.getCallNumberString();
-		String[] status = i.getStatus();
+		ArrayList<String> types = i.getType();
+		ArrayList<String> callNum = i.getCallNumberString();
+		ArrayList<String> status = i.getStatus();
 		
 		// Retrieving status information and placing it in a ScrollPane.
 		String statusInfo = "<html><body><center><font size=\"5\"><font face=\"Corbel\">";
-		for (int a = 0; a < types.length; a++){
-			statusInfo = statusInfo.concat(types[a] + " " + callNum[a] + ", " + status[a] + "<br>");
+		for (int a = 0; a < types.size(); a++){
+			statusInfo = statusInfo.concat(types.get(a) + " " + callNum.get(a) + ", " + status.get(a) + "<br>");
 		}
 		statusInfo.concat("</font></font></center></body></html>");
 		
@@ -56,7 +56,9 @@ public class VerboseItemPanel extends JPanel{
 		
 		JScrollPane scrollStatus = new JScrollPane(statusText, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollStatus.setPreferredSize(new Dimension(100, 100));
+		scrollStatus.getVerticalScrollBar().setUnitIncrement(5);
 		scrollStatus.setBorder(BorderFactory.createEmptyBorder());
+		
 		coverAndNumber.add(scrollStatus);
 		this.add(coverAndNumber, BorderLayout.WEST);
 		
@@ -85,7 +87,7 @@ public class VerboseItemPanel extends JPanel{
 	
 		JScrollPane scrollPane = new JScrollPane(text);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setPreferredSize(new Dimension(800, 600));
+		scrollPane.setPreferredSize(new Dimension(1000, 800));
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 5));
 		this.add(scrollPane, BorderLayout.CENTER);
 		
