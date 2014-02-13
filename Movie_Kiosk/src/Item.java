@@ -23,7 +23,7 @@ public class Item {
 	private final int SMALL_HEIGHT = 295;
 	private final int MED_HEIGHT = 500;
 	
-	private String title, summary, url;
+	private String title, summary, url, language, performer;
 	private ArrayList<String> callNumberString, status, typeOfMedia;
 	private int jonesAccesionNum; // -1 if item is not a part of the Jones VHS/DVD collection
 	private ImageIcon smallImg; // Height of 265
@@ -97,6 +97,14 @@ public class Item {
 				.select("td.bibInfoLabel:matches(Summary) + td.bibInfoData");
 		this.summary = summary.text();
 
+		// Retrieving language.
+		Elements language = doc.select("td.bibInfoLabel:matches(Language) + td.bibInfoData");
+		this.language = language.text();
+		
+		// Retrieving performer
+		Elements performer = doc.select("td.bibInfoLabel:matches(Performer) + td.bibInfoData");
+		this.performer = performer.text();
+		
 		// Retrieves the table on the webpage that displays the type of media,
 		// call number and availability.
 		Elements table = doc.select("tr.bibItemsEntry");
@@ -241,7 +249,7 @@ public class Item {
 			
 			data.add(pair);
 		}
-				
+		
 		return data;
 	}
 	
@@ -321,5 +329,13 @@ public class Item {
 	 */
 	public int getJonesAccesionNum(){
 		return this.jonesAccesionNum;
+	}
+	
+	public String getLanguage(){
+		return this.language;
+	}
+	
+	public String getPerformer(){
+		return this.performer;
 	}
 }
