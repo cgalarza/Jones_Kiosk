@@ -10,6 +10,6 @@ public class MyFont {
 	
 	public final static Font SMALL_TEXT= new Font("Corbel", Font.PLAIN, 19);
 	public final static Font MEDIUM_TEXT_BOLD = new Font("Corbel", Font.BOLD, 23);
-	public final static Font LARGE_TEXT_BOLD = new Font("Corbel", Font.BOLD, 30);
+	public final static Font LARGE_TEXT_BOLD = new Font("Corbel", Font.BOLD, 35);
 	
 }

@@ -20,8 +20,8 @@ public class Item {
 	private final String BEG_VHS_PATH = System.getProperty("user.home") + "/Pictures/VHS/";
 	
 	// Heights for images.
-	private final int SMALL_HEIGHT = 295;
-	private final int MED_HEIGHT = 500;
+	private final int SMALL_HEIGHT = 300;
+	private final int MED_HEIGHT = 600;
 	
 	private String title, summary, url, language, performer;
 	private ArrayList<String> callNumberString, status, typeOfMedia;
@@ -136,8 +136,6 @@ public class Item {
 				// Retrieving Accession Number.
 				this.callNumberString.add(row.child(1).ownText()
 						.replace(String.valueOf((char) 160), " ").trim());
-	
-				
 			}
 		}
 		

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,7 +21,7 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 	private JTextPane text;
 	private boolean entireRecord;
 	private Item i;
-	private String statusInfo;
+	private StringBuilder statusInfo;
 	
 	/**
 	 * Constructor of VerboseItemPanel. Create a panel that displays all 
@@ -42,18 +43,26 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 		ArrayList<String> status = i.getStatus();
 		
 		// Retrieving status information and placing it in a ScrollPane.
-		StringBuilder s = new StringBuilder();
-		for (int a = 0; a < types.size(); a++)
-			s = s.append(types.get(a) + " " + callNum.get(a) + ", " + status.get(a) + "<br>");
-		
-		statusInfo = s.toString();
-		
+		statusInfo = new StringBuilder();
+		for (int a = 0; a < types.size(); a++){
+			statusInfo.append(types.get(a));
+			statusInfo.append(" ");
+			statusInfo.append(callNum.get(a));
+			statusInfo.append(", ");
+			statusInfo.append(status.get(a));
+			if (types.size()-1 != a)
+				statusInfo.append("<br/>");
+		}
+				
 		// Display DVD cover
 		JLabel cover = new JLabel(i.getMedImgIcon());
 		cover.setAlignmentX(CENTER_ALIGNMENT);
 		cover.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		
-		switchRecords = new JButton("Display entire record");
+		switchRecords = new JButton(new ImageIcon(getClass().getResource("Display_Entire_Record.png")));
+		switchRecords.setBorder(BorderFactory.createEmptyBorder());
+		switchRecords.setContentAreaFilled(false);
+		switchRecords.setAlignmentX(CENTER_ALIGNMENT);
 		switchRecords.addActionListener(this);
 		
 		JPanel right = new JPanel();
@@ -72,7 +81,7 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 		
 		JScrollPane scrollPane = new JScrollPane(text);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setPreferredSize(new Dimension(1000, 800));
+		scrollPane.setPreferredSize(new Dimension(1100, 800));
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 5));
 
 		this.add(scrollPane, BorderLayout.CENTER);
@@ -84,25 +93,24 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 		entireRecord = true;
 		
 		// Display information to the left of the screen and placing it in a ScrollPane.
-		StringBuilder info = new StringBuilder ("<html><body><font size=\"6\"><font face=\"Corbel\">");
-
+		StringBuilder info = new StringBuilder("<html><body><font face=\"Corbel\"><font size=\"11\"><strong>");
+		info.append(i.getTitle()); 
+		info.append("</strong></font><font size=\"6\"><br/>");
+		info.append(statusInfo);
+		
 		ArrayList<ArrayList<String>> data = i.getAllWebpageInformation();
-		for (ArrayList<String> row : data){
+		for (int i = 0; i< data.size(); i++){
+			
+			ArrayList<String> row = data.get(i);
 			
 			if (row.get(0).equals(""))
-				info.append("&nbsp;&nbsp;&nbsp;&nbsp;"); // if there is no label insert a tab
+				info.append("<br />");
+			else if (row.get(0).equals("Title"))
+				info.append("<br/><br/><b>" + "Entire Title: </b>");
 			else 
-				info.append("<b>" + row.get(0) + ": </b>");
+				info.append("<br /><br /><b>" + row.get(0) + ": </b>");
 
 			info.append(row.get(1));
-			info.append("<br /><br />");
-			
-			if (row.get(0).equals("Description")){
-				info.append("<strong>Accession Number & Availability: </strong>");
-				info.append(statusInfo);
-				info.append("<br />");
-				
-			}
 		}
 		
 		info.append("</font></font></font></body></html>");
@@ -119,7 +127,7 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 		info.append(i.getTitle()); 
 		info.append("</strong></font><font size=\"6\"><br/>");
 		info.append(statusInfo);
-		info.append("<br/><strong>Summary: </strong>");
+		info.append("<br/><br/><strong>Summary: </strong>");
 		info.append(i.getSummary());
 		info.append("<br/><br/><strong>Performer(s): </strong>" );
 		info.append (i.getPerformer());
@@ -133,13 +141,13 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {		
 		if (e.getSource() == switchRecords && !entireRecord){
-			switchRecords.setText("Display Summarized Record");
+			switchRecords.setIcon(new ImageIcon(getClass().getResource("Display_Summarized_Record.png")));
 			text.setText(entireRecord());
 			text.setCaretPosition(0);
 		}
 		
 		else if (e.getSource() == switchRecords && entireRecord){
-			switchRecords.setText("Display Entire Record");
+			switchRecords.setIcon(new ImageIcon(getClass().getResource("Display_Entire_Record.png")));
 			text.setText(summarizedRecord());
 			text.setCaretPosition(0);
 		}

@@ -77,13 +77,13 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 
 		next = new JButton(new ImageIcon(getClass().getResource(
 				"Right_Arrow.png")));
-		next.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+		next.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
 		next.setContentAreaFilled(false);
 		next.addActionListener(this);
 
 		previous = new JButton(new ImageIcon(getClass().getResource(
 				"Left_Arrow.png")));
-		previous.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+		previous.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
 		previous.setContentAreaFilled(false);
 		previous.addActionListener(this);
 
@@ -118,7 +118,7 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 		panel.setBorder(BorderFactory.createEmptyBorder());
 
 		// Adds the five next movies to the panel.
-		for (int a = 0, counter = current; a < 5; a++, counter++) {
+		for (int a = 0, counter = current; a < 4; a++, counter++) {
 			if (counter == total) 
 				counter = 0; // rotation restarted
 			JPanel displayItem = new DisplayMoviePanel(promotionalMovies.get(counter));

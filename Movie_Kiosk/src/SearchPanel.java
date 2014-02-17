@@ -57,12 +57,15 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 
 		// Based on search term create search url.
 		String[] words = searchTerm.split(" ");
-		String formatedSearchTerm = "";
+		StringBuilder formatedSearchTerm = new StringBuilder("");
 		for (String s : words)
-			formatedSearchTerm = formatedSearchTerm.concat(s + "+");
-		String completeURL = BEG_URL + formatedSearchTerm + LIMIT_SEARCH_TO_JONES + END_URL;
+			formatedSearchTerm.append(s + "+");
+		StringBuilder completeURL = new StringBuilder (BEG_URL);
+		completeURL.append(formatedSearchTerm);
+		completeURL.append(LIMIT_SEARCH_TO_JONES);
+		completeURL.append(END_URL);
 		
-		setupPanelAndSearch(completeURL);
+		setupPanelAndSearch(completeURL.toString());
 	}
 	
 	/**

@@ -1,19 +1,17 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 @SuppressWarnings("serial")
 public class ShortDescriptionPanel extends JPanel {
 	
 	private Item item;
-	JTextArea summary;
+	JTextPane summary;
 	
 	/**
 	 * Constructor of BriefItemPanel. Creates a panel that displays some of 
@@ -27,20 +25,10 @@ public class ShortDescriptionPanel extends JPanel {
 	public ShortDescriptionPanel(Item i) {
 		this.setLayout(new BorderLayout());
 		this.item = i;
-
-		// JPanel that contains all of the title, type of media, call number and 
-		// status associated with the item.
-		JPanel infoPanel = new JPanel();
-		infoPanel.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
-		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-		infoPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		infoPanel.setOpaque(false);
 		
-		
-		JLabel title = new JLabel(i.getTitle());
-		title.setAlignmentX(LEFT_ALIGNMENT);
-		title.setFont(MyFont.MEDIUM_TEXT_BOLD);
-		infoPanel.add(title);
+		StringBuilder info = new StringBuilder("<html><body><font face=\"Corbel\"><font size=\"6\"><strong>");
+		info.append(item.getTitle());
+		info.append("</strong></font><font size=\"5\"><br/>");
 		
 		ArrayList<String> types = i.getType();
 		ArrayList<String> callNum = i.getCallNumberString();
@@ -49,22 +37,23 @@ public class ShortDescriptionPanel extends JPanel {
 		// In case there are multiple entries for type, call number and status they 
 		// are all retrieved and added to the infoPanel.
 		for (int a = 0; a < types.size(); a++){
-
-			JLabel itemInfo = new JLabel(types.get(a) + " " + callNum.get(a) + ", " + status.get(a));
-			itemInfo.setAlignmentX(LEFT_ALIGNMENT);
-			itemInfo.setFont(MyFont.SMALL_TEXT);			
-			infoPanel.add(itemInfo);
+			info.append(types.get(a));
+			info.append(" ");
+			info.append(callNum.get(a));
+			info.append(", ");
+			info.append(status.get(a));
+			info.append("<br/>");
 		}
 		
-		summary = new JTextArea(i.getSummary(), 5, 20);
-		summary.setFont(MyFont.SMALL_TEXT);
-		summary.setLineWrap(true);
+		info.append(item.getSummary());
+		info.append("</font></font></font></body></html>");
+		
+		summary = new JTextPane();
+		summary.setContentType("text/html");
+		summary.setText(info.toString());
+		summary.setCaretPosition(0);
 		summary.setEditable(false);
 		summary.setOpaque(false);
-		summary.setWrapStyleWord(true);
-		summary.setAlignmentX(LEFT_ALIGNMENT);
-		summary.setRequestFocusEnabled(true);
-		infoPanel.add(summary);
 		
 		// JPanel which displays image associated with this item
 		JPanel imagePanel = new JPanel();
@@ -75,17 +64,13 @@ public class ShortDescriptionPanel extends JPanel {
 		this.setOpaque(true);				
 		this.setBorder(BorderFactory.createLineBorder(Color.white, 10));
 
-		if (status.contains("AVAILABLE"))
+		if (!types.contains("On Reserve at Jones Media") && status.contains("AVAILABLE"))
 			this.setBackground(new Color (204, 255, 204));
 		else 
 			this.setBackground(new Color (255, 229, 204));
 		
-		// if on course reserves blue
-		// orange is one disc is out and other one isnt?
-		// otherwise red?
-		
 		this.add(imagePanel, BorderLayout.WEST);
-		this.add(infoPanel, BorderLayout.CENTER);
+		this.add(summary, BorderLayout.CENTER);
 
 	}
 	
@@ -98,7 +83,7 @@ public class ShortDescriptionPanel extends JPanel {
 		return this.item;
 	}
 	
-	public JTextArea getSummaryTextArea(){
+	public JTextPane getSummaryTextArea(){
 		return this.summary;
 	}
 }
