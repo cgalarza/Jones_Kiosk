@@ -26,7 +26,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	private final String SEARCH_MOVIES = "Search Movies";
 	
 	// By default uses the first monitor found
-	private final int MONITOR = 1;
+	private final int MONITOR = 0;
 	
 	// Canned searches for genre buttons.
 	private final String ANIMATION_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Animated%20films%20and%20branch:branchbajmz";
