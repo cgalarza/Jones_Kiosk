@@ -18,6 +18,7 @@ import javax.swing.ScrollPaneConstants;
 public class LongDescriptionPanel extends JPanel implements ActionListener{
 
 	private JButton switchRecords;
+	private String completeRecord, sumRecord;
 	private JTextPane text;
 	private boolean entireRecord;
 	private Item i;
@@ -27,8 +28,9 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 	 * Constructor of VerboseItemPanel. Create a panel that displays all 
 	 * the information the library catalog has about this item. 
 	 * 
-	 * Displays a medium picture along with all the information given in the
-	 * catalog.
+	 * Displays a medium picture along with the most pertinent information 
+	 * listed in the catalog. The user can choose to display the entire 
+	 * record by clicking a button. 
 	 * 
 	 * @param i item object that contains all the information about the catalog item
 	 * 
@@ -59,6 +61,7 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 		cover.setAlignmentX(CENTER_ALIGNMENT);
 		cover.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		
+		// Set up button that switches record.
 		switchRecords = new JButton(new ImageIcon(getClass().getResource("Display_Entire_Record.png")));
 		switchRecords.setBorder(BorderFactory.createEmptyBorder());
 		switchRecords.setContentAreaFilled(false);
@@ -81,7 +84,7 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 		
 		JScrollPane scrollPane = new JScrollPane(text);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setPreferredSize(new Dimension(1100, 800));
+		scrollPane.setPreferredSize(new Dimension(1100, 775));
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 5));
 
 		this.add(scrollPane, BorderLayout.CENTER);
@@ -92,50 +95,58 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 		
 		entireRecord = true;
 		
-		// Display information to the left of the screen and placing it in a ScrollPane.
-		StringBuilder info = new StringBuilder("<html><body><font face=\"Corbel\"><font size=\"11\"><strong>");
-		info.append(i.getTitle()); 
-		info.append("</strong></font><font size=\"6\"><br/>");
-		info.append(statusInfo);
+		if (completeRecord == null){
 		
-		ArrayList<ArrayList<String>> data = i.getAllWebpageInformation();
-		for (int i = 0; i< data.size(); i++){
+			// Display information to the left of the screen and placing it in a ScrollPane.
+			StringBuilder info = new StringBuilder("<html><body><font face=\"Corbel\"><font size=\"11\"><strong>");
+			info.append(i.getTitle()); 
+			info.append("</strong></font><font size=\"6\"><br/>");
+			info.append(statusInfo);
+		
+			ArrayList<ArrayList<String>> data = i.getAllWebpageInformation();
+			for (int i = 0; i< data.size(); i++){
 			
-			ArrayList<String> row = data.get(i);
+				ArrayList<String> row = data.get(i);
 			
-			if (row.get(0).equals(""))
-				info.append("<br />");
-			else if (row.get(0).equals("Title"))
-				info.append("<br/><br/><b>" + "Entire Title: </b>");
-			else 
-				info.append("<br /><br /><b>" + row.get(0) + ": </b>");
+				if (row.get(0).equals(""))
+					info.append("<br />");
+				else if (row.get(0).equals("Title"))
+					info.append("<br/><br/><b>" + "Entire Title: </b>");
+				else 
+					info.append("<br /><br /><b>" + row.get(0) + ": </b>");
 
-			info.append(row.get(1));
-		}
+				info.append(row.get(1));
+			}
 		
-		info.append("</font></font></font></body></html>");
-						
-		return info.toString();
+			info.append("</font></font></font></body></html>");
+			completeRecord = info.toString();
+		}				
+		
+		return completeRecord;
 	}
 	
 	private String summarizedRecord(){
 		
 		entireRecord = false;
 		
-		// Display information to the left of the screen and placing it in a ScrollPane.
-		StringBuilder info = new StringBuilder("<html><body><font face=\"Corbel\"><font size=\"11\"><strong>");
-		info.append(i.getTitle()); 
-		info.append("</strong></font><font size=\"6\"><br/>");
-		info.append(statusInfo);
-		info.append("<br/><br/><strong>Summary: </strong>");
-		info.append(i.getSummary());
-		info.append("<br/><br/><strong>Performer(s): </strong>" );
-		info.append (i.getPerformer());
-		info.append("<br/><br/><strong>Language: </strong>");
-		info.append(i.getLanguage());
-		info.append("</font></font></body></html>");
-								
-		return info.toString();
+		if (sumRecord == null){
+			// Display information to the left of the screen and placing it in a ScrollPane.
+			StringBuilder info = new StringBuilder("<html><body><font face=\"Corbel\"><font size=\"11\"><strong>");
+			info.append(i.getTitle()); 
+			info.append("</strong></font><font size=\"6\"><br/>");
+			info.append(statusInfo);
+			info.append("<br/><br/><strong>Summary: </strong>");
+			info.append(i.getSummary());
+			info.append("<br/><br/><strong>Performer(s): </strong>" );
+			info.append (i.getPerformer());
+			info.append("<br/><br/><strong>Language: </strong>");
+			info.append(i.getLanguage());
+			info.append("</font></font></body></html>");
+		
+			sumRecord = info.toString();
+		}
+		
+		return sumRecord;
 	}
 
 	@Override

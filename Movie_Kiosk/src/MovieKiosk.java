@@ -2,7 +2,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
@@ -25,7 +24,9 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	// Name of cards in cardLayouts.
 	private final String NEW_MOVIES = "New Movies";
 	private final String SEARCH_MOVIES = "Search Movies";
-	private final int MONITOR = 0;
+	
+	// By default uses the first monitor found
+	private final int MONITOR = 1;
 	
 	// Canned searches for genre buttons.
 	private final String ANIMATION_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Animated%20films%20and%20branch:branchbajmz";
@@ -49,6 +50,9 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	private final String THRILLER_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Thrillers%20%28Motion%20pictures%29%20films%20and%20branch:branchbaj**";
 	private final String FANTASY_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Fantasy%20films%20and%20branch:branchbaj**";
 	
+	private final String SEARCH_PROMPT = "Search the Jones Media VHS & DVD Collection";
+	
+	
 	private JPanel bottom, searchMovies, genreButtons, promoPanel;
 	private JButton searchButton, logo, adventure, horror, western, animation, musical, mystery, 
 		shortFilms, scienceFiction, drama, children, televisionPrograms, documentary, comedy, war, crime, 
@@ -71,7 +75,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		logo.setContentAreaFilled(false);
 		logo.addActionListener(this);
 
-		// Panel which contains 15 different genre buttons.
+		// Panel which contains 20 different genre buttons.
 		genreButtons = createGenrePanel();
 
 		JPanel topButtons = new JPanel();
@@ -80,10 +84,11 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 		// JPanel which contains text input field and a search button.
 		JPanel search = new JPanel();
-		searchBar = new JTextField("Search the Jones Media VHS & DVD Collection");
+		searchBar = new JTextField(SEARCH_PROMPT);
 		searchBar.setPreferredSize(new Dimension(600, 50));
-		searchBar.setFont(new Font("Helvetica", Font.PLAIN, 25));
+		searchBar.setFont(MyFont.SEARCH_TEXT);
 		searchBar.addActionListener(this);
+		// When search bar is clicked the entire text is highlighted
 		searchBar.addFocusListener(new java.awt.event.FocusAdapter() {
     	    public void focusGained(java.awt.event.FocusEvent evt) {
     	    	SwingUtilities.invokeLater( new Runnable() {
@@ -95,7 +100,6 @@ public class MovieKiosk extends JFrame implements ActionListener {
     			});
     	    }
     	});
-		
 
 		searchButton = new JButton(new ImageIcon(getClass().getResource("Magnifying_Glass.png")));
 		searchButton.setBorder(BorderFactory.createEmptyBorder());
@@ -156,7 +160,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * Creates the genre panel with 15 different buttons. Each buttons represents a different genre 
+	 * Creates the genre panel with 20 different buttons. Each buttons represents a different genre 
 	 * button and once clicked displays a canned search in a SearchPanel. 
 	 * 
 	 * Each buttons was placed by absolute positioning (no other layout allowed the flexibility needed).
@@ -165,7 +169,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	 */
 	
 	private JPanel createGenrePanel(){
-		
+		// TODO: Could genreButtons be their own class?
 		JPanel genreButtons = new JPanel();
 		genreButtons.setLayout(null);
 		genreButtons.setPreferredSize(new Dimension(1694, 216));
@@ -331,7 +335,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 			// Make sure the promotional panel is flipped to the right card
 			CardLayout cl = (CardLayout) (promoPanel.getLayout());
 			cl.show(promoPanel, "Promo_Movies");
-			searchBar.setText("Search the Jones Media VHS & DVD Collection");
+			searchBar.setText(SEARCH_PROMPT);
 		} else if (e.getSource() == searchButton || e.getSource() == searchBar) {
 			// While typing enter was hit our the search buttons was clicked.
 			searchMovies = new SearchPanel(searchBar.getText());
@@ -385,7 +389,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 				
 				// Once searchPanel object has been created add to SEARCH_MOVIES card
 				bottom.add(searchMovies, SEARCH_MOVIES);
-				searchBar.setText("Search the Jones Media VHS & DVD Collection");
+				searchBar.setText(SEARCH_PROMPT);
 				cards.show(bottom, SEARCH_MOVIES);
 				
 			} catch (MalformedURLException e1) {

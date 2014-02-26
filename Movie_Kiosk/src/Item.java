@@ -26,12 +26,12 @@ public class Item {
 	private String title, summary, url, language, performer;
 	private ArrayList<String> callNumberString, status, typeOfMedia;
 	private int jonesAccesionNum; // -1 if item is not a part of the Jones VHS/DVD collection
-	private ImageIcon smallImg; // Height of 265
-	private ImageIcon medImg;   // Height of 475
+	private ImageIcon smallImg; // Height of 300
+	private ImageIcon medImg;   // Height of 600
 	public Elements labelInfoPairs;
 
 	/**
-	 * Using the catalog url the item's information is retrieved and stored in this
+	 * Using the catalog URL, the item's information is retrieved and stored in this
 	 * object.
 	 * 
 	 * @param link Catalog url
@@ -50,7 +50,7 @@ public class Item {
 	 * 
 	 * The information for each is pulled from a text document and then that 
 	 * information is sent to this constructor in order to create an Item 
-	 * object. NOTE: The title is no retrieved from the catalog page, the 
+	 * object. NOTE: The title is not retrieved from the catalog page, the 
 	 * title given in this constructor is the one used.
 	 * 
 	 * @param title Title of movie
@@ -124,6 +124,8 @@ public class Item {
 				String stat = row.child(2).text()
 						.replace(String.valueOf((char) 160), " ").trim();
 				
+				// If the status is "LIBRARY HAS" then we don't want to display it. It's
+				// extra information that's not necessary.
 				if (stat.equals("LIBRARY HAS"))
 					continue;
 				
@@ -133,6 +135,7 @@ public class Item {
 				// media).
 				this.typeOfMedia.add(row.child(0).text()
 						.replace(String.valueOf((char) 160), " ").trim());
+				
 				// Retrieving Accession Number.
 				this.callNumberString.add(row.child(1).ownText()
 						.replace(String.valueOf((char) 160), " ").trim());
@@ -141,8 +144,9 @@ public class Item {
 		
 		// If item is part of the Jones Media Collection, then its accession
 		// number is retrieved. If it is not part of the collection the
-		// accession number is set to -1.
-		// NOTE: May be no longer necessary
+		// accession number is set to -1. Have to check each row because
+		// the item might have multiple things associated with it and the first one 
+		// listed may not be a Jones Media DVD or VHS.
 		this.jonesAccesionNum = -1;
 		for (int i = 0; i < typeOfMedia.size(); i++){	
 			if (typeOfMedia.get(i).equals("Jones Media DVD")
@@ -151,7 +155,6 @@ public class Item {
 			this.jonesAccesionNum = Integer.parseInt(splitCallNumString[0]);
 			}
 		}
-		
 		
 		return true;
 	}
@@ -195,7 +198,7 @@ public class Item {
 				img = new ImageIcon(getClass().getResource(
 						DEFAULT_IMG_PATH));
 		} else if (typeOfMedia.get(0).equals("On Reserve at Jones Media")) {
-			// If on reserve at Jones
+			// If on reserve at Jones Media display a different picture
 			img = new ImageIcon(getClass().getResource(
 					ON_RESERVE_AT_JONES));
 
@@ -232,7 +235,7 @@ public class Item {
 			doc = Jsoup.connect(url).get();
 		} catch (IOException e) {
 			e.printStackTrace();
-			// return empty array?
+			// TODO: return empty array?
 		}
 				
 		labelInfoPairs = doc.select("table.bibDetail table tbody tr");
@@ -253,7 +256,8 @@ public class Item {
 	
 	/**
 	 * Method that returns a medium sized ImageIcon. If the icon has not 
-	 * been previously created, it creates it.
+	 * been previously created, it creates it. Therefore the image is only 
+	 * created with necessary.
 	 * 
 	 * @returns a medium-sized ImageIcon
 	 */
@@ -270,6 +274,8 @@ public class Item {
 	 * @return small ImageIcon
 	 */
 	public ImageIcon getImgIcon() {
+		if (smallImg == null)
+			smallImg = createImageIcon(SMALL_HEIGHT);
 		return this.smallImg;
 	}
 
@@ -309,7 +315,6 @@ public class Item {
 	public ArrayList<String> getStatus() {
 		return this.status;
 	}
-
 	
 	/**
 	 * Returns item's summary.
@@ -321,18 +326,27 @@ public class Item {
 	}
 	
 	/**
-	 * Returns Jones accession number. If not an item at Jones, accesion number is set to -1.
+	 * Returns Jones accession number. If not an item at Jones, accession number is set to -1.
 	 * 
-	 * @returns Jones accesion number
+	 * @returns Jones accession number
 	 */
 	public int getJonesAccesionNum(){
 		return this.jonesAccesionNum;
 	}
-	
+	/**
+	 * Returns the film's language. 
+	 * 
+	 * @return films language
+	 */
 	public String getLanguage(){
 		return this.language;
 	}
 	
+	/**
+	 * Returns performers in film
+	 * 
+	 * @return performers in film
+	 */
 	public String getPerformer(){
 		return this.performer;
 	}

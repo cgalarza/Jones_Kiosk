@@ -62,8 +62,10 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 			br.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			// TODO: Display error message in application
 		} catch (ArrayIndexOutOfBoundsException e1){
 			e1.printStackTrace();
+			//TODO: Display error message in application
 		}
 
 		total = promotionalMovies.size();

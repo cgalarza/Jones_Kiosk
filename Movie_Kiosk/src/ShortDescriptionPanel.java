@@ -65,8 +65,10 @@ public class ShortDescriptionPanel extends JPanel {
 		this.setBorder(BorderFactory.createLineBorder(Color.white, 10));
 
 		if (!types.contains("On Reserve at Jones Media") && status.contains("AVAILABLE"))
+			// If the item is available and not on reserve highlight the search result green
 			this.setBackground(new Color (204, 255, 204));
 		else 
+			// If the item is not available highlight the search result orange
 			this.setBackground(new Color (255, 229, 204));
 		
 		this.add(imagePanel, BorderLayout.WEST);
@@ -83,7 +85,16 @@ public class ShortDescriptionPanel extends JPanel {
 		return this.item;
 	}
 	
+	
+	/**
+	 * Returns the JTextArea that displays all the information 
+	 * associated with this object.
+	 * 
+	 * @return JTextPanel instance variable
+	 */
+	
 	public JTextPane getSummaryTextArea(){
+		// Needed for the MouseListener in SearchPanel
 		return this.summary;
 	}
 }

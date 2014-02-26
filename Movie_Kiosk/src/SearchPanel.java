@@ -58,10 +58,12 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		// Based on search term create search url.
 		String[] words = searchTerm.split(" ");
 		StringBuilder formatedSearchTerm = new StringBuilder("");
-		for (String s : words)
-			formatedSearchTerm.append(s + "+");
+		for (String s : words){
+			formatedSearchTerm.append(s);
+			formatedSearchTerm.append("+");
+		}
 		StringBuilder completeURL = new StringBuilder (BEG_URL);
-		completeURL.append(formatedSearchTerm);
+		completeURL.append(formatedSearchTerm.toString());
 		completeURL.append(LIMIT_SEARCH_TO_JONES);
 		completeURL.append(END_URL);
 		
@@ -142,13 +144,13 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 
 		// Check to see if there is an error message
 		if (doc.select(".errormessage").size() > 0)
-			return false; // if there is return false
+			return false; // if there was an error message return false
 		else {
 			// If there isn't an error message check if there is one results or many results.
 			String[] entriesFoundTokens = doc.select("i").text().split(" ");			
 						
 			if (!entriesFoundTokens[0].equals("") && Integer.parseInt(entriesFoundTokens[0]) == 1) {
-				// If only one result then the search url is the url of the only search results and 
+				// If only one result then the search url it's the url of the only search results and 
 				// therefore we have to create an Elements object with the appropriate information.
 				links = new Elements();
 				Attributes attr = new Attributes();
