@@ -78,13 +78,13 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 		displayTitle.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
 
 		next = new JButton(new ImageIcon(getClass().getResource(
-				"Right_Arrow.png")));
+				"resources/Right_Arrow.png")));
 		next.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
 		next.setContentAreaFilled(false);
 		next.addActionListener(this);
 
 		previous = new JButton(new ImageIcon(getClass().getResource(
-				"Left_Arrow.png")));
+				"resources/Left_Arrow.png")));
 		previous.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
 		previous.setContentAreaFilled(false);
 		previous.addActionListener(this);
@@ -197,7 +197,7 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 			DisplayMoviePanel panelClicked = (DisplayMoviePanel) e.getSource();
 			
 			JPanel verboseMovieDisplay = new LongDescriptionPanel(panelClicked.getItem());
-			back = new JButton(new ImageIcon(getClass().getResource("Back_Arrow.png")));
+			back = new JButton(new ImageIcon(getClass().getResource("resources/Back_Arrow.png")));
 			back.setBorder(BorderFactory.createEmptyBorder());
 			back.setContentAreaFilled(false);
 			back.addActionListener(this);

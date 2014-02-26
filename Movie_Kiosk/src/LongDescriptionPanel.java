@@ -62,7 +62,7 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 		cover.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		
 		// Set up button that switches record.
-		switchRecords = new JButton(new ImageIcon(getClass().getResource("Display_Entire_Record.png")));
+		switchRecords = new JButton(new ImageIcon(getClass().getResource("resources/Display_Entire_Record.png")));
 		switchRecords.setBorder(BorderFactory.createEmptyBorder());
 		switchRecords.setContentAreaFilled(false);
 		switchRecords.setAlignmentX(CENTER_ALIGNMENT);
@@ -152,13 +152,13 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {		
 		if (e.getSource() == switchRecords && !entireRecord){
-			switchRecords.setIcon(new ImageIcon(getClass().getResource("Display_Summarized_Record.png")));
+			switchRecords.setIcon(new ImageIcon(getClass().getResource("resources/Display_Summarized_Record.png")));
 			text.setText(entireRecord());
 			text.setCaretPosition(0);
 		}
 		
 		else if (e.getSource() == switchRecords && entireRecord){
-			switchRecords.setIcon(new ImageIcon(getClass().getResource("Display_Entire_Record.png")));
+			switchRecords.setIcon(new ImageIcon(getClass().getResource("resources/Display_Entire_Record.png")));
 			text.setText(summarizedRecord());
 			text.setCaretPosition(0);
 		}

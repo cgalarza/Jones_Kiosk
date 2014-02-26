@@ -13,9 +13,9 @@ import org.jsoup.select.Elements;
 public class Item {
 
 	// Paths to Images.
-	private final String DEFAULT_IMG_PATH = "Image_Not_Available.png";
-	private final String NOT_AVAILABLE_AT_JONES = "Not_Available_at_Jones.png";
-	private final String ON_RESERVE_AT_JONES = "On_Reserve_at_Jones.png";
+	private final String DEFAULT_IMG_PATH = "resources/Image_Not_Available.png";
+	private final String NOT_AVAILABLE_AT_JONES = "resources/Not_Available_at_Jones.png";
+	private final String ON_RESERVE_AT_JONES = "resources/On_Reserve_at_Jones.png";
 	private final String BEG_DVD_PATH = System.getProperty("user.home") + "/Pictures/DVD/";
 	private final String BEG_VHS_PATH = System.getProperty("user.home") + "/Pictures/VHS/";
 	

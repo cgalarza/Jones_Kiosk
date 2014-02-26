@@ -70,7 +70,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		// Jones Media Center logo in the upper left hand corner of the screen. 
 		// When the logo is clicked the user is directed back to the display of
 		// promotional movies.
-		logo = new JButton(new ImageIcon(getClass().getResource("Jones_Logo.png")));
+		logo = new JButton(new ImageIcon(getClass().getResource("resources/Jones_Logo.png")));
 		logo.setBorder(BorderFactory.createEmptyBorder());
 		logo.setContentAreaFilled(false);
 		logo.addActionListener(this);
@@ -101,7 +101,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
     	    }
     	});
 
-		searchButton = new JButton(new ImageIcon(getClass().getResource("Magnifying_Glass.png")));
+		searchButton = new JButton(new ImageIcon(getClass().getResource("resources/Magnifying_Glass.png")));
 		searchButton.setBorder(BorderFactory.createEmptyBorder());
 		searchButton.setContentAreaFilled(false);
 		searchButton.addActionListener(this);
@@ -174,118 +174,118 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		genreButtons.setLayout(null);
 		genreButtons.setPreferredSize(new Dimension(1694, 216));
 		
-		animation = new JButton(new ImageIcon(getClass().getResource("Genre_Animation.png")));
+		animation = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Animation.png")));
 		animation.addActionListener(this);
 		animation.setBorder(BorderFactory.createEmptyBorder());
 		animation.setContentAreaFilled(false);
 		animation.setBounds(0, 1, 279, 68);
 		genreButtons.add(animation);
 		
-		horror = new JButton(new ImageIcon(getClass().getResource("Genre_Horror.png")));
+		horror = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Horror.png")));
 		horror.addActionListener(this);
 		horror.setBorder(BorderFactory.createEmptyBorder());
 		horror.setContentAreaFilled(false);
 		horror.setBounds(284, 0, 200, 70);
 		genreButtons.add(horror);
 		
-		western = new JButton(new ImageIcon(getClass().getResource("Genre_Western.png")));
+		western = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Western.png")));
 		western.addActionListener(this);
 		western.setBorder(BorderFactory.createEmptyBorder());
 		western.setContentAreaFilled(false);
 		western.setBounds(489, 0, 229, 70);
 		genreButtons.add(western);
 		
-		musical = new JButton(new ImageIcon(getClass().getResource("Genre_Musical.png")));
+		musical = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Musical.png")));
 		musical.addActionListener(this);
 		musical.setBorder(BorderFactory.createEmptyBorder());
 		musical.setContentAreaFilled(false);
 		musical.setBounds(723, 0, 218, 70);
 		genreButtons.add(musical);
 		
-		mystery = new JButton(new ImageIcon(getClass().getResource("Genre_Mystery.png")));
+		mystery = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Mystery.png")));
 		mystery.addActionListener(this);
 		mystery.setBorder(BorderFactory.createEmptyBorder());
 		mystery.setContentAreaFilled(false);
 		mystery.setBounds(946, 0, 217, 70);
 		genreButtons.add(mystery);
 		
-		filmNoir = new JButton(new ImageIcon(getClass().getResource("Genre_Film_Noir.png")));
+		filmNoir = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Film_Noir.png")));
 		filmNoir.addActionListener(this);
 		filmNoir.setBorder(BorderFactory.createEmptyBorder());
 		filmNoir.setContentAreaFilled(false);
 		filmNoir.setBounds(1168, 0, 134, 142);
 		genreButtons.add(filmNoir);
 		
-		historical = new JButton(new ImageIcon(getClass().getResource("Genre_Historical.png")));
+		historical = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Historical.png")));
 		historical.addActionListener(this);
 		historical.setBorder(BorderFactory.createEmptyBorder());
 		historical.setContentAreaFilled(false);
 		historical.setBounds(1307, 0, 236, 69);
 		
-		shortFilms = new JButton(new ImageIcon(getClass().getResource("Genre_Short_Films.png")));
+		shortFilms = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Short_Films.png")));
 		shortFilms.addActionListener(this);
 		shortFilms.setBorder(BorderFactory.createEmptyBorder());
 		shortFilms.setContentAreaFilled(false);
 		shortFilms.setBounds(1548, 0, 152, 132);
 		genreButtons.add(shortFilms);
 		
-		scienceFiction = new JButton(new ImageIcon(getClass().getResource("Genre_Science_Fiction.png")));
+		scienceFiction = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Science_Fiction.png")));
 		scienceFiction.addActionListener(this);
 		scienceFiction.setBorder(BorderFactory.createEmptyBorder());
 		scienceFiction.setContentAreaFilled(false);
 		scienceFiction.setBounds(0, 77, 187, 139);
 		genreButtons.add(scienceFiction);
 		
-		adventure = new JButton(new ImageIcon(getClass().getResource("Genre_Adventure.png")));
+		adventure = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Adventure.png")));
 		adventure.addActionListener(this);
 		adventure.setBorder(BorderFactory.createEmptyBorder());
 		adventure.setContentAreaFilled(false);
 		adventure.setBounds(192, 77, 271, 69);
 		genreButtons.add(adventure);
 		
-		drama = new JButton(new ImageIcon(getClass().getResource("Genre_Drama.png")));
+		drama = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Drama.png")));
 		drama.addActionListener(this);
 		drama.setBorder(BorderFactory.createEmptyBorder());
 		drama.setContentAreaFilled(false);
 		drama.setBounds(468, 77, 187, 69);
 		genreButtons.add(drama);
 		
-		children = new JButton(new ImageIcon(getClass().getResource("Genre_Children's.png")));
+		children = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Children's.png")));
 		children.addActionListener(this);
 		children.setBorder(BorderFactory.createEmptyBorder());
 		children.setContentAreaFilled(false);
 		children.setBounds(660, 77, 259, 69);
 		genreButtons.add(children);
 		
-		televisionPrograms = new JButton(new ImageIcon(getClass().getResource("Genre_Television_Programs.png")));
+		televisionPrograms = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Television_Programs.png")));
 		televisionPrograms.addActionListener(this);
 		televisionPrograms.setBorder(BorderFactory.createEmptyBorder());
 		televisionPrograms.setContentAreaFilled(false);
 		televisionPrograms.setBounds(924, 77, 239, 139);
 		genreButtons.add(televisionPrograms);
 		
-		romance = new JButton(new ImageIcon(getClass().getResource("Genre_Romance.png")));
+		romance = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Romance.png")));
 		romance.addActionListener(this);
 		romance.setBorder(BorderFactory.createEmptyBorder());
 		romance.setContentAreaFilled(false);
 		romance.setBounds(1307, 73, 236, 69);
 		genreButtons.add(romance);	
 		
-		documentary = new JButton(new ImageIcon(getClass().getResource("Genre_Documentary.png")));
+		documentary = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Documentary.png")));
 		documentary.addActionListener(this);
 		documentary.setBorder(BorderFactory.createEmptyBorder());
 		documentary.setContentAreaFilled(false);
 		documentary.setBounds(192, 150, 349, 67);
 		genreButtons.add(documentary);
 		
-		comedy = new JButton(new ImageIcon(getClass().getResource("Genre_Comedy.png")));
+		comedy = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Comedy.png")));
 		comedy.addActionListener(this);
 		comedy.setBorder(BorderFactory.createEmptyBorder());
 		comedy.setContentAreaFilled(false);
 		comedy.setBounds(546, 150, 235, 67);
 		genreButtons.add(comedy);
 		
-		war = new JButton(new ImageIcon(getClass().getResource("Genre_War.png")));
+		war = new JButton(new ImageIcon(getClass().getResource("resources/Genre_War.png")));
 		war.addActionListener(this);
 		war.setBorder(BorderFactory.createEmptyBorder());
 		war.setContentAreaFilled(false);
@@ -293,21 +293,21 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		genreButtons.add(war);
 		
 		genreButtons.add(historical);	
-		thriller = new JButton(new ImageIcon(getClass().getResource("Genre_Thriller.png")));
+		thriller = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Thriller.png")));
 		thriller.addActionListener(this);
 		thriller.setBorder(BorderFactory.createEmptyBorder());
 		thriller.setContentAreaFilled(false);
 		thriller.setBounds(1168, 147, 184, 68);
 		genreButtons.add(thriller);
 
-		fantasy = new JButton(new ImageIcon(getClass().getResource("Genre_Fantasy.png")));
+		fantasy = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Fantasy.png")));
 		fantasy.addActionListener(this);
 		fantasy.setBorder(BorderFactory.createEmptyBorder());
 		fantasy.setContentAreaFilled(false);
 		fantasy.setBounds(1355, 147, 189, 68);
 		genreButtons.add(fantasy);	
 		
-		crime = new JButton(new ImageIcon(getClass().getResource("Genre_Crime.png")));
+		crime = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Crime.png")));
 		crime.addActionListener(this);
 		crime.setBorder(BorderFactory.createEmptyBorder());
 		crime.setContentAreaFilled(false);

@@ -239,7 +239,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 
 		// Creating the next button with image.
 		previousResults = new JButton(new ImageIcon(getClass().getResource(
-				"Previous.png")));
+				"resources/Previous.png")));
 		previousResults.setBorder(BorderFactory.createEmptyBorder());
 		previousResults.setContentAreaFilled(false);
 		previousResults.addActionListener(this);
@@ -250,7 +250,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 
 		// Creating the previous button with image.
 		moreResults = new JButton(new ImageIcon(getClass().getResource(
-				"More.png")));
+				"resources/More.png")));
 		moreResults.setBorder(BorderFactory.createEmptyBorder());
 		moreResults.setContentAreaFilled(false);
 		moreResults.addActionListener(this);
@@ -308,7 +308,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			panelClicked = (ShortDescriptionPanel) SwingUtilities.getAncestorOfClass(ShortDescriptionPanel.class, (Component) e.getSource());
 		
 		if (panelClicked != null){
-			back = new JButton(new ImageIcon(getClass().getResource("Back_Arrow.png")));
+			back = new JButton(new ImageIcon(getClass().getResource("resources/Back_Arrow.png")));
 			back.setBorder(BorderFactory.createEmptyBorder());
 			back.setContentAreaFilled(false);
 			back.addActionListener(this);
