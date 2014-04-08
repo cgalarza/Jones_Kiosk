@@ -91,6 +91,7 @@ public class Item {
 			// Split the string in order to just get the name of the movie and not
 			// the rest of the information attached with the title.
 			String splitTitleString[] = title.text().split("\\[");
+			splitTitleString = splitTitleString[0].split("/");
 			this.title = splitTitleString[0];
 		}
 		// Retrieving summary.
