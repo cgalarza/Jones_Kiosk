@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class DisplayMoviePanel extends JPanel{
 	
-	private Item i;
+	private Item i; 
 	
 	/**
 	 * Constructor of DisplayItemPanel. Create a panel that displays some
