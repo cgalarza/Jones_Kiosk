@@ -13,7 +13,7 @@ import org.jsoup.select.Elements;
 public class Item {
 
 	// Paths to Images.
-	// TODO: Should be static? 
+	// TODO: Should be static?
 	private final String DEFAULT_IMG_PATH = "resources/Image_Not_Available.png";
 	private final String NOT_AVAILABLE_AT_JONES = "resources/Not_Available_at_Jones.png";
 	private final String ON_RESERVE_AT_JONES = "resources/On_Reserve_at_Jones.png";
