@@ -12,7 +12,7 @@ import org.jsoup.select.Elements;
 
 public class Item {
 
-	// Paths to Images.
+	// Paths to images.
 	// TODO: Should be static?
 	private final String DEFAULT_IMG_PATH = "resources/Image_Not_Available.png";
 	private final String NOT_AVAILABLE_AT_JONES = "resources/Not_Available_at_Jones.png";
@@ -32,27 +32,24 @@ public class Item {
 	public Elements labelInfoPairs;
 
 	/**
-	 * Using the catalog URL, the item's information is retrieved and stored in this
-	 * object.
+	 * Using the catalog URL, the item's information is retrieved and stored in this object.
 	 * 
 	 * @param link Catalog url
 	 */
 	public Item(String link) {
 		this.url = link;
-		// If there isn't a problem loading the information
-		// then get the image that corresponds with the item.
+		// If there isn't a problem loading the information then get the image that corresponds 
+		// with the item.
 		if (loadInformation())
-			smallImg = createImageIcon(SMALL_HEIGHT);
+			this.smallImg = createImageIcon(SMALL_HEIGHT);
 	}
 
 	/**
-	 * Constructor specifically for items that are going to be displayed 
-	 * on the promotional screen. 
+	 * Constructor specifically for items that are going to be displayed on the promotional screen. 
 	 * 
-	 * The information for each is pulled from a text document and then that 
-	 * information is sent to this constructor in order to create an Item 
-	 * object. NOTE: The title is not retrieved from the catalog page, the 
-	 * title given in this constructor is the one used.
+	 * The information for each is pulled from a text document and then that information is sent to 
+	 * this constructor in order to create an Item object. NOTE: The title is not retrieved from 
+	 * the catalog page, the title given in this constructor is the one used.
 	 * 
 	 * @param title Title of movie
 	 * @param link url link to the correct catalog record
@@ -62,14 +59,13 @@ public class Item {
 		this.title = title;
 		this.url = link;
 		if (loadInformation())
-			medImg = createImageIcon(MED_HEIGHT);
+			this.medImg = createImageIcon(MED_HEIGHT);
 	}
 
 	/**
-	 * Using the library catalog webpage associated with this item the following
-	 * information is saved in instance variables: movie title, summary of
-	 * movies, type of media, call number, Jones accession number (if
-	 * applicable) and the status of the item.
+	 * Using the library catalog webpage associated with this item the following information is 
+	 * saved in instance variables: movie title, summary of movies, type of media, call number, 
+	 * Jones accession number (if applicable) and the status of the item.
 	 * 
 	 * @return true if there weren't any problems loading the information
 	 */
@@ -84,9 +80,10 @@ public class Item {
 		}
 
 		// If a title has not been set, retrieving the title of the item.
-		if (title == null) {
+		if (this.title == null) {
 			Elements title = doc
-				.select("td.bibInfoLabel:matches(Title):not(:contains(Alternate)):not(:contains(Uniform)) + td.bibInfoData");
+				.select("td.bibInfoLabel:matches(Title):not(:contains(Alternate)):not("
+						+ ":contains(Uniform)) + td.bibInfoData");
 
 			// Split the string in order to just get the name of the movie and not
 			// the rest of the information attached with the title.
@@ -103,12 +100,12 @@ public class Item {
 		Elements language = doc.select("td.bibInfoLabel:matches(Language) + td.bibInfoData");
 		this.language = language.text();
 		
-		// Retrieving performer
+		// Retrieving performer.
 		Elements performer = doc.select("td.bibInfoLabel:matches(Performer) + td.bibInfoData");
 		this.performer = performer.text();
 		
-		// Retrieves the table on the webpage that displays the type of media,
-		// call number and availability.
+		// Retrieves the table on the webpage that displays the type of media, call number and 
+		// availability.
 		Elements table = doc.select("tr.bibItemsEntry");
 				
 		// If a table is not empty then retrieve the information
@@ -119,22 +116,21 @@ public class Item {
 			this.status = new ArrayList<String>();
 			
 			for (int i = 0; i < table.size(); i++) {
-				// Retrieves the html for the row specified
+				// Retrieves the html for the row specified.
 				Element row = table.get(i);
 				
 				// Retrieving Status.
 				String stat = row.child(2).text()
 						.replace(String.valueOf((char) 160), " ").trim();
 				
-				// If the status is "LIBRARY HAS" then we don't want to display it. It's
-				// extra information that's not necessary.
+				// If the status is "LIBRARY HAS" then we don't want to display it. It's extra 
+				// information that's not necessary.
 				if (stat.equals("LIBRARY HAS"))
 					continue;
 				
 				this.status.add(stat);
 				
-				// Retrieving Type (Jones Media DVD/ Jones Media VHS/ other type of
-				// media).
+				// Retrieving Type (Jones Media DVD/ Jones Media VHS/ other type of media).
 				this.typeOfMedia.add(row.child(0).text()
 						.replace(String.valueOf((char) 160), " ").trim());
 				
@@ -143,12 +139,14 @@ public class Item {
 						.replace(String.valueOf((char) 160), " ").trim());
 			}
 		}
+		else {
+			return false;
+		}
 		
-		// If item is part of the Jones Media Collection, then its accession
-		// number is retrieved. If it is not part of the collection the
-		// accession number is set to -1. Have to check each row because
-		// the item might have multiple things associated with it and the first one 
-		// listed may not be a Jones Media DVD or VHS.
+		// If item is part of the Jones Media Collection, then its accession number is retrieved. 
+		// If it is not part of the collection the accession number is set to -1. Have to check 
+		// each row because the item might have multiple things associated with it and the first 
+		// one listed may not be a Jones Media DVD or VHS.
 		this.jonesAccesionNum = -1;
 		for (int i = 0; i < typeOfMedia.size(); i++){	
 			if (typeOfMedia.get(i).equals("Jones Media DVD")
@@ -162,13 +160,11 @@ public class Item {
 	}
 
 	/**
-	 * This method attempts to find a movie cover for the item if it a part of
-	 * the Jones collection.
+	 * This method attempts to find a movie cover for the item if it a part of the Jones collection.
 	 * 
-	 * If there isn't an image available and it's a part of the collection a
-	 * default image is put in its place. If it isn't a part of the collection
-	 * an image that displays that it isn't part of the collection is used. The 
-	 * image is also resized to the height given.
+	 * If there isn't an image available and it's a part of the collection a default image is put 
+	 * in its place. If it isn't a part of the collection an image that displays that it isn't part 
+	 * of the collection is used. The image is also resized to the height given.
 	 * 
 	 * @param height height the ImageIcon should be when it is returned
 	 * @return image returned as an ImageIcon
@@ -177,9 +173,9 @@ public class Item {
 	private ImageIcon createImageIcon(int height) {
 		ImageIcon img;
 
-		// Getting image location
+		// Getting image location.
 		if (typeOfMedia.contains("Jones Media DVD")) {
-			// If Jones DVD
+			// If Jones DVD.
 			File f = new File(BEG_DVD_PATH
 					+ Integer.toString(jonesAccesionNum) + ".jpg");
 			if (f.exists()) {
@@ -189,7 +185,7 @@ public class Item {
 				img = new ImageIcon(getClass().getResource(DEFAULT_IMG_PATH));
 
 		} else if (typeOfMedia.get(0).equals("Jones Media Video tape")) {
-			// If Jones VHS
+			// If Jones VHS.
 			File f = new File(BEG_VHS_PATH
 					+ Integer.toString(jonesAccesionNum) + ".jpg");
 			if (f.exists()) {
@@ -200,24 +196,25 @@ public class Item {
 				img = new ImageIcon(getClass().getResource(
 						DEFAULT_IMG_PATH));
 		} else if (typeOfMedia.get(0).equals("On Reserve at Jones Media")) {
-			// If on reserve at Jones Media display a different picture
+			// If on reserve at Jones Media display a different picture.
 			img = new ImageIcon(getClass().getResource(
 					ON_RESERVE_AT_JONES));
 
 		} else
-			// otherwise not available at Jones
+			// Otherwise not available at Jones.
 			img = new ImageIcon(getClass().getResource(
 					NOT_AVAILABLE_AT_JONES));
 
-		// Resize image according to the height given. If the height given
-		// is equal to the size of the image don't resize.
+		// Resize image according to the height given. If the height given is equal to the size of 
+		// the image don't resize.
 		if (height == img.getIconHeight())
 			return img;
 		else {
 			Double newWidth = ((double) height / img.getIconHeight()) * img.getIconWidth();
 
 			ImageIcon resizedImg = 
-					new ImageIcon(img.getImage().getScaledInstance(newWidth.intValue(), height, Image.SCALE_SMOOTH));
+					new ImageIcon(img.getImage().getScaledInstance(newWidth.intValue(), height, 
+							Image.SCALE_SMOOTH));
 			return resizedImg;
 		}
 	}
@@ -226,7 +223,8 @@ public class Item {
 	 * Method that retrieves all the information on the catalog web page 
 	 * and saves it in a multidimensional ArrayList.
 	 * 
-	 * @return ArrayList<ArrayList<String>> which contains all the information on the catalog web page as label, value pairs
+	 * @return ArrayList<ArrayList<String>> contains all the information on the catalog web page as 
+	 * label, value pairs
 	 */
 	public ArrayList<ArrayList<String>> getAllWebpageInformation(){
 		
@@ -257,15 +255,14 @@ public class Item {
 	}
 	
 	/**
-	 * Method that returns a medium sized ImageIcon. If the icon has not 
-	 * been previously created, it creates it. Therefore the image is only 
-	 * created with necessary.
+	 * Method that returns a medium sized ImageIcon. If the icon has not been previously created, 
+	 * it creates it. Therefore the image is only created with necessary.
 	 * 
 	 * @returns a medium-sized ImageIcon
 	 */
 	public ImageIcon getMedImgIcon() {
-		if (medImg == null)
-			medImg = createImageIcon(MED_HEIGHT);
+		if (this.medImg == null)
+			this.medImg = createImageIcon(MED_HEIGHT);
 			
 		return this.medImg;
 	}
@@ -276,8 +273,8 @@ public class Item {
 	 * @return small ImageIcon
 	 */
 	public ImageIcon getImgIcon() {
-		if (smallImg == null)
-			smallImg = createImageIcon(SMALL_HEIGHT);
+		if (this.smallImg == null)
+			this.smallImg = createImageIcon(SMALL_HEIGHT);
 		return this.smallImg;
 	}
 
@@ -291,8 +288,7 @@ public class Item {
 	}
 
 	/**
-	 * Returns type of media(s) (Jones Media DVD, Jones Media Video tape, Paddock
-	 * DVD, etc).
+	 * Returns type of media(s) (Jones Media DVD, Jones Media Video tape, Paddock DVD, etc).
 	 * 
 	 * @return type(s) of library item
 	 */
@@ -345,7 +341,7 @@ public class Item {
 	}
 	
 	/**
-	 * Returns performers in film
+	 * Returns performers in film.
 	 * 
 	 * @return performers in film
 	 */

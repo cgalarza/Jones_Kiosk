@@ -6,8 +6,6 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -29,47 +27,49 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	private final int MONITOR = 0;
 	
 	// Canned searches for genre buttons.
-	private final String ANIMATION_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Animated%20films%20and%20branch:branchbajmz";
-	private final String HORROR_SEARCH = "http://libcat.dartmouth.edu/search/X?s:horror%20films%20and%20branch:branchbajmz";
-	private final String WESTERN_SEARCH = "http://libcat.dartmouth.edu/search/X?s:western*%20and%20branch:branchbajmz";
-	private final String MUSICAL_SEARCH = "http://libcat.dartmouth.edu/search/X?s:musical%20films%20and%20branch:branchbajmz";
-	private final String MYSTERY_SEARCH = "http://libcat.dartmouth.edu/search/X?s:mystery%20films%20and%20branch:branchbajmz";
-	private final String SHORT_FILMS_SEARCH = "http://libcat.dartmouth.edu/search/X?s:short%20films%20and%20branch:branchbaj**";
-	private final String SCIENCE_FICTION_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Science%20Fiction%20and%20branch:branchbajmz";
-	private final String ADVENTURE_SEARCH = "http://libcat.dartmouth.edu/search/X?s:adventure%20films%20and%20branch:branchbajmz";
-	private final String DRAMA_SEARCH = "http://libcat.dartmouth.edu/search/X?s:drama%20films%20and%20branch:branchbajmz";
-	private final String CHILDREN_SEARCH = "http://libcat.dartmouth.edu/search~S1?/Xs:children%27s%20films%20and%20branch:branchbajmz";
-	private final String TELEVISION_PROGRAM_SEARCH = "http://libcat.dartmouth.edu/search~S4?/dTelevision+programs./dtelevision+programs/-3%2C-1%2C0%2CB/exact&FF=dtelevision+programs&1%2C165%2C";
-	private final String DOCUMENTARY_SEARCH = "http://libcat.dartmouth.edu/search/X?s:documentary%20films%20and%20branch:branchbajmz";
-	private final String COMEDY_SEARCH = "http://libcat.dartmouth.edu/search/X?s:comedy%20films%20and%20branch:branchbajmz";
-	private final String WAR_SEARCH = "http://libcat.dartmouth.edu/search/X?s:war%20films%20and%20branch:branchbajmz";
-	private final String CRIME_SEARCH = "http://libcat.dartmouth.edu/search/X?s:crime%20films%20and%20branch:branchbajmz";
-	private final String ROMANCE_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Romance%20films%20and%20branch:branchbaj**";
-	private final String HISTORICAL_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Historical%20films%20and%20branch:branchbaj**";
-	private final String FILM_NOIR_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Film%20noir%20films%20and%20branch:branchbaj**";
-	private final String THRILLER_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Thrillers%20%28Motion%20pictures%29%20films%20and%20branch:branchbaj**";
-	private final String FANTASY_SEARCH = "http://libcat.dartmouth.edu/search/X?s:Fantasy%20films%20and%20branch:branchbaj**";
+	private final String BASE_GENRE_PATH = "http://libcat.dartmouth.edu/search/X?s:";
+	private final String END_GENRE_PATH = "%20and%20branch:branchbajmz";
+	private final String ANIMATION_SEARCH = BASE_GENRE_PATH + "Animated%20films" + END_GENRE_PATH;
+	private final String HORROR_SEARCH = BASE_GENRE_PATH + "horror%20films" + END_GENRE_PATH;
+	private final String WESTERN_SEARCH = BASE_GENRE_PATH + "western*" + END_GENRE_PATH;
+	private final String MUSICAL_SEARCH = BASE_GENRE_PATH + "musical%20films" + END_GENRE_PATH;
+	private final String MYSTERY_SEARCH = BASE_GENRE_PATH + "mystery%20films" + END_GENRE_PATH;
+	private final String SHORT_FILMS_SEARCH = BASE_GENRE_PATH + "short%20films" + END_GENRE_PATH;
+	private final String SCIENCE_FICTION_SEARCH = 
+			BASE_GENRE_PATH + "Science%20Fiction" + END_GENRE_PATH;
+	private final String ADVENTURE_SEARCH = BASE_GENRE_PATH + "adventure%20films" + END_GENRE_PATH;
+	private final String DRAMA_SEARCH = BASE_GENRE_PATH + "drama%20films" + END_GENRE_PATH;
+	private final String CHILDREN_SEARCH = 
+			"http://libcat.dartmouth.edu/search~S1?/Xs:children%27s%20films" + END_GENRE_PATH;
+	private final String TELEVISION_PROGRAM_SEARCH = 
+			"http://libcat.dartmouth.edu/search~S4?/dTelevision+programs./dtelevision+programs/"
+			+ "-3%2C-1%2C0%2CB/exact&FF=dtelevision+programs&1%2C165%2C";
+	private final String DOCUMENTARY_SEARCH = 
+			BASE_GENRE_PATH + "documentary%20films" + END_GENRE_PATH;
+	private final String COMEDY_SEARCH = BASE_GENRE_PATH + "comedy%20films" + END_GENRE_PATH;
+	private final String WAR_SEARCH = BASE_GENRE_PATH + "war%20films" + END_GENRE_PATH;
+	private final String CRIME_SEARCH = BASE_GENRE_PATH + "crime%20films" + END_GENRE_PATH;
+	private final String ROMANCE_SEARCH = BASE_GENRE_PATH + "Romance%20films" + END_GENRE_PATH;
+	private final String HISTORICAL_SEARCH = BASE_GENRE_PATH + "Historical%20films" + END_GENRE_PATH;
+	private final String FILM_NOIR_SEARCH = BASE_GENRE_PATH + "Film%20noir%20films" + END_GENRE_PATH;
+	private final String THRILLER_SEARCH = BASE_GENRE_PATH + 
+			"Thrillers%20%28Motion%20pictures%29%20films" + END_GENRE_PATH;
+	private final String FANTASY_SEARCH = BASE_GENRE_PATH + "Fantasy%20films" + END_GENRE_PATH;
 	
 	private final String SEARCH_PROMPT = "Search the Jones Media VHS & DVD Collection";
 	
-	
 	private JPanel bottom, searchMovies, genreButtons, promoPanel;
-	private JButton searchButton, logo, adventure, horror, western, animation, musical, mystery, 
-		shortFilms, scienceFiction, drama, children, televisionPrograms, documentary, comedy, war, crime, 
-		filmNoir, thriller, historical, romance, fantasy;
+	private JButton searchButton, logo;
 	private JTextField searchBar;
 
 	/**
-	 * Constructor of MovieKiosk which creates all the buttons at the top of the
-	 * screen, the search bar and a PromotionPanel over a SearchPanel 
-	 * (contained within a CardLayout).
+	 * Constructor of MovieKiosk which creates all the buttons at the top of the screen, the search 
+	 * bar and a PromotionPanel over a SearchPanel (contained within a CardLayout).
 	 */
 	private MovieKiosk() {
 		fullScreenSetUp();
 
 		// Jones Media Center logo in the upper left hand corner of the screen. 
-		// When the logo is clicked the user is directed back to the display of
-		// promotional movies.
 		logo = new JButton(new ImageIcon(getClass().getResource("resources/Jones_Logo.png")));
 		logo.setBorder(BorderFactory.createEmptyBorder());
 		logo.setContentAreaFilled(false);
@@ -101,7 +101,8 @@ public class MovieKiosk extends JFrame implements ActionListener {
     	    }
     	});
 
-		searchButton = new JButton(new ImageIcon(getClass().getResource("resources/Magnifying_Glass.png")));
+		searchButton = new JButton(new ImageIcon(
+				getClass().getResource("resources/Magnifying_Glass.png")));
 		searchButton.setBorder(BorderFactory.createEmptyBorder());
 		searchButton.setContentAreaFilled(false);
 		searchButton.addActionListener(this);
@@ -109,15 +110,13 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		search.add(searchBar);
 		search.add(searchButton);
 
-		// JPanel which contains JMC logo, genre buttons and the search 
-		// bar panel.
+		// JPanel which contains JMC logo, genre buttons and the search bar panel.
 		JPanel top = new JPanel();
 		top.setLayout(new BoxLayout(top, BoxLayout.Y_AXIS));
 		top.add(topButtons);
 		top.add(search);
 
-		// Creating a PromotionalPanel that displays movies pre-selected and recorded
-		// in a text file.
+		// Creating a PromotionalPanel that displays the promotional movies.
 		promoPanel = new PromotionPanel();
 		
 		// Empty SearchPanel (hidden when the kiosk is first opened.)
@@ -135,8 +134,8 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Sets up the application so that it will be in full screen mode at all
-	 * times. By default it selects the first screen found.
+	 * Sets up the application so that it will be in full screen mode at all times. By default it 
+	 * selects the first screen found.
 	 * 
 	 * Heavily used the example code from the Java fullscreen tutorial and API.
 	 */
@@ -163,238 +162,131 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	 * Creates the genre panel with 20 different buttons. Each buttons represents a different genre 
 	 * button and once clicked displays a canned search in a SearchPanel. 
 	 * 
-	 * Each buttons was placed by absolute positioning (no other layout allowed the flexibility needed).
-	 * 
-	 * @return JPanel with all genre buttons
+	 * @return JPanel with all genre buttons.
 	 */
-	
 	private JPanel createGenrePanel(){
-		// TODO: Could genreButtons be their own class?
 		JPanel genreButtons = new JPanel();
 		genreButtons.setLayout(null);
 		genreButtons.setPreferredSize(new Dimension(1694, 216));
+			
+		// Animation.
+		genreButtons.add(
+				new GenreButton(0, 1, "resources/Genre_Animation.png", ANIMATION_SEARCH, this));
 		
-		animation = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Animation.png")));
-		animation.addActionListener(this);
-		animation.setBorder(BorderFactory.createEmptyBorder());
-		animation.setContentAreaFilled(false);
-		animation.setBounds(0, 1, 279, 68);
-		genreButtons.add(animation);
+		// Horror.
+		genreButtons.add(
+				new GenreButton(284, 0, "resources/Genre_Horror.png", HORROR_SEARCH, this));
 		
-		horror = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Horror.png")));
-		horror.addActionListener(this);
-		horror.setBorder(BorderFactory.createEmptyBorder());
-		horror.setContentAreaFilled(false);
-		horror.setBounds(284, 0, 200, 70);
-		genreButtons.add(horror);
+		// Western.
+		genreButtons.add(
+				new GenreButton(489, 0, "resources/Genre_Western.png", WESTERN_SEARCH, this));
 		
-		western = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Western.png")));
-		western.addActionListener(this);
-		western.setBorder(BorderFactory.createEmptyBorder());
-		western.setContentAreaFilled(false);
-		western.setBounds(489, 0, 229, 70);
-		genreButtons.add(western);
+		// Musical.
+		genreButtons.add(
+				new GenreButton(723, 0, "resources/Genre_Musical.png", MUSICAL_SEARCH, this));
 		
-		musical = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Musical.png")));
-		musical.addActionListener(this);
-		musical.setBorder(BorderFactory.createEmptyBorder());
-		musical.setContentAreaFilled(false);
-		musical.setBounds(723, 0, 218, 70);
-		genreButtons.add(musical);
+		// Mystery.
+		genreButtons.add(
+				new GenreButton(946, 0, "resources/Genre_Mystery.png", MYSTERY_SEARCH, this));
 		
-		mystery = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Mystery.png")));
-		mystery.addActionListener(this);
-		mystery.setBorder(BorderFactory.createEmptyBorder());
-		mystery.setContentAreaFilled(false);
-		mystery.setBounds(946, 0, 217, 70);
-		genreButtons.add(mystery);
+		// Film Noir.
+		genreButtons.add(
+				new GenreButton(1168, 0, "resources/Genre_Film_Noir.png", FILM_NOIR_SEARCH, this));
 		
-		filmNoir = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Film_Noir.png")));
-		filmNoir.addActionListener(this);
-		filmNoir.setBorder(BorderFactory.createEmptyBorder());
-		filmNoir.setContentAreaFilled(false);
-		filmNoir.setBounds(1168, 0, 134, 142);
-		genreButtons.add(filmNoir);
+		// Historical.
+		genreButtons.add(new GenreButton(1307, 0, "resources/Genre_Historical.png", 
+				HISTORICAL_SEARCH, this));	
 		
-		historical = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Historical.png")));
-		historical.addActionListener(this);
-		historical.setBorder(BorderFactory.createEmptyBorder());
-		historical.setContentAreaFilled(false);
-		historical.setBounds(1307, 0, 236, 69);
+		// Short Films.
+		genreButtons.add(new GenreButton(1548, 0, "resources/Genre_Short_Films.png", 
+				SHORT_FILMS_SEARCH, this));
 		
-		shortFilms = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Short_Films.png")));
-		shortFilms.addActionListener(this);
-		shortFilms.setBorder(BorderFactory.createEmptyBorder());
-		shortFilms.setContentAreaFilled(false);
-		shortFilms.setBounds(1548, 0, 152, 132);
-		genreButtons.add(shortFilms);
+		// Science Fiction.
+		genreButtons.add(new GenreButton(0, 77, "resources/Genre_Science_Fiction.png", 
+				SCIENCE_FICTION_SEARCH, this));
 		
-		scienceFiction = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Science_Fiction.png")));
-		scienceFiction.addActionListener(this);
-		scienceFiction.setBorder(BorderFactory.createEmptyBorder());
-		scienceFiction.setContentAreaFilled(false);
-		scienceFiction.setBounds(0, 77, 187, 139);
-		genreButtons.add(scienceFiction);
+		// Adventure.
+		genreButtons.add(
+				new GenreButton(192, 77, "resources/Genre_Adventure.png", ADVENTURE_SEARCH, this));
 		
-		adventure = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Adventure.png")));
-		adventure.addActionListener(this);
-		adventure.setBorder(BorderFactory.createEmptyBorder());
-		adventure.setContentAreaFilled(false);
-		adventure.setBounds(192, 77, 271, 69);
-		genreButtons.add(adventure);
+		// Drama.
+		genreButtons.add(
+				new GenreButton(468, 77, "resources/Genre_Drama.png", DRAMA_SEARCH, this));
 		
-		drama = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Drama.png")));
-		drama.addActionListener(this);
-		drama.setBorder(BorderFactory.createEmptyBorder());
-		drama.setContentAreaFilled(false);
-		drama.setBounds(468, 77, 187, 69);
-		genreButtons.add(drama);
+		// Children.
+		genreButtons.add(
+				new GenreButton(660, 77, "resources/Genre_Children's.png", CHILDREN_SEARCH, this));
 		
-		children = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Children's.png")));
-		children.addActionListener(this);
-		children.setBorder(BorderFactory.createEmptyBorder());
-		children.setContentAreaFilled(false);
-		children.setBounds(660, 77, 259, 69);
-		genreButtons.add(children);
+		// Television Program.
+		genreButtons.add(new GenreButton(924, 77, "resources/Genre_Television_Programs.png", 
+				TELEVISION_PROGRAM_SEARCH, this));
 		
-		televisionPrograms = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Television_Programs.png")));
-		televisionPrograms.addActionListener(this);
-		televisionPrograms.setBorder(BorderFactory.createEmptyBorder());
-		televisionPrograms.setContentAreaFilled(false);
-		televisionPrograms.setBounds(924, 77, 239, 139);
-		genreButtons.add(televisionPrograms);
+		// Roman.
+		genreButtons.add(
+				new GenreButton(1307, 73, "resources/Genre_Romance.png", ROMANCE_SEARCH, this));	
 		
-		romance = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Romance.png")));
-		romance.addActionListener(this);
-		romance.setBorder(BorderFactory.createEmptyBorder());
-		romance.setContentAreaFilled(false);
-		romance.setBounds(1307, 73, 236, 69);
-		genreButtons.add(romance);	
+		// Documentary.
+		genreButtons.add(new GenreButton(192, 150, "resources/Genre_Documentary.png", 
+				DOCUMENTARY_SEARCH, this));
 		
-		documentary = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Documentary.png")));
-		documentary.addActionListener(this);
-		documentary.setBorder(BorderFactory.createEmptyBorder());
-		documentary.setContentAreaFilled(false);
-		documentary.setBounds(192, 150, 349, 67);
-		genreButtons.add(documentary);
+		// Comedy.
+		genreButtons.add(
+				new GenreButton(546, 150, "resources/Genre_Comedy.png", COMEDY_SEARCH, this));
 		
-		comedy = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Comedy.png")));
-		comedy.addActionListener(this);
-		comedy.setBorder(BorderFactory.createEmptyBorder());
-		comedy.setContentAreaFilled(false);
-		comedy.setBounds(546, 150, 235, 67);
-		genreButtons.add(comedy);
+		// Way.
+		genreButtons.add(new GenreButton(788, 150, "resources/Genre_War.png", WAR_SEARCH, this));
 		
-		war = new JButton(new ImageIcon(getClass().getResource("resources/Genre_War.png")));
-		war.addActionListener(this);
-		war.setBorder(BorderFactory.createEmptyBorder());
-		war.setContentAreaFilled(false);
-		war.setBounds(788, 150, 131, 67);
-		genreButtons.add(war);
-		
-		genreButtons.add(historical);	
-		thriller = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Thriller.png")));
-		thriller.addActionListener(this);
-		thriller.setBorder(BorderFactory.createEmptyBorder());
-		thriller.setContentAreaFilled(false);
-		thriller.setBounds(1168, 147, 184, 68);
-		genreButtons.add(thriller);
+		// Thriller.
+		genreButtons.add(
+				new GenreButton(1168, 147, "resources/Genre_Thriller.png", THRILLER_SEARCH, this));
 
-		fantasy = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Fantasy.png")));
-		fantasy.addActionListener(this);
-		fantasy.setBorder(BorderFactory.createEmptyBorder());
-		fantasy.setContentAreaFilled(false);
-		fantasy.setBounds(1355, 147, 189, 68);
-		genreButtons.add(fantasy);	
+		// Fantasy.
+		genreButtons.add(
+				new GenreButton(1355, 147, "resources/Genre_Fantasy.png", FANTASY_SEARCH, this));	
 		
-		crime = new JButton(new ImageIcon(getClass().getResource("resources/Genre_Crime.png")));
-		crime.addActionListener(this);
-		crime.setBorder(BorderFactory.createEmptyBorder());
-		crime.setContentAreaFilled(false);
-		crime.setBounds(1548, 138, 152, 78);
-		genreButtons.add(crime);
+		// Crime.
+		genreButtons.add(
+				new GenreButton(1548, 138, "resources/Genre_Crime.png", CRIME_SEARCH, this));
 		
 		return genreButtons;
 	}
 
 	/**
-	 * Method that waits for the search button, the logo or the genre buttons to 
-	 * be clicked. When one of these buttons are pressed the corresponding card 
-	 * in the CardLayout is shown.
+	 * Method that waits for the search button, the logo or the genre buttons to be clicked. When 
+	 * one of these buttons is pressed, the corresponding card in the CardLayout is shown.
 	 * 
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		CardLayout cards = (CardLayout) (bottom.getLayout()); // gets cardLayout needed to switch cards
+		// Gets cardLayout needed to switch cards.
+		CardLayout cards = (CardLayout) (bottom.getLayout()); 
 
 		if (e.getSource() == logo) {
-			// JMC Logo is clicked.
+			// When the JMC logo is clicked the user is directed back to the display of promotional 
+			// movies.
 			cards.show(bottom, NEW_MOVIES);
-			// Make sure the promotional panel is flipped to the right card
+			// Make sure the promotional panel is flipped to the right card.
 			CardLayout cl = (CardLayout) (promoPanel.getLayout());
 			cl.show(promoPanel, "Promo_Movies");
 			searchBar.setText(SEARCH_PROMPT);
 		} else if (e.getSource() == searchButton || e.getSource() == searchBar) {
-			// While typing enter was hit our the search buttons was clicked.
+			// While typing enter was hit or the search button was clicked.
 			searchMovies = new SearchPanel(searchBar.getText());
 			bottom.add(searchMovies, SEARCH_MOVIES);
 			cards.show(bottom, SEARCH_MOVIES);
 		} else { 
-			// Assume its a genre button and based on which button was clicked 
-			// create the correct searchPanel.
-			try {
+			// Assume its a genre button and based on which button was clicked create the correct 
+			// searchPanel.
+			GenreButton g = (GenreButton)e.getSource();
+			searchMovies = new SearchPanel(g.getURL());
 				
-				if (e.getSource() == animation)
-					searchMovies = new SearchPanel(new URL(ANIMATION_SEARCH));
-				else if (e.getSource() == horror)
-					searchMovies = new SearchPanel(new URL(HORROR_SEARCH));
-				else if (e.getSource() == western)
-					searchMovies = new SearchPanel(new URL(WESTERN_SEARCH));
-				else if (e.getSource() == musical)
-					searchMovies = new SearchPanel(new URL(MUSICAL_SEARCH));
-				else if (e.getSource() == mystery)
-					searchMovies = new SearchPanel(new URL(MYSTERY_SEARCH));
-				else if (e.getSource() == shortFilms)
-					searchMovies = new SearchPanel(new URL(SHORT_FILMS_SEARCH));
-				else if (e.getSource() == scienceFiction)
-					searchMovies = new SearchPanel(new URL(SCIENCE_FICTION_SEARCH));
-				else if (e.getSource() == adventure)
-					searchMovies = new SearchPanel(new URL(ADVENTURE_SEARCH));
-				else if (e.getSource() == drama)
-					searchMovies = new SearchPanel(new URL(DRAMA_SEARCH));
-				else if (e.getSource() == children)
-					searchMovies = new SearchPanel(new URL(CHILDREN_SEARCH));
-				else if (e.getSource() == televisionPrograms)
-					searchMovies = new SearchPanel(new URL(TELEVISION_PROGRAM_SEARCH));
-				else if (e.getSource() == documentary)
-					searchMovies = new SearchPanel(new URL(DOCUMENTARY_SEARCH));
-				else if (e.getSource() == comedy)
-					searchMovies = new SearchPanel(new URL(COMEDY_SEARCH));
-				else if (e.getSource() == war)
-					searchMovies = new SearchPanel(new URL(WAR_SEARCH));
-				else if (e.getSource() == crime)
-					searchMovies = new SearchPanel(new URL(CRIME_SEARCH));
-				else if (e.getSource() == fantasy)
-					searchMovies = new SearchPanel(new URL(FANTASY_SEARCH));
-				else if (e.getSource() == romance)
-					searchMovies = new SearchPanel(new URL(ROMANCE_SEARCH));
-				else if (e.getSource() == thriller)
-					searchMovies = new SearchPanel(new URL(THRILLER_SEARCH));
-				else if (e.getSource() == filmNoir)
-					searchMovies = new SearchPanel(new URL(FILM_NOIR_SEARCH));
-				else if (e.getSource() == historical)
-					searchMovies = new SearchPanel(new URL(HISTORICAL_SEARCH));
-				
-				// Once searchPanel object has been created add to SEARCH_MOVIES card
-				bottom.add(searchMovies, SEARCH_MOVIES);
-				searchBar.setText(SEARCH_PROMPT);
-				cards.show(bottom, SEARCH_MOVIES);
-				
-			} catch (MalformedURLException e1) {
-				e1.printStackTrace();
-			}
+			// Once searchPanel object has been created add to SEARCH_MOVIES card
+			bottom.add(searchMovies, SEARCH_MOVIES);
+			searchBar.setText(SEARCH_PROMPT);
+			cards.show(bottom, SEARCH_MOVIES);
+	
 		} 	
 	}
 

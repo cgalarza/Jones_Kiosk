@@ -14,8 +14,8 @@ public class ShortDescriptionPanel extends JPanel {
 	JTextPane summary;
 	
 	/**
-	 * Constructor of BriefItemPanel. Creates a panel that displays some of 
-	 * the information about this item.
+	 * Constructor of ShortDescriptionPanel. Creates a panel that displays some of the information 
+	 * about this item.
 	 * 
 	 * Displays a small picture along with the title, type of media, call number, 
 	 * status and summary.
@@ -26,7 +26,8 @@ public class ShortDescriptionPanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.item = i;
 		
-		StringBuilder info = new StringBuilder("<html><body><font face=\"Corbel\"><font size=\"6\"><strong>");
+		StringBuilder info = new StringBuilder(
+				"<html><body><font face=\"Corbel\"><font size=\"6\"><strong>");
 		info.append(item.getTitle());
 		info.append("</strong></font><font size=\"5\"><br/>");
 		
@@ -34,8 +35,8 @@ public class ShortDescriptionPanel extends JPanel {
 		ArrayList<String> callNum = i.getCallNumberString();
 		ArrayList<String> status = i.getStatus();
 				
-		// In case there are multiple entries for type, call number and status they 
-		// are all retrieved and added to the infoPanel.
+		// In case there are multiple entries for type, call number and status they are all 
+		// retrieved and added to the infoPanel.
 		for (int a = 0; a < types.size(); a++){
 			info.append(types.get(a));
 			info.append(" ");
@@ -55,7 +56,7 @@ public class ShortDescriptionPanel extends JPanel {
 		summary.setEditable(false);
 		summary.setOpaque(false);
 		
-		// JPanel which displays image associated with this item
+		// JPanel which displays image associated with this item.
 		JPanel imagePanel = new JPanel();
 		imagePanel.add(new JLabel(i.getImgIcon()));
 		imagePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -65,10 +66,10 @@ public class ShortDescriptionPanel extends JPanel {
 		this.setBorder(BorderFactory.createLineBorder(Color.white, 10));
 
 		if (!types.contains("On Reserve at Jones Media") && status.contains("AVAILABLE"))
-			// If the item is available and not on reserve highlight the search result green
+			// If the item is available and not on reserve highlight the search result green.
 			this.setBackground(new Color (204, 255, 204));
 		else 
-			// If the item is not available highlight the search result orange
+			// If the item is not available highlight the search result orange.
 			this.setBackground(new Color (255, 229, 204));
 		
 		this.add(imagePanel, BorderLayout.WEST);
@@ -87,8 +88,7 @@ public class ShortDescriptionPanel extends JPanel {
 	
 	
 	/**
-	 * Returns the JTextArea that displays all the information 
-	 * associated with this object.
+	 * Returns the JTextArea that displays all the information associated with this object.
 	 * 
 	 * @return JTextPanel instance variable
 	 */

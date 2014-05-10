@@ -12,8 +12,8 @@ public class DisplayMoviePanel extends JPanel{
 	private Item i; 
 	
 	/**
-	 * Constructor of DisplayItemPanel. Create a panel that displays some
-	 * information about this item.
+	 * Constructor of DisplayMoviePanel. Create a panel that displays some information about this 
+	 * item.
 	 * 
 	 * Displays medium picture along with the title, call number and availability
 	 * 

@@ -25,12 +25,11 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 	private StringBuilder statusInfo;
 	
 	/**
-	 * Constructor of VerboseItemPanel. Create a panel that displays all 
-	 * the information the library catalog has about this item. 
+	 * Constructor of LongDescriptionPanel. Create a panel that displays all the information the 
+	 * library catalog has about this item. 
 	 * 
-	 * Displays a medium picture along with the most pertinent information 
-	 * listed in the catalog. The user can choose to display the entire 
-	 * record by clicking a button. 
+	 * Displays a medium picture along with the most pertinent information listed in the catalog. 
+	 * The user can choose to display the entire record by clicking a button. 
 	 * 
 	 * @param i item object that contains all the information about the catalog item
 	 * 
@@ -56,13 +55,14 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 				statusInfo.append("<br/>");
 		}
 				
-		// Display DVD cover
+		// Display DVD cover.
 		JLabel cover = new JLabel(i.getMedImgIcon());
 		cover.setAlignmentX(CENTER_ALIGNMENT);
 		cover.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		
 		// Set up button that switches record.
-		switchRecords = new JButton(new ImageIcon(getClass().getResource("resources/Display_Entire_Record.png")));
+		switchRecords = new JButton(new ImageIcon(
+				getClass().getResource("resources/Display_Entire_Record.png")));
 		switchRecords.setBorder(BorderFactory.createEmptyBorder());
 		switchRecords.setContentAreaFilled(false);
 		switchRecords.setAlignmentX(CENTER_ALIGNMENT);
@@ -98,7 +98,8 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 		if (completeRecord == null){
 		
 			// Display information to the left of the screen and placing it in a ScrollPane.
-			StringBuilder info = new StringBuilder("<html><body><font face=\"Corbel\"><font size=\"11\"><strong>");
+			StringBuilder info = new StringBuilder("<html><body><font face=\"Corbel\">"
+					+ "<font size=\"11\"><strong>");
 			info.append(i.getTitle()); 
 			info.append("</strong></font><font size=\"6\"><br/>");
 			info.append(statusInfo);
@@ -131,7 +132,8 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 		
 		if (sumRecord == null){
 			// Display information to the left of the screen and placing it in a ScrollPane.
-			StringBuilder info = new StringBuilder("<html><body><font face=\"Corbel\"><font size=\"11\"><strong>");
+			StringBuilder info = new StringBuilder("<html><body>"
+					+ "<font face=\"Corbel\"><font size=\"11\"><strong>");
 			info.append(i.getTitle()); 
 			info.append("</strong></font><font size=\"6\"><br/>");
 			info.append(statusInfo);
@@ -152,13 +154,15 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {		
 		if (e.getSource() == switchRecords && !entireRecord){
-			switchRecords.setIcon(new ImageIcon(getClass().getResource("resources/Display_Summarized_Record.png")));
+			switchRecords.setIcon(new ImageIcon(
+					getClass().getResource("resources/Display_Summarized_Record.png")));
 			text.setText(entireRecord());
 			text.setCaretPosition(0);
 		}
 		
 		else if (e.getSource() == switchRecords && entireRecord){
-			switchRecords.setIcon(new ImageIcon(getClass().getResource("resources/Display_Entire_Record.png")));
+			switchRecords.setIcon(new ImageIcon(
+					getClass().getResource("resources/Display_Entire_Record.png")));
 			text.setText(summarizedRecord());
 			text.setCaretPosition(0);
 		}

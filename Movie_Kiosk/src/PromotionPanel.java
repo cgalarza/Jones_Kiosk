@@ -21,7 +21,8 @@ import javax.swing.Timer;
 @SuppressWarnings("serial")
 public class PromotionPanel extends JPanel implements ActionListener, MouseListener{
 
-	private final String DISPLAY_MOVIES_FILE = System.getProperty("user.home") + "/Desktop/Promotional_Movies.txt";
+	private final String DISPLAY_MOVIES_FILE = System.getProperty("user.home") 
+			+ "/Desktop/Promotional_Movies.txt";
 	private final int SPEED = 3000;
 	
 	// Name of cards in CardLayout.
@@ -31,14 +32,15 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 	private JButton next, previous, back;
 	private Timer timer;
 	private JPanel rotatingPanel, centerPanel;
-	private ArrayList<Item> promotionalMovies; // contains all Item objects of the movies that are to be displayed
+	// Contains all Item objects of the movies that are to be displayed.
+	private ArrayList<Item> promotionalMovies; 
 	private int current; // Counter that represents the first movie to be displayed
 	private int total; // Total number of Promotional Movies displayed
 
 	/**
-	 * Constructor for PromotionPanel. Reads input from file and displays movies
-	 * listed in file. This class is also responsible for the arrows that correspond
-	 * to the movement of the movie carrousel.
+	 * Constructor for PromotionPanel. Reads input from file and displays movies listed in file. 
+	 * This class is also responsible for the arrows that correspond to the movement of the movie 
+	 * carousel. 
 	 */
 	public PromotionPanel() {
 
@@ -154,8 +156,8 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == next || e.getSource() == timer) {
-			// If next is clicked or if the timer goes off, rotation is
-			// increased and the movies will shift to the left.
+			// If next is clicked or if the timer goes off, rotation is increased and the movies 
+			// will shift to the left.
 			if (current < total-1)
 				current++;
 			else
@@ -164,8 +166,8 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 			recreateRotatingMoviesPanel();
 		}
 		else if (e.getSource() == previous) {
-			// If the previous arrow is clicked the rotation is decreased and the 
-			// movies will shift to the right.
+			// If the previous arrow is clicked the rotation is decreased and the movies will shift 
+			// to the right.
 			if (current == 0)
 				current = total - 1;
 			else
@@ -175,16 +177,16 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 
 		}
 		else if (e.getSource() == back){
-			// If a movie is clicked a VerboseItemPanel is displayed with a back button. Once 
-			// the back button is clicked the panel reverts back to the "Promo_Movies" card.
+			// If a movie is clicked a VerboseItemPanel is displayed with a back button. Once the 
+			// back button is clicked the panel reverts back to the "Promo_Movies" card.
 			CardLayout cl = (CardLayout) (this.getLayout());
 			cl.show(this, PROMO_CARD);
 		}
 	}
 
 	/**
-	 * Listens for an object of DisplayItemPanel to be clicked. If an item is clicked
-	 * the VerboseItemPanel corresponding to that item is shown.
+	 * Listens for an object of DisplayItemPanel to be clicked. If an item is clicked the 
+	 * VerboseItemPanel corresponding to that item is shown.
 	 * 
 	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
 	 */
@@ -192,8 +194,8 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getSource().getClass() == DisplayMoviePanel.class){
-			// If there is a mouse click and it was on a DisplayItemPanel
-			// the verbosePanel for that item is displayed.
+			// If there is a mouse click and it was on a DisplayItemPanel the verbosePanel for that 
+			// item is displayed.
 			DisplayMoviePanel panelClicked = (DisplayMoviePanel) e.getSource();
 			
 			JPanel verboseMovieDisplay = new LongDescriptionPanel(panelClicked.getItem());

@@ -32,7 +32,8 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 
 	// Parts of search URL.
 	private final String HOMEPAGE_URL = "http://libcat.dartmouth.edu";
-	private final String LIMIT_SEARCH_TO_JONES = "and(branch%3Abranchbajmz+or+branch%3Abranchbajmv+or+branch%3Abranchrsjmc)";
+	private final String LIMIT_SEARCH_TO_JONES = 
+			"and(branch%3Abranchbajmz+or+branch%3Abranchbajmv+or+branch%3Abranchrsjmc)";
 	private final String BEG_URL = "http://libcat.dartmouth.edu/search/X?SEARCH=";
 	private final String END_URL = "&searchscope=4&SORT=D&Da=&Db=&p=";
 	
@@ -71,8 +72,8 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 	}
 	
 	/**
-	 * Constructor of SearchPanel. Given a catalog url the first 50 search results are 
-	 * retrieved and displayed.
+	 * Constructor of SearchPanel. Given a catalog url the first 50 search results are retrieved 
+	 * and displayed.
 	 * 
 	 * @param url catalog url 
 	 */
@@ -101,8 +102,8 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			// If results were found.
 			retrieveAndDisplaySearchResults(currentPage);
 			createNavigationBar();
-			// Adding JPanel which contains movies found as search results
-			// and a navigation bar at the bottom.
+			// Adding JPanel which contains movies found as search results and a navigation bar at 
+			// the bottom.
 			search.add(movies, BorderLayout.CENTER);
 			search.add(navigationBar, BorderLayout.SOUTH);
 		} else {
@@ -121,8 +122,8 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 	}
 	
 	/**
-	 * Given the catalog url to the search results retrieves the links to the 
-	 * results. The links are saved in an instance variable for the class to refer to.
+	 * Given the catalog url to the search results retrieves the links to the results. The links 
+	 * are saved in an instance variable for the class to refer to.
 	 * 
 	 * @param url search url for the library catalog
 	 * @return returns false if there were any problems retrieving the search results
@@ -139,25 +140,26 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			doc = Jsoup.connect(url).get();
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false; // return false if there was a problem connecting
+			return false; // Return false if there was a problem connecting.
 		}
 
 		// Check to see if there is an error message
 		if (doc.select(".errormessage").size() > 0)
-			return false; // if there was an error message return false
+			return false; // If there was an error message return false.
 		else {
 			// If there isn't an error message check if there is one results or many results.
 			String[] entriesFoundTokens = doc.select("i").text().split(" ");			
 						
-			if (!entriesFoundTokens[0].equals("") && Integer.parseInt(entriesFoundTokens[0]) == 1) {
-				// If only one result then the search url it's the url of the only search results and 
-				// therefore we have to create an Elements object with the appropriate information.
+			if (!entriesFoundTokens[0].equals("") && Integer.parseInt(entriesFoundTokens[0]) == 1){
+				// If only one result then the search url it's the url of the only search results 
+				// and therefore we have to create an Elements object with the appropriate 
+				// information.
 				links = new Elements();
 				Attributes attr = new Attributes();
 				attr.put("href", url);
 				links.add(new Element(Tag.valueOf("a"), HOMEPAGE_URL, attr));
 			} else {
-				// If there are many results then retrieve all the links of the items
+				// If there are many results then retrieve all the links of the items.
 				links = doc.select("span.briefcitTitle");
 
 				totalPages = (int) Math.ceil(links.size() / 4.0);
@@ -167,9 +169,9 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 	}
 
 	/**
-	 * Retrieves the four search results that are supposed to be displayed on the
-	 * corresponding page, converts the four links to Item objects, adds them to a
-	 * JPanel and adds the new JPanel as a card.
+	 * Retrieves the four search results that are supposed to be displayed on the corresponding 
+	 * page, converts the four links to Item objects, adds them to a JPanel and adds the new JPanel 
+	 * as a card.
 	 * 
 	 * @param page page number
 	 */
@@ -186,12 +188,12 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			int start = (page * 4) - 4;
 			int end = (page * 4 > links.size()) ? links.size() - 1 : page * 4 - 1;
 
-			// only gets the urls of the elements specified
+			// Only gets the urls of the elements specified.
 			for (int i = start; i <= end; i++) {
 
 				Element link = links.get(i);
 
-				// Retrieves url of page
+				// Retrieves url of page.
 				String url = HOMEPAGE_URL.concat(link.select("a[href]")
 						.attr("href").toString());
 
@@ -202,8 +204,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 		JPanel card = new JPanel();
 		card.setLayout(new GridLayout(2, 2));
 
-		// For each search result create a BriefItemPanel and add it to 
-		// the JPanel.
+		// For each search result create a BriefItemPanel and add it to the JPanel.
 		for (Item a : searchResults) {
 			
 			ShortDescriptionPanel b = new ShortDescriptionPanel(a);
@@ -212,14 +213,14 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			card.add(b);
 		}
 		
-		// If there are less than four items displayed add some glue 
-		// in order to space out the elements correctly.
+		// If there are less than four items displayed add some glue in order to space out the 
+		// elements correctly.
 		if (searchResults.size() < 4){
 			for (int i = 4-searchResults.size(); i > 0; i--)
 				card.add(Box.createHorizontalGlue());
 		}
 		
-		// Adds the Panel created as the next card
+		// Adds the Panel created as the next card.
 		movies.add(card, CARD_PREFIX + currentPage);
 
 		// Flips to that card.
@@ -231,7 +232,7 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 	 * Creates navigation bar at the bottom of the screen.
 	 */
 	private void createNavigationBar() {
-		// Creating navigation bar at the bottom of the screen
+		// Creating navigation bar at the bottom of the screen.
 		navigationBar = new JPanel();
 		navigationBar.setLayout(new BoxLayout(navigationBar, BoxLayout.X_AXIS));
 		navigationBar
@@ -271,16 +272,16 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == moreResults) && (currentPage >= 1)
 				&& (currentPage < totalPages)) {
-			// If the next arrow is clicked and its not the last page, load and display
-			// the next page.
+			// If the next arrow is clicked and its not the last page, load and display the next 
+			// page.
 			currentPage++;
 			retrieveAndDisplaySearchResults(currentPage);
 			numberOfPages.setText("Page " + currentPage + " of " + totalPages);
 		}
 
 		else if ((e.getSource() == previousResults) && (currentPage > 1)) {
-			// If the previous button is clicked and its  not the first page, display
-			// the previous page.
+			// If the previous button is clicked and its  not the first page, display the previous 
+			// page.
 			currentPage--;
 			CardLayout cl = (CardLayout) (movies.getLayout());
 			cl.show(movies, CARD_PREFIX + currentPage);
@@ -288,24 +289,26 @@ public class SearchPanel extends JPanel implements ActionListener, MouseListener
 			numberOfPages.setText("Page " + currentPage + " of " + totalPages);
 		}
 		else if ((e.getSource() == back)){
-			// If the back button is hit (only applicable in the VERBOSE_CARD) 
-			// then flip to the search card.
+			// If the back button is hit (only applicable in the VERBOSE_CARD) then flip to the 
+			// search card.
 			CardLayout c1 = (CardLayout) (this.getLayout());
 			c1.show(this, SEARCH_CARD);
 		}
 		
 	}
 	/**
-	 * Listens for an object of DisplayItemPanel to be clicked. If an item is clicked
-	 * the VerboseItemPanel corresponding to that item is shown.
+	 * Listens for an object of DisplayItemPanel to be clicked. If an item is clicked the 
+	 * VerboseItemPanel corresponding to that item is shown.
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		ShortDescriptionPanel panelClicked = null;
 		if (e.getSource().getClass() == ShortDescriptionPanel.class)
 			panelClicked = (ShortDescriptionPanel) e.getSource();
-		else if (SwingUtilities.getAncestorOfClass(ShortDescriptionPanel.class, (Component) e.getSource()) != null) 
-			panelClicked = (ShortDescriptionPanel) SwingUtilities.getAncestorOfClass(ShortDescriptionPanel.class, (Component) e.getSource());
+		else if (SwingUtilities.getAncestorOfClass(ShortDescriptionPanel.class, 
+				(Component) e.getSource()) != null) 
+			panelClicked = (ShortDescriptionPanel) SwingUtilities.getAncestorOfClass(
+					ShortDescriptionPanel.class, (Component) e.getSource());
 		
 		if (panelClicked != null){
 			back = new JButton(new ImageIcon(getClass().getResource("resources/Back_Arrow.png")));
