@@ -24,17 +24,17 @@ public class Item {
 	private final int SMALL_HEIGHT = 300;
 	private final int MED_HEIGHT = 600;
 	
-	private String title, summary, url, language, performer;
+	private String title, summary, url, language, performer, rating;
 	private ArrayList<String> callNumberString, status, typeOfMedia;
-	private int jonesAccesionNum; // -1 if item is not a part of the Jones VHS/DVD collection
-	private ImageIcon smallImg; // Height of 300
-	private ImageIcon medImg;   // Height of 600
+	private int jonesAccesionNum; // -1 if item is on reserve or not a Jones VHS or DVD
+	private ImageIcon smallImg; // Height of 300.
+	private ImageIcon medImg;   // Height of 600.
 	public Elements labelInfoPairs;
 
 	/**
 	 * Using the catalog URL, the item's information is retrieved and stored in this object.
 	 * 
-	 * @param link Catalog url
+	 * @param link Catalog URL
 	 */
 	public Item(String link) {
 		this.url = link;
@@ -52,10 +52,9 @@ public class Item {
 	 * the catalog page, the title given in this constructor is the one used.
 	 * 
 	 * @param title Title of movie
-	 * @param link url link to the correct catalog record
+	 * @param link URL to the correct catalog record
 	 */
 	public Item(String title, String link) {
-		
 		this.title = title;
 		this.url = link;
 		if (loadInformation())
@@ -63,9 +62,9 @@ public class Item {
 	}
 
 	/**
-	 * Using the library catalog webpage associated with this item the following information is 
-	 * saved in instance variables: movie title, summary of movies, type of media, call number, 
-	 * Jones accession number (if applicable) and the status of the item.
+	 * Using the library catalog web page associated with this item the following information is 
+	 * saved in instance variables: movie title, summary, type of media, call number, language,
+	 * rating, cast, Jones accession number (if applicable) and the status of the item.
 	 * 
 	 * @return true if there weren't any problems loading the information
 	 */
@@ -104,11 +103,15 @@ public class Item {
 		Elements performer = doc.select("td.bibInfoLabel:matches(Performer) + td.bibInfoData");
 		this.performer = performer.text();
 		
+		// Retrieving rating.
+		Elements rating = doc.select("td.bibInfoLabel:matches(Audience) + td.bibInfoData");
+		this.rating = rating.text();
+		
 		// Retrieves the table on the webpage that displays the type of media, call number and 
 		// availability.
 		Elements table = doc.select("tr.bibItemsEntry");
 				
-		// If a table is not empty then retrieve the information
+		// If a table is not empty then retrieve the information.
 		if (!table.isEmpty()){
 			// Retrieves each row of table and saves the information.
 			this.typeOfMedia = new ArrayList<String>();
@@ -116,7 +119,7 @@ public class Item {
 			this.status = new ArrayList<String>();
 			
 			for (int i = 0; i < table.size(); i++) {
-				// Retrieves the html for the row specified.
+				// Retrieves the HTML for the row specified.
 				Element row = table.get(i);
 				
 				// Retrieving Status.
@@ -138,8 +141,7 @@ public class Item {
 				this.callNumberString.add(row.child(1).ownText()
 						.replace(String.valueOf((char) 160), " ").trim());
 			}
-		}
-		else {
+		} else {
 			return false;
 		}
 		
@@ -163,12 +165,10 @@ public class Item {
 	 * This method attempts to find a movie cover for the item if it a part of the Jones collection.
 	 * 
 	 * If there isn't an image available and it's a part of the collection a default image is put 
-	 * in its place. If it isn't a part of the collection an image that displays that it isn't part 
-	 * of the collection is used. The image is also resized to the height given.
+	 * in its place. The image is resized to the height given.
 	 * 
 	 * @param height height the ImageIcon should be when it is returned
 	 * @return image returned as an ImageIcon
-	 * 
 	 */
 	private ImageIcon createImageIcon(int height) {
 		ImageIcon img;
@@ -207,9 +207,9 @@ public class Item {
 
 		// Resize image according to the height given. If the height given is equal to the size of 
 		// the image don't resize.
-		if (height == img.getIconHeight())
+		if (height == img.getIconHeight()){
 			return img;
-		else {
+		} else {
 			Double newWidth = ((double) height / img.getIconHeight()) * img.getIconWidth();
 
 			ImageIcon resizedImg = 
@@ -220,8 +220,8 @@ public class Item {
 	}
 
 	/**
-	 * Method that retrieves all the information on the catalog web page 
-	 * and saves it in a multidimensional ArrayList.
+	 * Method that retrieves all the information on the catalog web page and saves it in a 
+	 * multidimensional ArrayList.
 	 * 
 	 * @return ArrayList<ArrayList<String>> contains all the information on the catalog web page as 
 	 * label, value pairs
@@ -255,8 +255,15 @@ public class Item {
 	}
 	
 	/**
+	 * Pulls the information from the URL again, in order to get the most up-to date information.
+	 */
+	public void reloadInformation() {
+		loadInformation();
+	}
+	
+	/**
 	 * Method that returns a medium sized ImageIcon. If the icon has not been previously created, 
-	 * it creates it. Therefore the image is only created with necessary.
+	 * it creates it. The image is only created with necessary.
 	 * 
 	 * @returns a medium-sized ImageIcon
 	 */
@@ -324,7 +331,7 @@ public class Item {
 	}
 	
 	/**
-	 * Returns Jones accession number. If not an item at Jones, accession number is set to -1.
+	 * Returns Jones accession number. If not an item at Jones, accession number is -1.
 	 * 
 	 * @returns Jones accession number
 	 */
@@ -347,5 +354,14 @@ public class Item {
 	 */
 	public String getPerformer(){
 		return this.performer;
+	}
+	
+	/**
+	 * Returns the rating of the film.
+	 * 
+	 * @return film rating
+	 */
+	public String getRating(){
+		return this.rating;
 	}
 }

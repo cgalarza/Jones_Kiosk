@@ -32,7 +32,8 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 	private JButton next, previous, back;
 	private Timer timer;
 	private JPanel rotatingPanel, centerPanel;
-	// Contains all Item objects of the movies that are to be displayed.
+	
+	// Contains all Item objects that are to be displayed.
 	private ArrayList<Item> promotionalMovies; 
 	private int current; // Counter that represents the first movie to be displayed
 	private int total; // Total number of Promotional Movies displayed
@@ -54,11 +55,14 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 			br = new BufferedReader(new FileReader(f));
 			String currentLine;
 			title = br.readLine();
-			br.readLine(); // Empty line after the title
+			br.readLine(); // Empty line after the title.
 			while ((currentLine = br.readLine()) != null) {
 				String[] tokens = currentLine.split(", ");
 				
 				Item i = new Item(tokens[0], tokens[1]);
+				// Don't add the item if it is on reserve.
+				if (i.getJonesAccesionNum() == -1)
+					continue;
 				promotionalMovies.add(i);
 			}
 			br.close();
@@ -105,7 +109,7 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 		CardLayout cl = (CardLayout) (this.getLayout());
 		cl.show(this, PROMO_CARD);
 		
-		// Set up timer for automatic card flipping
+		// Set up timer for automatic card flipping.
 		timer = new Timer(SPEED, this);
 		timer.start();
 	}
@@ -115,7 +119,6 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 	 * 
 	 * @return JPanel which contains 5 movies
 	 */
-	
 	private JPanel createRotatingMoviesPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
@@ -124,7 +127,7 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 		// Adds the five next movies to the panel.
 		for (int a = 0, counter = current; a < 4; a++, counter++) {
 			if (counter == total) 
-				counter = 0; // rotation restarted
+				counter = 0; // Rotation restarted.
 			JPanel displayItem = new DisplayMoviePanel(promotionalMovies.get(counter));
 			displayItem.setBorder(BorderFactory.createEmptyBorder());
 			displayItem.addMouseListener(this);
@@ -164,8 +167,7 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 				current = 0;
 			
 			recreateRotatingMoviesPanel();
-		}
-		else if (e.getSource() == previous) {
+		} else if (e.getSource() == previous) {
 			// If the previous arrow is clicked the rotation is decreased and the movies will shift 
 			// to the right.
 			if (current == 0)
@@ -175,8 +177,7 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 		
 			recreateRotatingMoviesPanel();
 
-		}
-		else if (e.getSource() == back){
+		} else if (e.getSource() == back){
 			// If a movie is clicked a VerboseItemPanel is displayed with a back button. Once the 
 			// back button is clicked the panel reverts back to the "Promo_Movies" card.
 			CardLayout cl = (CardLayout) (this.getLayout());
@@ -190,7 +191,6 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 	 * 
 	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
 	 */
-	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getSource().getClass() == DisplayMoviePanel.class){
@@ -198,7 +198,10 @@ public class PromotionPanel extends JPanel implements ActionListener, MouseListe
 			// item is displayed.
 			DisplayMoviePanel panelClicked = (DisplayMoviePanel) e.getSource();
 			
-			JPanel verboseMovieDisplay = new LongDescriptionPanel(panelClicked.getItem());
+			Item i = panelClicked.getItem();
+			i.reloadInformation();
+			
+			JPanel verboseMovieDisplay = new LongDescriptionPanel(i);
 			back = new JButton(new ImageIcon(getClass().getResource("resources/Back_Arrow.png")));
 			back.setBorder(BorderFactory.createEmptyBorder());
 			back.setContentAreaFilled(false);

@@ -25,14 +25,13 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 	private StringBuilder statusInfo;
 	
 	/**
-	 * Constructor of LongDescriptionPanel. Create a panel that displays all the information the 
+	 * Constructor of LongDescriptionPanel. Create a panel that can display all the information the 
 	 * library catalog has about this item. 
 	 * 
 	 * Displays a medium picture along with the most pertinent information listed in the catalog. 
 	 * The user can choose to display the entire record by clicking a button. 
 	 * 
 	 * @param i item object that contains all the information about the catalog item
-	 * 
 	 */
 	public LongDescriptionPanel(Item i){
 		this.setBorder(BorderFactory.createEmptyBorder());
@@ -75,6 +74,7 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 		
 		this.add(right, BorderLayout.WEST);
 		
+		// Set up the text field that contains all the information about the item.
 		text = new JTextPane();
 		text.setContentType("text/html");
 		text.setText(summarizedRecord());
@@ -88,9 +88,13 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 5));
 
 		this.add(scrollPane, BorderLayout.CENTER);
-	
 	}
 	
+	/**
+	 * Creates a string that contains the text of the entire catalog record with HTML formatting.
+	 * 
+	 * @return HTML formatted string that contains all the item information
+	 */
 	private String entireRecord(){
 		
 		entireRecord = true;
@@ -126,23 +130,39 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 		return completeRecord;
 	}
 	
+	/**
+	 * Create a string that contains the summarized text of the catalog record with HTML
+	 * formatting.
+	 * 
+	 * @return HTML formatted string that contains the summarized item information
+	 */
 	private String summarizedRecord(){
 		
 		entireRecord = false;
 		
 		if (sumRecord == null){
-			// Display information to the left of the screen and placing it in a ScrollPane.
+			// Display information to the left of the screen and place it in a JScrollPane.
 			StringBuilder info = new StringBuilder("<html><body>"
 					+ "<font face=\"Corbel\"><font size=\"11\"><strong>");
-			info.append(i.getTitle()); 
+			info.append(i.getTitle()); // Add Title.
 			info.append("</strong></font><font size=\"6\"><br/>");
-			info.append(statusInfo);
-			info.append("<br/><br/><strong>Summary: </strong>");
-			info.append(i.getSummary());
-			info.append("<br/><br/><strong>Performer(s): </strong>" );
-			info.append (i.getPerformer());
-			info.append("<br/><br/><strong>Language: </strong>");
-			info.append(i.getLanguage());
+			info.append(statusInfo); // Add Location, CallNumber and Status information.
+			if (!i.getSummary().equals("")){
+				info.append("<br/><br/><strong>Summary: </strong>"); // Add Summary.
+				info.append(i.getSummary());
+			}
+			if (!i.getPerformer().equals("")){
+				info.append("<br/><br/><strong>Cast: </strong>" );
+				info.append (i.getPerformer()); // Add Cast/Performers.
+			}
+			if (!i.getLanguage().equals("")){
+				info.append("<br/><br/><strong>Language: </strong>");
+				info.append(i.getLanguage()); // Add Language.
+			}
+			if (!i.getRating().equals("")){
+				info.append("<br/><br/><strong>Rating: </strong>");
+				info.append(i.getRating()); // Add Rating.
+			}
 			info.append("</font></font></body></html>");
 		
 			sumRecord = info.toString();
@@ -151,22 +171,24 @@ public class LongDescriptionPanel extends JPanel implements ActionListener{
 		return sumRecord;
 	}
 
+	/**
+	 * Switches between the summarized catalog record and the entire catalog record. 
+	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {		
+	public void actionPerformed(ActionEvent e) {
+		// Show the entire record. 
 		if (e.getSource() == switchRecords && !entireRecord){
 			switchRecords.setIcon(new ImageIcon(
 					getClass().getResource("resources/Display_Summarized_Record.png")));
 			text.setText(entireRecord());
 			text.setCaretPosition(0);
 		}
-		
+		// Show the summarized record.
 		else if (e.getSource() == switchRecords && entireRecord){
 			switchRecords.setIcon(new ImageIcon(
 					getClass().getResource("resources/Display_Entire_Record.png")));
 			text.setText(summarizedRecord());
 			text.setCaretPosition(0);
-		}
-		
+		}	
 	}
-	
 }

@@ -12,11 +12,11 @@ public class GenreButton extends JButton{
 	private URL search_url; 
 	
 	/*
-	 * Creates a button and places it based on the x and y values given.
+	 * Creates a button and sets its location based on the x and y values given.
 	 * 
 	 * @param x x value of where the upper left hand corner of the button is placed
 	 * @param y y value of where the upper left hand corner of the button is placed
-	 * @param img_path path of where the image icon image is saved in the package
+	 * @param img_path path of where the image icon is saved in the package
 	 * @param url genre search path
 	 * @param l actionListener that is added to this button
 	 */
@@ -44,7 +44,7 @@ public class GenreButton extends JButton{
 	/*
 	 * Return the URL object.
 	 * 
-	 * @return URL search genre url is returned
+	 * @return URL search genre URL is returned
 	 */
 	public URL getURL(){
 		return search_url;

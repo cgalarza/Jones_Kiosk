@@ -17,8 +17,8 @@ public class ShortDescriptionPanel extends JPanel {
 	 * Constructor of ShortDescriptionPanel. Creates a panel that displays some of the information 
 	 * about this item.
 	 * 
-	 * Displays a small picture along with the title, type of media, call number, 
-	 * status and summary.
+	 * Displays a small picture along with the title, type of media, call number, status and 
+	 * summary.
 	 * 
 	 * @param i item object that contains all the information about the catalog item.
 	 */
@@ -86,15 +86,13 @@ public class ShortDescriptionPanel extends JPanel {
 		return this.item;
 	}
 	
-	
 	/**
 	 * Returns the JTextArea that displays all the information associated with this object.
 	 * 
 	 * @return JTextPanel instance variable
 	 */
-	
 	public JTextPane getSummaryTextArea(){
-		// Needed for the MouseListener in SearchPanel
+		// Needed for the MouseListener in SearchPanel.
 		return this.summary;
 	}
 }

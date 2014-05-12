@@ -12,10 +12,9 @@ public class DisplayMoviePanel extends JPanel{
 	private Item i; 
 	
 	/**
-	 * Constructor of DisplayMoviePanel. Create a panel that displays some information about this 
-	 * item.
+	 * Constructor of DisplayMoviePanel. Create a panel that displays information about this item.
 	 * 
-	 * Displays medium picture along with the title, call number and availability
+	 * Displays medium picture along with the title and call number.
 	 * 
 	 * @param i item object that contain all the information about the catalog item
 	 * 
@@ -23,14 +22,17 @@ public class DisplayMoviePanel extends JPanel{
 	public DisplayMoviePanel(Item i){
 		this.i = i;
 		
+		// Movie Image.
 		JLabel cover = new JLabel(i.getMedImgIcon());
 		cover.setAlignmentX(Component.CENTER_ALIGNMENT);
 		cover.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		
+		// Title.
 		JLabel name = new JLabel(i.getTitle());
 		name.setFont(MyFont.SMALL_TEXT);
 		name.setAlignmentX(Component.CENTER_ALIGNMENT);
 	
+		// Accession Number.
 		JLabel accessionNum = new JLabel("#" + Integer.toString(i.getJonesAccesionNum()));
 		accessionNum.setFont(MyFont.SMALL_TEXT);
 		accessionNum.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -40,16 +42,6 @@ public class DisplayMoviePanel extends JPanel{
 		this.add(cover);
 		this.add(name);
 		this.add(accessionNum);
-
-		JLabel status = new JLabel();
-		if (i.getStatus().size() == 1)
-			status.setText(i.getStatus().get(0));
-		else
-			status.setText(" ");
-		status.setFont(MyFont.SMALL_TEXT);
-		status.setAlignmentX(Component.CENTER_ALIGNMENT);
-		this.add(status);
-
 	}
 	
 	/**
@@ -60,5 +52,4 @@ public class DisplayMoviePanel extends JPanel{
 	public Item getItem(){	
 		return this.i;
 	}
-
 }

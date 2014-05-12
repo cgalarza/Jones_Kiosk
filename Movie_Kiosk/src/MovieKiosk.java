@@ -19,11 +19,11 @@ import javax.swing.SwingUtilities;
 @SuppressWarnings("serial")
 public class MovieKiosk extends JFrame implements ActionListener {
 
-	// Name of cards in cardLayouts.
+	// Name of cards in cardLayout.
 	private final String NEW_MOVIES = "New Movies";
 	private final String SEARCH_MOVIES = "Search Movies";
-	
-	// By default uses the first monitor found
+
+	// By default uses the first monitor found.
 	private final int MONITOR = 0;
 	
 	// Canned searches for genre buttons.
@@ -64,7 +64,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 
 	/**
 	 * Constructor of MovieKiosk which creates all the buttons at the top of the screen, the search 
-	 * bar and a PromotionPanel over a SearchPanel (contained within a CardLayout).
+	 * bar, and a PromotionPanel over a SearchPanel (contained within a CardLayout).
 	 */
 	private MovieKiosk() {
 		fullScreenSetUp();
@@ -88,7 +88,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		searchBar.setPreferredSize(new Dimension(600, 50));
 		searchBar.setFont(MyFont.SEARCH_TEXT);
 		searchBar.addActionListener(this);
-		// When search bar is clicked the entire text is highlighted
+		// When search bar is clicked the entire text is highlighted.
 		searchBar.addFocusListener(new java.awt.event.FocusAdapter() {
     	    public void focusGained(java.awt.event.FocusEvent evt) {
     	    	SwingUtilities.invokeLater( new Runnable() {
@@ -119,7 +119,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		// Creating a PromotionalPanel that displays the promotional movies.
 		promoPanel = new PromotionPanel();
 		
-		// Empty SearchPanel (hidden when the kiosk is first opened.)
+		// Empty SearchPanel (hidden when the kiosk is first opened).
 		searchMovies = new SearchPanel("");
 
 		bottom = new JPanel();
@@ -134,8 +134,8 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Sets up the application so that it will be in full screen mode at all times. By default it 
-	 * selects the first screen found.
+	 * Sets up the application so that it will be in full screen mode the entire time the 
+	 * application is in use. By default it selects the first screen found.
 	 * 
 	 * Heavily used the example code from the Java fullscreen tutorial and API.
 	 */
@@ -148,11 +148,11 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		setResizable(!isFullScreen);
 
 		if (isFullScreen) {
-			// Full-screen mode
+			// Full-screen mode.
 			devices[MONITOR].setFullScreenWindow(this);
 			validate();
 		} else {
-			// Windowed mode
+			// Windowed mode.
 			pack();
 			setVisible(true);
 		}
@@ -160,7 +160,7 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	
 	/**
 	 * Creates the genre panel with 20 different buttons. Each buttons represents a different genre 
-	 * button and once clicked displays a canned search in a SearchPanel. 
+	 * button. When a button is clicked it displays a canned search in the SearchPanel. 
 	 * 
 	 * @return JPanel with all genre buttons.
 	 */
@@ -172,78 +172,59 @@ public class MovieKiosk extends JFrame implements ActionListener {
 		// Animation.
 		genreButtons.add(
 				new GenreButton(0, 1, "resources/Genre_Animation.png", ANIMATION_SEARCH, this));
-		
 		// Horror.
 		genreButtons.add(
 				new GenreButton(284, 0, "resources/Genre_Horror.png", HORROR_SEARCH, this));
-		
 		// Western.
 		genreButtons.add(
 				new GenreButton(489, 0, "resources/Genre_Western.png", WESTERN_SEARCH, this));
-		
 		// Musical.
 		genreButtons.add(
 				new GenreButton(723, 0, "resources/Genre_Musical.png", MUSICAL_SEARCH, this));
-		
 		// Mystery.
 		genreButtons.add(
 				new GenreButton(946, 0, "resources/Genre_Mystery.png", MYSTERY_SEARCH, this));
-		
 		// Film Noir.
 		genreButtons.add(
 				new GenreButton(1168, 0, "resources/Genre_Film_Noir.png", FILM_NOIR_SEARCH, this));
-		
 		// Historical.
 		genreButtons.add(new GenreButton(1307, 0, "resources/Genre_Historical.png", 
 				HISTORICAL_SEARCH, this));	
-		
 		// Short Films.
 		genreButtons.add(new GenreButton(1548, 0, "resources/Genre_Short_Films.png", 
 				SHORT_FILMS_SEARCH, this));
-		
 		// Science Fiction.
 		genreButtons.add(new GenreButton(0, 77, "resources/Genre_Science_Fiction.png", 
 				SCIENCE_FICTION_SEARCH, this));
-		
 		// Adventure.
 		genreButtons.add(
 				new GenreButton(192, 77, "resources/Genre_Adventure.png", ADVENTURE_SEARCH, this));
-		
 		// Drama.
 		genreButtons.add(
 				new GenreButton(468, 77, "resources/Genre_Drama.png", DRAMA_SEARCH, this));
-		
 		// Children.
 		genreButtons.add(
 				new GenreButton(660, 77, "resources/Genre_Children's.png", CHILDREN_SEARCH, this));
-		
 		// Television Program.
 		genreButtons.add(new GenreButton(924, 77, "resources/Genre_Television_Programs.png", 
 				TELEVISION_PROGRAM_SEARCH, this));
-		
 		// Roman.
 		genreButtons.add(
 				new GenreButton(1307, 73, "resources/Genre_Romance.png", ROMANCE_SEARCH, this));	
-		
 		// Documentary.
 		genreButtons.add(new GenreButton(192, 150, "resources/Genre_Documentary.png", 
 				DOCUMENTARY_SEARCH, this));
-		
 		// Comedy.
 		genreButtons.add(
 				new GenreButton(546, 150, "resources/Genre_Comedy.png", COMEDY_SEARCH, this));
-		
-		// Way.
+		// War.
 		genreButtons.add(new GenreButton(788, 150, "resources/Genre_War.png", WAR_SEARCH, this));
-		
 		// Thriller.
 		genreButtons.add(
 				new GenreButton(1168, 147, "resources/Genre_Thriller.png", THRILLER_SEARCH, this));
-
 		// Fantasy.
 		genreButtons.add(
 				new GenreButton(1355, 147, "resources/Genre_Fantasy.png", FANTASY_SEARCH, this));	
-		
 		// Crime.
 		genreButtons.add(
 				new GenreButton(1548, 138, "resources/Genre_Crime.png", CRIME_SEARCH, this));
@@ -252,8 +233,8 @@ public class MovieKiosk extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Method that waits for the search button, the logo or the genre buttons to be clicked. When 
-	 * one of these buttons is pressed, the corresponding card in the CardLayout is shown.
+	 * Waits for the search button, the logo or the genre buttons to be clicked. When one of these 
+	 * buttons is pressed, the corresponding card in the CardLayout is shown.
 	 * 
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -282,11 +263,10 @@ public class MovieKiosk extends JFrame implements ActionListener {
 			GenreButton g = (GenreButton)e.getSource();
 			searchMovies = new SearchPanel(g.getURL());
 				
-			// Once searchPanel object has been created add to SEARCH_MOVIES card
+			// Once searchPanel object has been created, its added to the SEARCH_MOVIES card.
 			bottom.add(searchMovies, SEARCH_MOVIES);
 			searchBar.setText(SEARCH_PROMPT);
 			cards.show(bottom, SEARCH_MOVIES);
-	
 		} 	
 	}
 
