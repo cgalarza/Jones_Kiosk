@@ -4,7 +4,7 @@ Jones Kiosk 0.9.1 (Beta), 2/14/14
 Author
 ------
 
-Created by Carla Galarza for the Jones Media Center (JMC), Dartmouth College.<br>
+Created by Carla Galarza for the Jones Media Center (JMC), Dartmouth College.  
 Carla.M.Galarza@dartmouth.edu
 
 
@@ -29,16 +29,16 @@ java -Xmx2g -jar JonesKiosk.jar
 
 The Kiosk requires two external resources one of them is a folder containing DVD covers/images and the other is a text file listing the promotional movies.
 
-1. *~/Pictures/DVD/*
+1. `~/Pictures/DVD/`
 
-  This folder should contain DVD covers named corresponding to their Jones accession number. The extension of every file should be *.jpg*. The kiosk resizes images so the exact size of the image doesn't matter, but it is important that the images are in portrait and not landscape.
-  <br/>**Note:** The file extension of the images should be *.jpg* NOT *.jpeg* or *.JPG*.
-  <br/>**Note:** Only numbers should be in the title of the file (before the file extension).
+  This folder should contain DVD covers named corresponding to their Jones accession number. The extension of every file should be *.jpg*. The kiosk resizes images so the exact size of the image doesn't matter, but it is important that the images are in portrait and not landscape.  
+  **Note:** The file extension of the images should be `.jpg` NOT `.jpeg` or `.JPG`.  
+  **Note:** Only numbers should be in the title of the file (before the file extension).
   
-2. *~/Desktop/Promotional_Movies.txt*
+2. `~/Desktop/Promotional_Movies.txt`
 
-  The kiosk reads this text file and displays the movies listed. This text file should be in plain text and should list the title of the promotional movies and the URL link to the corresponding catalog entry. There is no limit to the number of movies that can be displayed. The format should be as follows. 
-  <br/>**Note:** The title of the film should not contain any commas.
+  The kiosk reads this text file and displays the movies listed. This text file should be in plain text and should list the title of the promotional movies and the URL link to the corresponding catalog entry. There is no limit to the number of movies that can be displayed. The format should be as follows.  
+  **Note:** The title of the film should not contain any commas.
   
   ```
   title
@@ -68,7 +68,7 @@ The Kiosk requires two external resources one of them is a folder containing DVD
 Troubleshooting
 ---------------
 * Make sure you are connected to the internet.
-* Make sure there is a file called *Promotional_Movies.txt* located on the Desktop. 
+* Make sure there is a file called `Promotional_Movies.txt` located on the Desktop. 
 
 
 Future Features/Bug Fixes
