@@ -19,7 +19,7 @@ Once opening, the kiosk displays a set of pre-selected promotional movies (these
 Installation Instructions
 -------------------------
 
-This kiosk was optimized for a 21.5-inch touchscreen (1980px x 1080px). The application is entirely in Java full-screen mode therefore once the application starts it takes over the entire screen. On Macs, users are able to quit out of the application by using command + Q. The application might take a minute to load depending on the size of the promotional images.
+This kiosk was optimized for a 21.5-inch touchscreen (1980px x 1080px). The application is entirely in Java full-screen mode therefore once the application starts it takes over the entire screen. On Macs, users are able to quit out of the application by using *Command + Q*. The application might take a minute to load depending on the size of the promotional images.
 
 The application should run from the terminal using the following command (Currently, the JAR does not run properly if it is double-clicked).
 
@@ -29,13 +29,13 @@ java -Xmx2g -jar JonesKiosk.jar
 
 The Kiosk requires two external resources one of them is a folder containing DVD covers/images and the other is a text file listing the promotional movies.
 
-1. ~/Pictures/DVD/
+1. *~/Pictures/DVD/*
 
-  This folder should contain DVD covers named corresponding to their Jones accession number. The extension of every file should be .jpg. The kiosk resizes images so the exact size of the image doesn't matter, but it is important that the images are in portrait and not landscape.
-  <br/>**Note:** The file extension of the images should be .jpg NOT .jpeg or .JPG.
+  This folder should contain DVD covers named corresponding to their Jones accession number. The extension of every file should be *.jpg*. The kiosk resizes images so the exact size of the image doesn't matter, but it is important that the images are in portrait and not landscape.
+  <br/>**Note:** The file extension of the images should be *.jpg* NOT *.jpeg* or *.JPG*.
   <br/>**Note:** Only numbers should be in the title of the file (before the file extension).
   
-2. ~/Desktop/Promotional_Movies.txt
+2. *~/Desktop/Promotional_Movies.txt*
 
   The kiosk reads this text file and displays the movies listed. This text file should be in plain text and should list the title of the promotional movies and the URL link to the corresponding catalog entry. There is no limit to the number of movies that can be displayed. The format should be as follows. 
   <br/>**Note:** The title of the film should not contain any commas.
@@ -68,7 +68,7 @@ The Kiosk requires two external resources one of them is a folder containing DVD
 Troubleshooting
 ---------------
 * Make sure you are connected to the internet.
-* Make sure there is a file called Promotional_Movies.txt located on the Desktop. 
+* Make sure there is a file called *Promotional_Movies.txt* located on the Desktop. 
 
 
 Future Features/Bug Fixes
