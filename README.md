@@ -62,6 +62,7 @@ The Kiosk requires two external resources one of them is a folder containing DVD
   The Man with the Iron Fists, http://libcat.dartmouth.edu/record=b5409884~S1
   Elementary: Season 1, http://libcat.dartmouth.edu/record=b5420679~S4
   ```
+
 Troubleshooting
 ---------------
 1. Make sure you are connected to the internet.
