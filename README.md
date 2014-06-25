@@ -31,7 +31,7 @@ The Kiosk requires two external resources one of them is a folder containing DVD
 
 1. `~/Pictures/DVD/`
 
-  This folder should contain DVD covers named corresponding to their Jones accession number. The extension of every file should be *.jpg*. The kiosk resizes images so the exact size of the image doesn't matter, but it is important that the images are in portrait and not landscape.  
+  This folder should contain DVD covers named corresponding to their Jones accession number. The extension of every file should be `.jpg`. The kiosk resizes images so the exact size of the image doesn't matter, but it is important that the images are in portrait and not landscape.  
   **Note:** The file extension of the images should be `.jpg` NOT `.jpeg` or `.JPG`.  
   **Note:** Only numbers should be in the title of the file (before the file extension).
   
@@ -83,5 +83,5 @@ Future Features/Bug Fixes
 Libraries Used
 --------------
 
-JSoup was used to parse the Dartmouth Library Catalog.
+* JSoup was used to parse the Dartmouth Library Catalog.
 
