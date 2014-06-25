@@ -11,7 +11,7 @@ Carla.M.Galarza@dartmouth.edu
 Basic Overview and Features
 ---------------------------
 
-This kiosk was specifically created for the needs of the Jones Media Center. Once opening, the kiosk displays a set of promotional movies that are pre-selected by the manager (these will usually be new aquisitions, but can also change based on holidays and events). Once movies are selected, they are written in a text file. The kiosk reads the file (~/Desktop/Promotional_Movies.txt) and displays the movies. The kiosk allows users to search the catalog specifically for items located at the Jones Media Center. Results are displayed with the item's basic information along with an image (if available). At the top of the kiosk, there are genre buttons which reveal canned search results for a variety of genres. If the user wishes to see more information on the item at any time, simply clicking on the item's image will reveal the entire catalog entry. After looking through the catalog information the user can return to the previous panel by clicking the green arrow. The user can return to the "home screen" or promotional panel at any time by clicking on the JMC logo.
+This kiosk was specifically created for the needs of the Jones Media Center. Once opening, the kiosk displays a set of promotional movies that are pre-selected (these will usually be new aquisitions, but can also change based on holidays and events). Once movies are selected, they are listed in a text file. The kiosk reads the file (~/Desktop/Promotional_Movies.txt) and displays the movies. The kiosk allows users to search the catalog specifically for items located at the Jones Media Center. Results are displayed with the item's basic information along with an image (if available). At the top of the kiosk, there are genre buttons which reveal canned search results for a variety of genres. If the user wishes to see more information on the item at any time, simply clicking on the item's image will reveal the entire catalog entry. After looking through the catalog information the user can return to the previous panel by clicking the green arrow. The user can return to the "home screen" or promotional panel at any time by clicking on the JMC logo.
 
 
 Installation Instructions
@@ -27,7 +27,11 @@ java -Xmx2g -jar JonesKiosk.jar
 
 The Kiosk requires two external resources one of them is a folder containing DVD covers/images and the other is a text file listing the promotional movies.
 
-1. ~/Desktop/Promotional_Movies.txt
+1. ~/Pictures/DVD/
+
+  This folder should contain DVD covers named corresponding to their Jones accession number. The extension of every file should be .jpg. The kiosk resizes images therefore the exact size of the image doesn't matter, but it is important that the images are in portrait and not landscape.
+
+2. ~/Desktop/Promotional_Movies.txt
 
   This text file should be in plain text and should list the title of the promotional movies and the url link to the corresponding catalog entry. There is no limit to the number of movies that can be displayed. The format should be as follows. 
   
@@ -55,10 +59,6 @@ The Kiosk requires two external resources one of them is a folder containing DVD
   The Man with the Iron Fists, http://libcat.dartmouth.edu/record=b5409884~S1
   Elementary: Season 1, http://libcat.dartmouth.edu/record=b5420679~S4
   ```
-
-2. ~/Pictures/DVD/
-
-  This folder should contain DVD covers named corresponding to their Jones accession number. The extension of every file should be .jpg. The kiosk resizes images therefore the exact size of the image doesn't matter, but it is important that the images are in portrait and not landscape.
 
 Future Features/Bug Fixes
 -------------------------
