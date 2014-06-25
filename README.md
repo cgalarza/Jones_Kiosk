@@ -32,11 +32,13 @@ The Kiosk requires two external resources one of them is a folder containing DVD
 1. ~/Pictures/DVD/
 
   This folder should contain DVD covers named corresponding to their Jones accession number. The extension of every file should be .jpg. The kiosk resizes images so the exact size of the image doesn't matter, but it is important that the images are in portrait and not landscape.
-  Note: The file extension of the images should be .jpg NOT .jpeg or .JPG.
-
+  <br/>**Note:** The file extension of the images should be .jpg NOT .jpeg or .JPG.
+  <br/>**Note:** Only numbers should be in the title of the file (before the file extension).
+  
 2. ~/Desktop/Promotional_Movies.txt
 
-  This text file should be in plain text and should list the title of the promotional movies and the URL link to the corresponding catalog entry. There is no limit to the number of movies that can be displayed. The format should be as follows. 
+  The kiosk reads this text file and displays the movies listed. This text file should be in plain text and should list the title of the promotional movies and the URL link to the corresponding catalog entry. There is no limit to the number of movies that can be displayed. The format should be as follows. 
+  <br/>**Note:** The title of the film should not contain any commas.
   
   ```
   title
@@ -65,8 +67,8 @@ The Kiosk requires two external resources one of them is a folder containing DVD
 
 Troubleshooting
 ---------------
-1. Make sure you are connected to the internet.
-2. Make sure there is a file called Promotional_Movies.txt located on the Desktop. 
+* Make sure you are connected to the internet.
+* Make sure there is a file called Promotional_Movies.txt located on the Desktop. 
 
 
 Future Features/Bug Fixes
